@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://tvt3e1jyarro"]
+
+[ext_resource type="Shader" uid="uid://lkh746bnbwx5" path="res://ressources/shader/mainScene2D.gdshader" id="1_6wdvu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6wdvu"]
+shader = ExtResource("1_6wdvu")
+shader_parameter/time = 0.0
+shader_parameter/base_color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="MainScene2d" type="Node2D"]
+position = Vector2(10.11, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_6wdvu")
+offset_right = 1150.0
+offset_bottom = 644.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ColorRect"]
+layout_mode = 0
+offset_left = 1019.0
+offset_top = 2.0
+offset_right = 1147.0
+offset_bottom = 130.0

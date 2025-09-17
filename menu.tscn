@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://jj0hj5lcrl5y"]
+
+[ext_resource type="Script" uid="uid://dfo2hywwvgdmk" path="res://Scripts/Menu.gd" id="1_fyqef"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("buttonPlay", "buttonQuit")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fyqef")
+buttonPlay = NodePath("CanvasLayer/ButtonPlay")
+buttonQuit = NodePath("CanvasLayer/ButtonQuit")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ButtonPlay" type="Button" parent="CanvasLayer"]
+offset_left = 39.0
+offset_top = 383.0
+offset_right = 473.0
+offset_bottom = 584.0
+text = "Play"
+
+[node name="ButtonQuit" type="Button" parent="CanvasLayer"]
+offset_left = 622.0
+offset_top = 378.0
+offset_right = 1056.0
+offset_bottom = 579.0
+text = "Quit"

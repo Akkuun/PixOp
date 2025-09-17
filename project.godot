@@ -11,5 +11,10 @@ config_version=5
 [application]
 
 config/name="PixOp"
+run/main_scene="uid://jj0hj5lcrl5y"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
