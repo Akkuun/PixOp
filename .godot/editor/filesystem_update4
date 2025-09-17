@@ -1,0 +1,7 @@
+res://level.tscn
+res://Scripts/image_lib.gd
+res://ui.tscn
+res://uiTestOperators.tscn
+res://levelTestOperators.tscn
+res://Scripts/control.gd
+res://Scripts/game.gd

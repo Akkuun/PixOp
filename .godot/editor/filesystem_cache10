@@ -1,0 +1,10 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1758100785
+icon.svg::CompressedTexture2D::9073802126151378213::1758099493::1758099654::1::::<><><>0<>0<>7b37c347e66961b51c032c5f283c6fab<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+level.tscn::PackedScene::7311000430543248320::1758100655::0::1::::<><><>0<>0<><>::
+uiTestOperators.tscn::PackedScene::651809937462753352::1758100675::0::1::::<><><>0<>0<><>::
+::res://Images/::1758099803
+donut.jpg::CompressedTexture2D::8461292159168075695::1758099799::1758099803::1::::<><><>0<>0<>5293b597ead7e86fc04e8671e96f971c<>res://.godot/imported/donut.jpg-86a8470d48ac768875f04e11bc86f56a.ctex::
+::res://Scripts/::1758100653
+control.gd::GDScript::1514407756031236877::1758100653::0::1::::<>Node<><>0<>0<><>::
+image_lib.gd::GDScript::1186462719000907542::1758100600::0::1::::<>Node<><>0<>0<><>::
