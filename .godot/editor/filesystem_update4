@@ -1,7 +1,12 @@
-res://level.tscn
-res://Scripts/image_lib.gd
-res://ui.tscn
-res://uiTestOperators.tscn
+res://Shaders/flou.gdshader
 res://levelTestOperators.tscn
+res://Shaders/dilatation.gdshader
+res://Scripts/image_lib.gd
+res://Shaders/erosion.gdshader
 res://Scripts/control.gd
-res://Scripts/game.gd
+res://uiTestOperators.tscn
+res://Shaders/seuil.gdshader
+res://Shaders/negatif.gdshader
+res://Lib_Images/image_lib.gd
+res://Lib_Images/Shaders/difference.gdshader
+res://Lib_Images/Shaders/erosion.gdshader

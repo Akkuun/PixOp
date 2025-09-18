@@ -15,6 +15,6 @@ offset_top = 529.0
 offset_right = 971.0
 offset_bottom = 643.0
 
-[node name="Erosion" type="Button" parent="ScrollContainer"]
+[node name="Test" type="Button" parent="ScrollContainer"]
 layout_mode = 2
 text = "Erosion"
