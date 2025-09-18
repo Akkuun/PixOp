@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://jj0hj5lcrl5y"]
+[gd_scene load_steps=3 format=3 uid="uid://jj0hj5lcrl5y"]
 
 [ext_resource type="Script" uid="uid://dfo2hywwvgdmk" path="res://Scripts/Menu.gd" id="1_fyqef"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/monogram.ttf" id="2_xhh6f"]
 
 [node name="Control" type="Control" node_paths=PackedStringArray("buttonPlay", "buttonQuit")]
 layout_mode = 3
@@ -20,6 +21,8 @@ offset_left = 39.0
 offset_top = 383.0
 offset_right = 473.0
 offset_bottom = 584.0
+theme_override_fonts/font = ExtResource("2_xhh6f")
+theme_override_font_sizes/font_size = 45
 text = "Play"
 
 [node name="ButtonQuit" type="Button" parent="CanvasLayer"]
@@ -27,4 +30,6 @@ offset_left = 622.0
 offset_top = 378.0
 offset_right = 1056.0
 offset_bottom = 579.0
+theme_override_fonts/font = ExtResource("2_xhh6f")
+theme_override_font_sizes/font_size = 45
 text = "Quit"
