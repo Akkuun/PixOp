@@ -117,3 +117,10 @@ node_work_zone = NodePath("../../WorkZone")
 [node name="WorkZone" type="Control" parent="CanvasLayer/ScrollSection"]
 layout_mode = 2
 script = ExtResource("6_y6xl6")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/ScrollSection/WorkZone"]
+layout_mode = 0
+offset_top = 349.0
+offset_right = 1151.0
+offset_bottom = 648.0
+color = Color(1, 1, 1, 0)

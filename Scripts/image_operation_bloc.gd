@@ -8,11 +8,13 @@ enum BlockType { BLUR, COMPRESSION, RESIZE }
 @onready var label = $ColorRect/Label
 @onready var colorRect = $ColorRect
 @onready var canvasLayer = $"../../.."
+@onready var work_zone = $"../../WorkZone/ColorRect"
 
 var is_dragging = false # state
 var mouse_offset # center mouse on click
 var delay = 10
-var original_parent # Pour stocker le parent original si nécessaire de revenir
+var original_parent # mandatory to came back if needed
+var original_position # to store original position
 
 func _ready():
 	match block_type:
@@ -28,32 +30,53 @@ func _ready():
 	size_flags_vertical = SIZE_FILL
 	
 func _input(event):
+	# if click
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		# pressed
 		if event.pressed:
+			# rect position
 			if colorRect.get_global_rect().has_point(event.global_position):
 				is_dragging = true
 				mouse_offset = get_global_mouse_position() - global_position
 				
-				# Sauvegarde la position globale actuelle avant de changer de parent
-				var global_pos = global_position
+				# save before changing parent
+				original_position = global_position
 				
-				# Sauvegarde le parent original
+				# save current parent
 				original_parent = get_parent()
 				
-				# Détache du parent actuel et rattache au canvasLayer
+				# detatch and set new parent
 				get_parent().remove_child(self)
 				canvasLayer.add_child(self)
 				
-				# Restaure la position globale pour que le nœud reste visuellement au même endroit
-				global_position = global_pos
+				# Restore global position so node stays visually in the same place
+				global_position = original_position
 		else:
-			is_dragging = false
-			# Si vous souhaitez remettre le nœud à son parent d'origine quand on relâche:
-			# Décommenter les lignes ci-dessous
-			# var global_pos = global_position
-			# get_parent().remove_child(self)
-			# original_parent.add_child(self)
-			# global_position = global_pos
+			# mouse released
+			if is_dragging:
+				is_dragging = false
+				
+				# Check if the block is inside the work_zone
+				var in_work_zone = work_zone.get_global_rect().has_point(global_position)
+				
+				if not in_work_zone:
+					# Store current global position
+					var save_global_pos = global_position
+					
+					# Remove from current parent
+					get_parent().remove_child(self)
+					
+					# Add back to original parent
+					original_parent.add_child(self)
+					
+					# Reset position in original parent's coordinate system
+					# Convert global position to parent-local position
+					var local_pos = original_parent.get_global_transform().affine_inverse() * save_global_pos
+					position = local_pos
+					
+					print("Block returned to original position")
+				else:
+					print("Block placed in work zone")
 
 func _physics_process(delta):
 	if is_dragging:

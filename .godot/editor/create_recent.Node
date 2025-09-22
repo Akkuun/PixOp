@@ -1,8 +1,8 @@
 ColorRect
+TextureRect
 Control
 VBoxContainer
 Label      - Matches the "text" keyword.
-TextureRect
 Label
 Panel
 HBoxContainer
