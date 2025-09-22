@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [display]
 
-mouse_cursor/custom_image="uid://c4ucnt53jj6oe"
+window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="uid://bvg5cug4v3ya"
 
 [rendering]
 

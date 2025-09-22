@@ -1,6 +1,7 @@
+Sprite2D
+ScrollContainer
 RichTextLabel
 TextureRect
 NinePatchRect
 Control
-Sprite2D
 ColorRect
