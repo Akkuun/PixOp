@@ -2,6 +2,14 @@ extends Node
 
 var base_path = "res://Lib_Images/Shaders/"
 
+var rd: RenderingDevice
+
+var shader_rids = {}
+var pipelines = {}
+var img_in_rid: RID
+var img_out_rid: RID
+var uniform_set: RID
+
 class Histogram:
 	var red: Array
 	var green: Array
@@ -58,10 +66,29 @@ func getShader(path: String) -> ShaderMaterial:
 	shader_material.shader = shader
 	return shader_material
 
-func flou(kernel_size: int) -> ShaderMaterial:
-	var shader_material = getShader(base_path + "flou.gdshader")
+func flou(img: Image, kernel_size: int) -> Image:
+	# create a temporary Sprite2D to apply the shader and get the image
+	var temp_sprite := Sprite2D.new()
+	var shader_material := getShader(base_path + "flou.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
-	return shader_material
+	temp_sprite.material = shader_material
+	var tex := ImageTexture.create_from_image(img)
+	temp_sprite.texture = tex
+	temp_sprite.position = Vector2(img.get_width() / 2.0, img.get_height() / 2.0)
+	
+	var viewport := SubViewport.new()
+	viewport.size = Vector2(img.get_width(), img.get_height())
+	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ALWAYS
+	viewport.add_child(temp_sprite)
+	get_tree().current_scene.add_child(viewport)
+	
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	var img_result := viewport.get_texture().get_image()
+	viewport.queue_free()
+	return img_result
 
 func dilatation(kernel_size: int) -> ShaderMaterial:
 	var shader_material = getShader(base_path + "dilatation.gdshader")

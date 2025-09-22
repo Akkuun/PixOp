@@ -23,5 +23,5 @@ func _ready() -> void:
 
 
 func _on_erosion() -> void:
-	var difference = image_lib.difference(baseImage.texture.get_image(), workingImage.texture.get_image())
-	workingImage.texture = ImageTexture.create_from_image(difference)
+	var imgFlou = await image_lib.flou(workingImage.texture.get_image(), 5)
+	workingImage.texture = ImageTexture.create_from_image(imgFlou)
