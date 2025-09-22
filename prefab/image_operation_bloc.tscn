@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bw8565okgtxqe" path="res://Scripts/image_operation_bloc.gd" id="1_b1fop"]
 [ext_resource type="Texture2D" uid="uid://bkob02vnx8055" path="res://ressources/Image/pin.svg" id="2_supqf"]
-[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/monogram.ttf" id="3_htuvf"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_htuvf"]
 
 [node name="ImageOperationBloc" type="Control"]
 custom_minimum_size = Vector2(0, 50)

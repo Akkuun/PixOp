@@ -75,45 +75,42 @@ theme_override_font_sizes/normal_font_size = 46
 text = "Target"
 
 [node name="ScrollSection" type="ScrollContainer" parent="CanvasLayer"]
-offset_right = 238.0
-offset_bottom = 256.0
+offset_right = 315.0
+offset_bottom = 359.0
 
 [node name="BlocksContainer" type="VBoxContainer" parent="CanvasLayer/ScrollSection"]
 layout_mode = 2
 
-[node name="ImageOperationBloc3" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc3" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc2" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc2" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
 block_type = 1
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc4" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc4" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc5" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc5" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc6" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc6" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc7" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc7" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="ImageOperationBloc8" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
+[node name="ImageOperationBloc8" parent="CanvasLayer/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
 layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
 
-[node name="WorkZone" type="Control" parent="CanvasLayer/ScrollSection"]
-layout_mode = 2
+[node name="WorkZone" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 401.0
+offset_right = 1151.0
+offset_bottom = 648.0
 script = ExtResource("6_y6xl6")

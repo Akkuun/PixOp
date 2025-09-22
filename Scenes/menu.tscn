@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://jj0hj5lcrl5y"]
 
 [ext_resource type="Script" uid="uid://dfo2hywwvgdmk" path="res://Scripts/Menu.gd" id="1_fyqef"]
-[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/monogram.ttf" id="2_xhh6f"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="2_xhh6f"]
+
 
 [node name="Control" type="Control" node_paths=PackedStringArray("buttonPlay", "buttonQuit")]
 layout_mode = 3
