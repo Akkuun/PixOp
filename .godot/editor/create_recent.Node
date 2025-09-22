@@ -1,7 +1,13 @@
+VBoxContainer
+Label      - Matches the "text" keyword.
+TextureRect
+ColorRect
+Label
+Control
+Panel
+HBoxContainer
+Button
 Sprite2D
 ScrollContainer
 RichTextLabel
-TextureRect
 NinePatchRect
-Control
-ColorRect

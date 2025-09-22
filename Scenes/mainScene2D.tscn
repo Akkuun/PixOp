@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=7 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="Shader" uid="uid://lkh746bnbwx5" path="res://ressources/shader/mainScene2D.gdshader" id="1_6wdvu"]
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/monogram.ttf" id="3_1jf4g"]
 [ext_resource type="Script" uid="uid://b0accg3bbnif8" path="res://Scripts/imageStack.gd" id="4_3q0cx"]
+[ext_resource type="PackedScene" uid="uid://b71pxt523h3yc" path="res://prefab/image_operation_bloc.tscn" id="5_yrrg2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6wdvu"]
 shader = ExtResource("1_6wdvu")
@@ -75,3 +76,13 @@ text = "Target"
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
 offset_right = 315.0
 offset_bottom = 341.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer"]
+layout_mode = 2
+
+[node name="ImageOperationBloc" parent="CanvasLayer/ScrollContainer/VBoxContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc2" parent="CanvasLayer/ScrollContainer/VBoxContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+block_type = 1
