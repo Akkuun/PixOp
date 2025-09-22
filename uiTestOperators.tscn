@@ -15,6 +15,17 @@ offset_top = 529.0
 offset_right = 971.0
 offset_bottom = 643.0
 
-[node name="Test" type="Button" parent="ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
-text = "Erosion"
+
+[node name="Test" type="Button" parent="ScrollContainer/HBoxContainer"]
+layout_mode = 2
+text = "Test 1"
+
+[node name="Test2" type="Button" parent="ScrollContainer/HBoxContainer"]
+layout_mode = 2
+text = "Test 2"
+
+[node name="Test3" type="Button" parent="ScrollContainer/HBoxContainer"]
+layout_mode = 2
+text = "Test 3"

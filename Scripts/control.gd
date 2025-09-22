@@ -21,7 +21,21 @@ func _ready() -> void:
 
 
 
+func _on_test_button_down() -> void:
+	var imgGrey = await image_lib.greyscale(workingImage.texture.get_image())
+	workingImage.texture = ImageTexture.create_from_image(imgGrey)
 
-func _on_erosion() -> void:
-	var imgFlou = await image_lib.flou_fond(workingImage.texture.get_image(), baseImage.texture.get_image(), 5)
-	workingImage.texture = ImageTexture.create_from_image(imgFlou)
+
+func _on_test_2_button_down() -> void:
+	var otsuSeuil = await image_lib.otsu(workingImage.texture.get_image())
+	print("Otsu threshold: ", otsuSeuil)
+	var imgSeuil = await image_lib.seuil(workingImage.texture.get_image(), [otsuSeuil])
+
+	var imgOuverture = await image_lib.ouverture(imgSeuil, 3)
+	var imgDilatation = await image_lib.dilatation(imgOuverture, 5)
+	var imgErosion = await image_lib.erosion(imgDilatation, 7)
+	workingImage.texture = ImageTexture.create_from_image(imgErosion)
+
+func _on_test_3_button_down() -> void:
+	var imgFlouFond = await image_lib.flou_fond(baseImage.texture.get_image(), workingImage.texture.get_image(), 3)
+	baseImage.texture = ImageTexture.create_from_image(imgFlouFond)
