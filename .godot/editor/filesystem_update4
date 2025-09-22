@@ -1,8 +1,0 @@
-res://levelTestOperators.tscn
-res://Lib_Images/Shaders/flou.gdshader
-res://Lib_Images/Shaders/dilatation.gdshader
-res://Lib_Images/Shaders/erosion.gdshader
-res://Lib_Images/Shaders/seuil.gdshader
-res://Lib_Images/Shaders/negatif.gdshader
-res://Lib_Images/image_lib.gd
-res://Scripts/control.gd
