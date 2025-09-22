@@ -1,0 +1,115 @@
+[gd_scene load_steps=7 format=3 uid="uid://tvt3e1jyarro"]
+
+[ext_resource type="Shader" uid="uid://lkh746bnbwx5" path="res://ressources/shader/mainScene2D.gdshader" id="1_6wdvu"]
+[ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
+[ext_resource type="Script" uid="uid://b0accg3bbnif8" path="res://Scripts/imageStack.gd" id="4_3q0cx"]
+[ext_resource type="PackedScene" uid="uid://b71pxt523h3yc" path="res://prefab/image_operation_bloc.tscn" id="5_yrrg2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6wdvu"]
+shader = ExtResource("1_6wdvu")
+shader_parameter/time = 0.0
+shader_parameter/base_color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="MainScene2d" type="Node2D"]
+position = Vector2(10.11, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_6wdvu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ImageStack" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchor_left = 0.347
+anchor_top = 0.07700001
+anchor_right = 0.45700002
+anchor_bottom = 0.32700002
+offset_left = 0.1459961
+offset_top = -46.111004
+offset_right = -0.46295166
+offset_bottom = -34.67604
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ImageStack"]
+layout_mode = 0
+offset_left = 0.10998535
+offset_top = -18.419998
+offset_right = 479.7704
+offset_bottom = 671.6623
+scale = Vector2(0.265, 0.265)
+script = ExtResource("4_3q0cx")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ImageStack"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.8560001
+anchor_top = -0.142
+anchor_right = -1.8560001
+anchor_bottom = -0.142
+offset_left = 222.17207
+offset_top = 330.84277
+offset_right = 510.17212
+offset_bottom = 405.8427
+theme_override_fonts/normal_font = ExtResource("3_1jf4g")
+theme_override_font_sizes/normal_font_size = 51
+text = "Actual Image"
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(976.9375, 136.4928)
+scale = Vector2(0.16031693, 0.16031693)
+texture = ExtResource("2_sbxmg")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 914.0
+offset_top = 277.0
+offset_right = 1078.0
+offset_bottom = 314.0
+theme_override_fonts/normal_font = ExtResource("3_1jf4g")
+theme_override_font_sizes/normal_font_size = 46
+text = "Target"
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1147.0
+offset_bottom = 646.0
+
+[node name="ScrollSection" type="ScrollContainer" parent="CanvasLayer/Control"]
+z_index = 10
+layout_mode = 0
+offset_right = 211.0
+offset_bottom = 252.0
+
+[node name="BlocksContainer" type="VBoxContainer" parent="CanvasLayer/Control/ScrollSection"]
+layout_mode = 2
+
+[node name="ImageOperationBloc3" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc2" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+block_type = 1
+
+[node name="ImageOperationBloc4" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc5" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc6" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc7" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2
+
+[node name="ImageOperationBloc8" parent="CanvasLayer/Control/ScrollSection/BlocksContainer" instance=ExtResource("5_yrrg2")]
+layout_mode = 2

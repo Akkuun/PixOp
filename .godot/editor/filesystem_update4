@@ -1,7 +1,3 @@
 res://Scenes/mainScene2D.tscn
-res://Scripts/imageStack.gd
-res://prefab/image_operation_bloc.tscn
-res://Scripts/pin.gd
 res://Scripts/image_operation_bloc.gd
-res://Scripts/workZone.gd
-res://Scripts/test.gd
+res://prefab/image_operation_bloc.tscn
