@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://jj0hj5lcrl5y" path="res://uiTestOperators.tscn" id="1_t5i8p"]
 [ext_resource type="Script" uid="uid://q5y4q8vk8f1g" path="res://Lib_Images/image_lib.gd" id="1_x8qt3"]
 [ext_resource type="Script" uid="uid://vtucsdr1kwv2" path="res://Scripts/control.gd" id="1_xovul"]
-[ext_resource type="Texture2D" uid="uid://dssyil8cumlc6" path="res://Images/donut.jpg" id="2_ablru"]
-[ext_resource type="Texture2D" uid="uid://bxrk5cf1a0tsk" path="res://Images/donut_eroded.jpg" id="5_xegfo"]
+[ext_resource type="Texture2D" uid="uid://7cs5ynwoldhy" path="res://Images/chat_verite.png" id="4_xegfo"]
+[ext_resource type="Texture2D" uid="uid://uyk84p8f0rm6" path="res://Images/chat.png" id="5_1ukmh"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_x8qt3")
@@ -18,12 +18,12 @@ text = "Test opérateur"
 [node name="BaseImage" type="Sprite2D" parent="."]
 position = Vector2(308.35126, 229.65187)
 scale = Vector2(0.5133781, 0.45448482)
-texture = ExtResource("2_ablru")
+texture = ExtResource("4_xegfo")
 
 [node name="WorkingImage" type="Sprite2D" parent="."]
 position = Vector2(766.5, 229.25)
 scale = Vector2(0.5512501, 0.4560547)
-texture = ExtResource("5_xegfo")
+texture = ExtResource("5_1ukmh")
 
 [connection signal="button_down" from="Control/ScrollContainer/Test" to="Control" method="_on_erosion"]
 

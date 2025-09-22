@@ -23,5 +23,5 @@ func _ready() -> void:
 
 
 func _on_erosion() -> void:
-	var imgFlou = await image_lib.flou(workingImage.texture.get_image(), 5)
+	var imgFlou = await image_lib.flou_fond(workingImage.texture.get_image(), baseImage.texture.get_image(), 5)
 	workingImage.texture = ImageTexture.create_from_image(imgFlou)

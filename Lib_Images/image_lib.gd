@@ -2,14 +2,6 @@ extends Node
 
 var base_path = "res://Lib_Images/Shaders/"
 
-var rd: RenderingDevice
-
-var shader_rids = {}
-var pipelines = {}
-var img_in_rid: RID
-var img_out_rid: RID
-var uniform_set: RID
-
 class Histogram:
 	var red: Array
 	var green: Array
@@ -66,11 +58,9 @@ func getShader(path: String) -> ShaderMaterial:
 	shader_material.shader = shader
 	return shader_material
 
-func flou(img: Image, kernel_size: int) -> Image:
+func apply_shader_to_image(img: Image, shader_material: ShaderMaterial) -> Image:
 	# create a temporary Sprite2D to apply the shader and get the image
 	var temp_sprite := Sprite2D.new()
-	var shader_material := getShader(base_path + "flou.gdshader")
-	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
 	temp_sprite.material = shader_material
 	var tex := ImageTexture.create_from_image(img)
 	temp_sprite.texture = tex
@@ -83,28 +73,68 @@ func flou(img: Image, kernel_size: int) -> Image:
 	viewport.add_child(temp_sprite)
 	get_tree().current_scene.add_child(viewport)
 	
+	# Workaround for web export, since compute shaders are not available here
 	await get_tree().process_frame
 	await get_tree().process_frame
-	
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+
 	var img_result := viewport.get_texture().get_image()
 	viewport.queue_free()
 	return img_result
 
-func dilatation(kernel_size: int) -> ShaderMaterial:
+func apply_shader_to_two_images(img1: Image, img2: Image, shader_material: ShaderMaterial) -> Image:
+	var width = min(img1.get_width(), img2.get_width())
+	var height = min(img1.get_height(), img2.get_height())
+	
+	var temp_sprite := Sprite2D.new()
+	temp_sprite.material = shader_material
+	var tex1 := ImageTexture.create_from_image(img1)
+	temp_sprite.texture = tex1
+	temp_sprite.position = Vector2(width / 2.0, height / 2.0)
+	
+	var tex2 := ImageTexture.create_from_image(img2)
+	shader_material.set_shader_parameter("other_image", tex2)
+	
+	var viewport := SubViewport.new()
+	viewport.size = Vector2(width, height)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ALWAYS
+	viewport.add_child(temp_sprite)
+	get_tree().current_scene.add_child(viewport)
+	
+	# Workaround for web export, since compute shaders are not available here
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var img_result := viewport.get_texture().get_image()
+	viewport.queue_free()
+	return img_result
+
+func flou(img: Image, kernel_size: int) -> Image:
+	var shader_material := getShader(base_path + "flou.gdshader")
+	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
+	return await apply_shader_to_image(img, shader_material)
+
+func dilatation(img: Image, kernel_size: int) -> Image:
 	var shader_material = getShader(base_path + "dilatation.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
-	return shader_material
+	return await apply_shader_to_image(img, shader_material)
 
-func erosion(kernel_size: int) -> ShaderMaterial:
+func erosion(img: Image, kernel_size: int) -> Image:
 	var shader_material = getShader(base_path + "erosion.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
-	return shader_material
+	return await apply_shader_to_image(img, shader_material)
 
-func negatif() -> ShaderMaterial:
-	return getShader(base_path + "negatif.gdshader")
+func negatif(img: Image) -> Image:
+	var shader_material = getShader(base_path + "negatif.gdshader")
+	return await apply_shader_to_image(img, shader_material)
 
-# takes 8 colors at max
-func seuil(colors: Array) -> ShaderMaterial:
+func seuil(img: Image, colors: Array) -> Image:
 	var shader_material = getShader(base_path + "seuil.gdshader")
 	var n_colors = colors.size()
 	shader_material.set_shader_parameter("n_colors", n_colors)
@@ -113,19 +143,14 @@ func seuil(colors: Array) -> ShaderMaterial:
 	while padded_colors.size() < 8:
 		padded_colors.append(Color(0,0,0,1))
 	shader_material.set_shader_parameter("colors", padded_colors)
-	return shader_material
+	return await apply_shader_to_image(img, shader_material)
+
+func flou_fond(input: Image, carte_verite: Image, kernel_size: int) -> Image:
+	var shader_material = getShader(base_path + "flou_fond.gdshader")
+	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
+	return await apply_shader_to_two_images(input, carte_verite, shader_material)
 
 # Met tous les pixels différents à 0
 func difference(input: Image, img: Image) -> Image:
-	var width = input.get_width()
-	var height = input.get_height()
-	var result = Image.create(width, height, false, Image.FORMAT_RGBA8)
-	for x in range(width):
-		for y in range(height):
-			var c1 = input.get_pixel(x, y)
-			var c2 = img.get_pixel(x, y)
-			if c1 == c2:
-				result.set_pixel(x, y, c1)
-			else:
-				result.set_pixel(x, y, Color(0, 0, 0, 0))
-	return result
+	var shader_material = getShader(base_path + "difference.gdshader")
+	return await apply_shader_to_two_images(input, img, shader_material)
