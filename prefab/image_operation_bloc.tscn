@@ -16,28 +16,68 @@ script = ExtResource("1_b1fop")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 85.0
-offset_bottom = 40.0
-color = Color(0.37413922, 0.37413928, 0.37413913, 1)
+offset_right = 102.0
+offset_bottom = 57.0
+color = Color(0.41215244, 0.4121525, 0.41215235, 1)
 
-[node name="inputPin" type="TextureRect" parent="ColorRect"]
+[node name="inputPin2" type="TextureRect" parent="ColorRect"]
 layout_mode = 0
-offset_left = 16.0
-offset_top = 11.999999
-offset_right = 816.0
-offset_bottom = 812.0
+offset_left = 15.000001
+offset_top = 20.000002
+offset_right = 1069.904
+offset_bottom = 1074.904
 rotation = 1.5707964
-scale = Vector2(0.02, 0.02)
+scale = Vector2(0.015, 0.015)
 texture = ExtResource("2_supqf")
 
-[node name="outputPin" type="TextureRect" parent="ColorRect"]
+[node name="inputPin1" type="TextureRect" parent="ColorRect"]
 layout_mode = 0
-offset_left = 83.0
-offset_top = 12.0
-offset_right = 883.0
-offset_bottom = 812.0
+offset_left = 15.0
+offset_top = 1.0
+offset_right = 1069.904
+offset_bottom = 1055.904
 rotation = 1.5707964
-scale = Vector2(0.02, 0.02)
+scale = Vector2(0.015, 0.015)
+texture = ExtResource("2_supqf")
+
+[node name="inputPin3" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 39.0
+offset_right = 1069.904
+offset_bottom = 1093.904
+rotation = 1.5707964
+scale = Vector2(0.015, 0.015)
+texture = ExtResource("2_supqf")
+
+[node name="outputPin2" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 20.0
+offset_right = 1151.904
+offset_bottom = 1074.904
+rotation = 1.5707964
+scale = Vector2(0.015, 0.015)
+texture = ExtResource("2_supqf")
+
+[node name="outputPin1" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 97.00001
+offset_top = 1.000006
+offset_right = 1151.904
+offset_bottom = 1055.904
+rotation = 1.5707964
+scale = Vector2(0.015, 0.015)
+texture = ExtResource("2_supqf")
+
+[node name="outputPin3" type="TextureRect" parent="ColorRect"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 39.000004
+offset_right = 1151.9043
+offset_bottom = 1093.9043
+rotation = 1.5707964
+scale = Vector2(0.015, 0.015)
 texture = ExtResource("2_supqf")
 
 [node name="Label" type="Label" parent="ColorRect"]

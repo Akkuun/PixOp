@@ -1,14 +1,22 @@
 extends Control
 
 enum BlockType { BLUR, COMPRESSION, RESIZE }
+enum ConfigBlock {ONEBYONE,ONEBYTHREE,THREEBYONE,TWOBYONE}
 
 @export var block_type: BlockType = BlockType.BLUR
 @export var node_work_zone : Control
+@export var config_type: ConfigBlock
 
 @onready var label = $ColorRect/Label
 @onready var colorRect = $ColorRect
 @onready var canvasLayer = $"../../.."
 @onready var work_zone = $"../../WorkZone/ColorRect"
+@onready var inputPin1 = $ColorRect/inputPin1
+@onready var inputPin2 = $ColorRect/inputPin2
+@onready var inputPin3 = $ColorRect/inputPin3
+@onready var outputPin1 = $ColorRect/outputPin1
+@onready var outputPin2 = $ColorRect/outputPin2
+@onready var outputPin3 = $ColorRect/outputPin3
 
 var is_dragging = false # state
 var mouse_offset # center mouse on click
@@ -16,7 +24,15 @@ var delay = 10
 var original_parent # mandatory to came back if needed
 var original_position # to store original position
 
+var availablePins = []
+
 func _ready():
+	inputPin1.visible= false
+	inputPin2.visible= false
+	inputPin3.visible= false
+	outputPin1.visible=false
+	outputPin2.visible=false
+	outputPin3.visible=false
 	match block_type:
 		BlockType.BLUR:
 			label.text = "Blur"
@@ -24,7 +40,38 @@ func _ready():
 			label.text = "Compression"
 		BlockType.RESIZE:
 			label.text = "Resize"
-	
+	match config_type:
+		ConfigBlock.ONEBYONE:
+			inputPin2.visible=true
+			outputPin2.visible=true
+			availablePins.append(inputPin2)
+			availablePins.append(outputPin2)
+		
+		ConfigBlock.ONEBYTHREE:
+			inputPin2.visible=true
+			outputPin1.visible=true
+			outputPin2.visible=true
+			outputPin3.visible=true
+			availablePins.append(inputPin2)
+			availablePins.append(outputPin1)
+			availablePins.append(outputPin2)
+			availablePins.append(outputPin3)
+		ConfigBlock.THREEBYONE:
+			inputPin1.visible=true
+			inputPin2.visible=true
+			inputPin3.visible=true
+			outputPin2.visible=true
+			availablePins.append(inputPin1)
+			availablePins.append(inputPin2)
+			availablePins.append(inputPin3)
+			availablePins.append(outputPin2)
+		ConfigBlock.TWOBYONE:
+			inputPin1.visible=true
+			inputPin3.visible=true
+			outputPin2.visible=true
+			availablePins.append(inputPin1)
+			availablePins.append(inputPin3)
+			availablePins.append(outputPin2)
 	# Add this to make sure the block is properly sized
 	size_flags_horizontal = SIZE_FILL
 	size_flags_vertical = SIZE_FILL

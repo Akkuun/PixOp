@@ -1,3 +1,5 @@
+GraphNode
+GraphEdit
 ColorRect
 TextureRect
 Control
@@ -10,4 +12,3 @@ Button
 Sprite2D
 ScrollContainer
 RichTextLabel
-NinePatchRect
