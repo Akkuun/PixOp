@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://b71pxt523h3yc"]
+[gd_scene format=3 uid="uid://bkhwcx8kk7q67"]
 
 [node name="GraphNode" type="GraphNode"]
-offset_right = 158.0
-offset_bottom = 104.0
-title = "title"
+offset_right = 153.0
+offset_bottom = 120.0
+title = "Compression"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)

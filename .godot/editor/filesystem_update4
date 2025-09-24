@@ -1,1 +1,10 @@
+res://Scenes/mainScene2D.tscn
+res://Scripts/BlockEditor.gd
 res://prefab/image_operation_bloc.tscn
+res://Scripts/image_operation_bloc.gd
+res://Scripts/image_operation_node.gd
+res://prefab/imageStack.tscn
+res://Scripts/addCompressionNode.gd
+res://prefab/final_node.tscn
+res://prefab/button_compression.tscn
+res://prefab/node_compression.tscn

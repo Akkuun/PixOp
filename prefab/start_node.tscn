@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://b71pxt523h3yc"]
+[gd_scene format=3 uid="uid://v4ky7krbpjjw"]
 
-[node name="GraphNode" type="GraphNode"]
-offset_right = 158.0
-offset_bottom = 104.0
-title = "title"
-slot/0/left_enabled = true
+[node name="startNode" type="GraphNode"]
+offset_right = 131.0
+offset_bottom = 55.0
+title = "Start node"
+slot/0/left_enabled = false
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
 slot/0/left_icon = null

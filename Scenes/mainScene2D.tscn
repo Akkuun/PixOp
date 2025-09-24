@@ -1,130 +1,114 @@
 [gd_scene load_steps=8 format=3 uid="uid://tvt3e1jyarro"]
 
-[ext_resource type="Shader" uid="uid://lkh746bnbwx5" path="res://ressources/shader/mainScene2D.gdshader" id="1_6wdvu"]
+[ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/addCompressionNode.gd" id="1_3q0cx"]
+[ext_resource type="PackedScene" uid="uid://bkhwcx8kk7q67" path="res://prefab/node_compression.tscn" id="2_hs7us"]
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
-[ext_resource type="Script" uid="uid://b0accg3bbnif8" path="res://Scripts/imageStack.gd" id="4_3q0cx"]
-[ext_resource type="PackedScene" uid="uid://b71pxt523h3yc" path="res://prefab/image_operation_bloc.tscn" id="5_yrrg2"]
-[ext_resource type="Script" uid="uid://c24ckl7pnkon1" path="res://Scripts/workZone.gd" id="6_y6xl6"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6wdvu"]
-shader = ExtResource("1_6wdvu")
-shader_parameter/time = 0.0
-shader_parameter/base_color = Color(0.1, 0.1, 0.15, 1)
+[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/final_node.tscn" id="5_y6xl6"]
+[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/start_node.tscn" id="6_hs7us"]
 
 [node name="MainScene2d" type="Node2D"]
 position = Vector2(10.11, 0)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 18.0
+offset_top = 43.0
+offset_right = 18.0
+offset_bottom = 43.0
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_6wdvu")
+[node name="HSplitContainer" type="HSplitContainer" parent="Control"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 1098.89
+offset_bottom = 606.0
 grow_horizontal = 2
 grow_vertical = 2
+dragging_enabled = false
 
-[node name="ImageStack" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchor_left = 0.347
-anchor_top = 0.07700001
-anchor_right = 0.45700002
-anchor_bottom = 0.32700002
-offset_left = 0.1459961
-offset_top = -46.111004
-offset_right = -0.46295166
-offset_bottom = -34.67604
+[node name="Panel" type="Panel" parent="Control/HSplitContainer"]
+custom_minimum_size = Vector2(197.87, 0)
+layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ImageStack"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HSplitContainer/Panel"]
 layout_mode = 0
-offset_left = 0.10998535
-offset_top = -18.419998
-offset_right = 479.7704
-offset_bottom = 671.6623
-scale = Vector2(0.265, 0.265)
-script = ExtResource("4_3q0cx")
+offset_right = 194.89
+offset_bottom = 647.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ImageStack"]
+[node name="Label" type="Label" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Compression"
+
+[node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer/Label"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 193.89
+offset_bottom = 28.0
+
+[node name="Button" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+layout_mode = 0
+offset_left = -0.10999966
+offset_top = 19.0
+offset_right = 199.78
+offset_bottom = 82.0
+text = "Compression
+"
+script = ExtResource("1_3q0cx")
+node_scene = ExtResource("2_hs7us")
+graph_edit = NodePath("../../../../../GraphEdit")
+
+[node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer"]
+layout_mode = 2
+minimap_enabled = false
+show_zoom_label = true
+show_minimap_button = false
+show_arrange_button = false
+
+[node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("1_1jf4g")]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.8560001
-anchor_top = -0.142
-anchor_right = -1.8560001
-anchor_bottom = -0.142
-offset_left = 222.17207
-offset_top = 330.84277
-offset_right = 510.17212
-offset_bottom = 405.8427
-theme_override_fonts/normal_font = ExtResource("3_1jf4g")
-theme_override_font_sizes/normal_font_size = 51
-text = "Actual Image"
+offset_left = 75.60919
+offset_top = -20.742004
+offset_right = 75.00021
+offset_bottom = -9.307053
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(976.9375, 136.4928)
+[node name="Sprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
+position = Vector2(770.89014, 127.000015)
 scale = Vector2(0.16031693, 0.16031693)
 texture = ExtResource("2_sbxmg")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
-offset_left = 914.0
-offset_top = 277.0
-offset_right = 1078.0
-offset_bottom = 314.0
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
+layout_mode = 0
+offset_left = 701.89
+offset_top = 248.0
+offset_right = 865.89
+offset_bottom = 285.0
 theme_override_fonts/normal_font = ExtResource("3_1jf4g")
 theme_override_font_sizes/normal_font_size = 46
 text = "Target"
 
-[node name="ScrollSection" type="ScrollContainer" parent="CanvasLayer"]
-offset_right = 238.0
-offset_bottom = 255.9999
+[node name="Control" type="Control" parent="Control/HSplitContainer/GraphEdit"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="BlocksContainer" type="VBoxContainer" parent="CanvasLayer/ScrollSection"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="ImageOperationBloc3" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-
-[node name="ImageOperationBloc" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-config_type = 1
-
-[node name="ImageOperationBloc2" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-block_type = 1
-node_work_zone = NodePath("../../WorkZone")
-config_type = 2
-
-[node name="ImageOperationBloc4" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-config_type = 3
-
-[node name="ImageOperationBloc5" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-
-[node name="ImageOperationBloc6" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-
-[node name="ImageOperationBloc7" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-
-[node name="ImageOperationBloc8" parent="CanvasLayer/ScrollSection/BlocksContainer" node_paths=PackedStringArray("node_work_zone") instance=ExtResource("5_yrrg2")]
-layout_mode = 2
-node_work_zone = NodePath("../../WorkZone")
-
-[node name="WorkZone" type="Control" parent="CanvasLayer/ScrollSection"]
-layout_mode = 2
-script = ExtResource("6_y6xl6")
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/ScrollSection/WorkZone"]
+[node name="GraphNode" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("5_y6xl6")]
 layout_mode = 0
-offset_top = 349.0
-offset_right = 1151.0
-offset_bottom = 648.0
-color = Color(1, 1, 1, 0)
+offset_left = 681.89
+offset_top = 402.0
+offset_right = 812.89
+offset_bottom = 457.0
+mouse_filter = 1
+position_offset = Vector2(681.89, 402)
+
+[node name="startNode" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
+layout_mode = 0
+offset_left = 48.89
+offset_top = 402.0
+offset_right = 179.89001
+offset_bottom = 457.0
+mouse_filter = 1
+position_offset = Vector2(48.89, 402)

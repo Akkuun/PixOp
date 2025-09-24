@@ -1,14 +1,14 @@
+VBoxContainer
 GraphNode
+Button
+HSeparator
+Label
+PanelContainer
+Control
+Panel
+HSplitContainer
+Tree
+MenuButton
 GraphEdit
 ColorRect
 TextureRect
-Control
-VBoxContainer
-Label      - Matches the "text" keyword.
-Label
-Panel
-HBoxContainer
-Button
-Sprite2D
-ScrollContainer
-RichTextLabel
