@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=9 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/addCompressionNode.gd" id="1_3q0cx"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/final_node.tscn" id="5_y6xl6"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/start_node.tscn" id="6_hs7us"]
+[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/BlockEditor.gd" id="6_y6xl6"]
 
 [node name="MainScene2d" type="Node2D"]
 position = Vector2(10.11, 0)
@@ -67,6 +68,7 @@ minimap_enabled = false
 show_zoom_label = true
 show_minimap_button = false
 show_arrange_button = false
+script = ExtResource("6_y6xl6")
 
 [node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("1_1jf4g")]
 layout_mode = 1

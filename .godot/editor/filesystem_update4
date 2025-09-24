@@ -8,3 +8,9 @@ res://Scripts/addCompressionNode.gd
 res://prefab/final_node.tscn
 res://prefab/button_compression.tscn
 res://prefab/node_compression.tscn
+res://prefab/start_node.tscn
+res://prefab/start_node.gd
+res://Scripts/final_node.gd
+res://Scripts/start_node.gd
+res://graphNode.gd
+res://Scripts/graph_node.tscn
