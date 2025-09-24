@@ -1,2 +1,1 @@
-res://Scenes/mainScene2D.tscn
-res://Scripts/image_operation_bloc.gd
+res://prefab/image_operation_bloc.tscn
