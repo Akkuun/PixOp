@@ -1,0 +1,116 @@
+[gd_scene load_steps=9 format=3 uid="uid://tvt3e1jyarro"]
+
+[ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/addCompressionNode.gd" id="1_3q0cx"]
+[ext_resource type="PackedScene" uid="uid://bkhwcx8kk7q67" path="res://prefab/node_compression.tscn" id="2_hs7us"]
+[ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
+[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/final_node.tscn" id="5_y6xl6"]
+[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/start_node.tscn" id="6_hs7us"]
+[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/BlockEditor.gd" id="6_y6xl6"]
+
+[node name="MainScene2d" type="Node2D"]
+position = Vector2(10.11, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 18.0
+offset_top = 43.0
+offset_right = 18.0
+offset_bottom = 43.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1098.89
+offset_bottom = 606.0
+grow_horizontal = 2
+grow_vertical = 2
+dragging_enabled = false
+
+[node name="Panel" type="Panel" parent="Control/HSplitContainer"]
+custom_minimum_size = Vector2(197.87, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HSplitContainer/Panel"]
+layout_mode = 0
+offset_right = 194.89
+offset_bottom = 647.0
+
+[node name="Label" type="Label" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Compression"
+
+[node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer/Label"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 193.89
+offset_bottom = 28.0
+
+[node name="Button" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+layout_mode = 0
+offset_left = -0.10999966
+offset_top = 19.0
+offset_right = 199.78
+offset_bottom = 82.0
+text = "Compression
+"
+script = ExtResource("1_3q0cx")
+node_scene = ExtResource("2_hs7us")
+graph_edit = NodePath("../../../../../GraphEdit")
+
+[node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer"]
+layout_mode = 2
+minimap_enabled = false
+show_zoom_label = true
+show_minimap_button = false
+show_arrange_button = false
+script = ExtResource("6_y6xl6")
+
+[node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("1_1jf4g")]
+layout_mode = 1
+offset_left = 75.60919
+offset_top = -20.742004
+offset_right = 75.00021
+offset_bottom = -9.307053
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
+position = Vector2(770.89014, 127.000015)
+scale = Vector2(0.16031693, 0.16031693)
+texture = ExtResource("2_sbxmg")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
+layout_mode = 0
+offset_left = 701.89
+offset_top = 248.0
+offset_right = 865.89
+offset_bottom = 285.0
+theme_override_fonts/normal_font = ExtResource("3_1jf4g")
+theme_override_font_sizes/normal_font_size = 46
+text = "Target"
+
+[node name="Control" type="Control" parent="Control/HSplitContainer/GraphEdit"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GraphNode" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("5_y6xl6")]
+layout_mode = 0
+offset_left = 681.89
+offset_top = 402.0
+offset_right = 812.89
+offset_bottom = 457.0
+mouse_filter = 1
+position_offset = Vector2(681.89, 402)
+
+[node name="startNode" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
+layout_mode = 0
+offset_left = 48.89
+offset_top = 402.0
+offset_right = 179.89001
+offset_bottom = 457.0
+mouse_filter = 1
+position_offset = Vector2(48.89, 402)
