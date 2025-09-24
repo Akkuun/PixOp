@@ -11,5 +11,15 @@ config_version=5
 [application]
 
 config/name="PixOp"
+run/main_scene="uid://cycxghiutd75o"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="canvas_items"
+mouse_cursor/custom_image="uid://bvg5cug4v3ya"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
