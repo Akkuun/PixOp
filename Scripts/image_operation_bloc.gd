@@ -24,7 +24,9 @@ var delay = 10
 var original_parent # mandatory to came back if needed
 var original_position # to store original position
 
-var availablePins = []
+var availableOutpitPins = []
+var availableInputPins = []
+
 
 func _ready():
 	inputPin1.visible= false
@@ -44,34 +46,34 @@ func _ready():
 		ConfigBlock.ONEBYONE:
 			inputPin2.visible=true
 			outputPin2.visible=true
-			availablePins.append(inputPin2)
-			availablePins.append(outputPin2)
+			availableInputPins.append(inputPin2)
+			availableOutpitPins.append(outputPin2)
 		
 		ConfigBlock.ONEBYTHREE:
 			inputPin2.visible=true
 			outputPin1.visible=true
 			outputPin2.visible=true
 			outputPin3.visible=true
-			availablePins.append(inputPin2)
-			availablePins.append(outputPin1)
-			availablePins.append(outputPin2)
-			availablePins.append(outputPin3)
+			availableInputPins.append(inputPin2)
+			availableOutpitPins.append(outputPin1)
+			availableOutpitPins.append(outputPin2)
+			availableOutpitPins.append(outputPin3)
 		ConfigBlock.THREEBYONE:
 			inputPin1.visible=true
 			inputPin2.visible=true
 			inputPin3.visible=true
 			outputPin2.visible=true
-			availablePins.append(inputPin1)
-			availablePins.append(inputPin2)
-			availablePins.append(inputPin3)
-			availablePins.append(outputPin2)
+			availableInputPins.append(inputPin1)
+			availableInputPins.append(inputPin1)
+			availableInputPins.append(inputPin2)
+			availableOutpitPins.append(outputPin2)
 		ConfigBlock.TWOBYONE:
 			inputPin1.visible=true
 			inputPin3.visible=true
 			outputPin2.visible=true
-			availablePins.append(inputPin1)
-			availablePins.append(inputPin3)
-			availablePins.append(outputPin2)
+			availableInputPins.append(inputPin1)
+			availableInputPins.append(inputPin3)
+			availableOutpitPins.append(outputPin2)
 	# Add this to make sure the block is properly sized
 	size_flags_horizontal = SIZE_FILL
 	size_flags_vertical = SIZE_FILL
