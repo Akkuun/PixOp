@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dcfrdx62es7nw"]
 
-[ext_resource type="PackedScene" uid="uid://jj0hj5lcrl5y" path="res://uiTestOperators.tscn" id="1_t5i8p"]
+[ext_resource type="PackedScene" uid="uid://jj0hj5lcrl5y" path="res://Scenes/testOperators/uiTestOperators.tscn" id="1_t5i8p"]
 [ext_resource type="Script" uid="uid://q5y4q8vk8f1g" path="res://Lib_Images/image_lib.gd" id="1_x8qt3"]
 [ext_resource type="Script" uid="uid://vtucsdr1kwv2" path="res://Scripts/control.gd" id="1_xovul"]
-[ext_resource type="Texture2D" uid="uid://uyk84p8f0rm6" path="res://Images/chat.png" id="5_1ukmh"]
+[ext_resource type="Texture2D" uid="uid://uyk84p8f0rm6" path="res://Images/0/current.png" id="5_1ukmh"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_x8qt3")

@@ -8,10 +8,11 @@ void fragment() {
 	
     vec2 ps = TEXTURE_PIXEL_SIZE;
     vec4 max_col = texture(TEXTURE, UV);
-    max_col = min(max_col, texture(TEXTURE, UV + vec2(0.0, -kernel_size) * ps));
-    max_col = min(max_col, texture(TEXTURE, UV + vec2(0.0, kernel_size) * ps));
-    max_col = min(max_col, texture(TEXTURE, UV + vec2(-kernel_size, 0.0) * ps));
-    max_col = min(max_col, texture(TEXTURE, UV + vec2(kernel_size, 0.0) * ps));
+    // TODO FIX
+    max_col = max(max_col, texture(TEXTURE, UV + vec2(0.0, -kernel_size) * ps));
+    max_col = max(max_col, texture(TEXTURE, UV + vec2(0.0, kernel_size) * ps));
+    max_col = max(max_col, texture(TEXTURE, UV + vec2(-kernel_size, 0.0) * ps));
+    max_col = max(max_col, texture(TEXTURE, UV + vec2(kernel_size, 0.0) * ps));
 
     COLOR = max_col;
 }

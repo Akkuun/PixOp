@@ -225,6 +225,11 @@ func seuil(img: Image, colors: Array) -> Image:
 	shader_material.set_shader_parameter("colors", padded_colors)
 	return await apply_shader_to_image(img, shader_material)
 
+func seuil_otsu(img: Image) -> Image:
+	var gray_img = await greyscale(img)
+	var threshold_color = otsu(gray_img)
+	return await seuil(gray_img, [threshold_color])
+
 func flou_fond(input: Image, carte_verite: Image, kernel_size: int) -> Image:
 	var shader_material = getShader(base_path + "flou_fond.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
