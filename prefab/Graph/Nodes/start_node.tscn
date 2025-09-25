@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://v4ky7krbpjjw"]
+[gd_scene load_steps=4 format=3 uid="uid://v4ky7krbpjjw"]
 
-[ext_resource type="Script" uid="uid://cy4tpw7xine7l" path="res://Scripts/start_node.gd" id="1_4jkxc"]
+[ext_resource type="Script" uid="uid://cy4tpw7xine7l" path="res://Scripts/Graph/Nodes/start_node.gd" id="1_4jkxc"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="1_04ya2"]
+
+[sub_resource type="Theme" id="Theme_c3nk5"]
+default_font = ExtResource("1_04ya2")
+default_font_size = 24
 
 [node name="startNode" type="GraphNode"]
 offset_right = 131.0
 offset_bottom = 55.0
+theme = SubResource("Theme_c3nk5")
 title = "Start node"
 slot/0/left_enabled = false
 slot/0/left_type = 0

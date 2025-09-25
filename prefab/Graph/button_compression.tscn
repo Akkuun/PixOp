@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cicyw7d03400q"]
 
-[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/addCompressionNode.gd" id="1_sjfeq"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addCompressionNode.gd" id="1_sjfeq"]
 
 [node name="buttonCompression" type="Button"]
 offset_right = 8.0

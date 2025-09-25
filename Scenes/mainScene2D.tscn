@@ -1,13 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=13 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
-[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/addCompressionNode.gd" id="1_3q0cx"]
-[ext_resource type="PackedScene" uid="uid://bkhwcx8kk7q67" path="res://prefab/node_compression.tscn" id="2_hs7us"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addCompressionNode.gd" id="1_3q0cx"]
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_sjd8l"]
+[ext_resource type="PackedScene" uid="uid://be6d731to05rp" path="res://prefab/Graph/Nodes/blur_node.tscn" id="2_6gamx"]
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
-[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/final_node.tscn" id="5_y6xl6"]
-[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/start_node.tscn" id="6_hs7us"]
-[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/BlockEditor.gd" id="6_y6xl6"]
+[ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="3_6h4i3"]
+[ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="4_80xi3"]
+[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="5_y6xl6"]
+[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="6_hs7us"]
+[ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/img_to_ycbcr_node.tscn" id="6_shetg"]
+[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="6_y6xl6"]
 
 [node name="MainScene2d" type="Node2D"]
 position = Vector2(10.11, 0)
@@ -50,20 +54,60 @@ offset_top = 20.0
 offset_right = 193.89
 offset_bottom = 28.0
 
-[node name="Button" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+[node name="ButtonBlur" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
 offset_left = -0.10999966
 offset_top = 19.0
-offset_right = 199.78
+offset_right = 196.89
 offset_bottom = 82.0
-text = "Compression
+theme = ExtResource("1_sjd8l")
+text = "Blur
 "
 script = ExtResource("1_3q0cx")
-node_scene = ExtResource("2_hs7us")
+prefabNode = ExtResource("2_6gamx")
+graph_edit = NodePath("../../../../../GraphEdit")
+
+[node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+layout_mode = 0
+offset_left = -0.10999966
+offset_top = 84.0
+offset_right = 197.89
+offset_bottom = 147.0
+theme = ExtResource("1_sjd8l")
+text = "Erosion
+"
+script = ExtResource("1_3q0cx")
+prefabNode = ExtResource("3_6h4i3")
+graph_edit = NodePath("../../../../../GraphEdit")
+
+[node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+layout_mode = 0
+offset_left = -0.10999966
+offset_top = 150.0
+offset_right = 194.89
+offset_bottom = 213.0
+theme = ExtResource("1_sjd8l")
+text = "Downscale"
+script = ExtResource("1_3q0cx")
+prefabNode = ExtResource("4_80xi3")
+graph_edit = NodePath("../../../../../GraphEdit")
+
+[node name="ButtonImgToYCbCr" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+layout_mode = 0
+offset_left = -0.10999966
+offset_top = 220.0
+offset_right = 194.89
+offset_bottom = 283.0
+theme = ExtResource("1_sjd8l")
+text = "Img to YCbCr"
+script = ExtResource("1_3q0cx")
+prefabNode = ExtResource("6_shetg")
 graph_edit = NodePath("../../../../../GraphEdit")
 
 [node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer"]
 layout_mode = 2
+right_disconnects = true
+connection_lines_thickness = 6.0
 minimap_enabled = false
 show_zoom_label = true
 show_minimap_button = false
