@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=14 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
-[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addCompressionNode.gd" id="1_3q0cx"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_sjd8l"]
 [ext_resource type="PackedScene" uid="uid://be6d731to05rp" path="res://prefab/Graph/Nodes/blur_node.tscn" id="2_6gamx"]
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
@@ -10,8 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="4_80xi3"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="5_y6xl6"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="6_hs7us"]
-[ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/img_to_ycbcr_node.tscn" id="6_shetg"]
+[ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="6_shetg"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="6_y6xl6"]
+[ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="7_shetg"]
 
 [node name="MainScene2d" type="Node2D"]
 position = Vector2(10.11, 0)
@@ -99,9 +100,21 @@ offset_top = 220.0
 offset_right = 194.89
 offset_bottom = 283.0
 theme = ExtResource("1_sjd8l")
-text = "Img to YCbCr"
+text = "RGB to YCbCr"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("6_shetg")
+graph_edit = NodePath("../../../../../GraphEdit")
+
+[node name="ButtonYCrCbToRGB" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
+layout_mode = 0
+offset_left = -0.10999966
+offset_top = 290.0
+offset_right = 194.89
+offset_bottom = 353.0
+theme = ExtResource("1_sjd8l")
+text = "YCbCr to RGB"
+script = ExtResource("1_3q0cx")
+prefabNode = ExtResource("7_shetg")
 graph_edit = NodePath("../../../../../GraphEdit")
 
 [node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer"]
