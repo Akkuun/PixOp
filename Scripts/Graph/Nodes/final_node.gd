@@ -1,4 +1,4 @@
-extends "res://Scripts/Graph/CustomGraphNode.gd"
+extends GraphNode
 
 func _ready():
 	# slot 0 : entrée (gauche) et sortie (droite)

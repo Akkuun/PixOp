@@ -5,8 +5,8 @@ var images_folder = "res://Images"
 var startNode: PixopGraphNode
 var endNode: PixopGraphNode
 
-# Dictionary to map GraphNode names to their actual GraphNode instances
-var graph_node_map: Dictionary = {}
+# Dictionary to map GraphNode names to their PixopGraphNode instances
+@export var graph_node_map: Dictionary = {}
 
 @export var current: Sprite2D
 @export var target: Sprite2D
@@ -15,6 +15,9 @@ var graph_node_map: Dictionary = {}
 func load_level(id: int) -> void:
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
+	graph_node_map.clear()
+	graph_node_map["Start_node"] = startNode
+	graph_node_map["Final_node"] = endNode
 	var level_path = images_folder + "/" + str(id)
 	var texCurrent := load(level_path + "/current.png")
 	current.texture = texCurrent
@@ -22,6 +25,9 @@ func load_level(id: int) -> void:
 	target.texture = texTarget
 
 func _ready() -> void:
+	# Add this node to the "game" group so other scripts can find it
+	add_to_group("game")
+	
 	load_level(0)
 	
 	# Connect GraphEdit signals
@@ -90,25 +96,11 @@ func _on_negatif_button_down() -> void:
 
 func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	print("Connection request: ", from_node, ":", from_port, " -> ", to_node, ":", to_port)
-	
-	# Get the actual GraphNode instances using the GraphEdit
-	var graph_node_from = graph_edit.get_node(NodePath(from_node))
-	var graph_node_to = graph_edit.get_node(NodePath(to_node))
-	
-	print("Found GraphNodes - From: ", graph_node_from != null, " To: ", graph_node_to != null)
+
 	
 	# Get the PixopGraphNode instances
-	var from_pixop_node = null
-	if graph_node_from and graph_node_from.has_method("get_pixop_graph_node"):
-		from_pixop_node = graph_node_from.get_pixop_graph_node()
-	if graph_node_from == null && from_node == "StartNode":
-		from_pixop_node = startNode
-
-	var to_pixop_node = null
-	if graph_node_to and graph_node_to.has_method("get_pixop_graph_node"):
-		to_pixop_node = graph_node_to.get_pixop_graph_node()
-	if graph_node_to == null && to_node == "EndNode":
-		to_pixop_node = endNode
+	var from_pixop_node = graph_node_map.get(from_node)
+	var to_pixop_node = graph_node_map.get(to_node)
 
 	print("Found PixopGraphNodes - From: ", from_pixop_node != null, " To: ", to_pixop_node != null)
 	
@@ -169,9 +161,40 @@ func _on_graph_edit_connection_drag_ended() -> void:
 	print("Connection drag ended")
 
 # Helper function to register GraphNodes (no longer needed with direct access method)
-func register_graph_node(graph_node_name: String, graph_node_instance: GraphNode) -> void:
-	graph_node_map[graph_node_name] = graph_node_instance
-	print("Registered GraphNode: ", graph_node_name)
+func register_graph_node(graph_node_name: String, operator: String) -> void:
+	var new_pixop_node = null
+	# Toby fox my love
+	if operator == "start":
+		new_pixop_node = startNode
+	elif operator == "final":
+		new_pixop_node = endNode
+	elif operator == "blur":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [startNode])
+	elif operator == "dilatation":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [startNode])
+	elif operator == "erosion":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [startNode])
+	elif operator == "seuil_otsu":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [startNode])
+	elif operator == "difference":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [startNode])
+	elif operator == "negatif":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [startNode])
+	elif operator == "blur_background":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 15}, [startNode])
+	elif operator == "rgb_to_ycbcr":
+		# Placeholder for future operator
+		print("Warning: rgb_to_ycbcr operator not implemented yet")
+		return
+	elif operator == "ycbcr_to_rgb":
+		# Placeholder for future operator
+		print("Warning: ycbcr_to_rgb operator not implemented yet")
+		return
+	else:
+		print("Warning: Unknown operator type '", operator, "' for node '", graph_node_name, "'")
+		return
+	graph_node_map[graph_node_name] = new_pixop_node
+	print("Registered GraphNode '", graph_node_name, "' with operator '", operator, "'")
 
 # Helper function to validate if a connection is allowed
 func validate_connection(from_node: StringName, to_node: StringName) -> bool:

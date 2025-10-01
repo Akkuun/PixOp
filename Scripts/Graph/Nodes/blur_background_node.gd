@@ -1,10 +1,5 @@
 extends GraphNode
 
-const ImageLibWrapper = preload("res://Scripts/image_lib_wrapper.gd")
-
-var pixop_graph_node: ImageLibWrapper.PixopGraphNode
-
-
 func _ready():
 	self.title = "Blur background"
 	

@@ -206,7 +206,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="GraphNode" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("5_y6xl6")]
+[node name="Final_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("5_y6xl6")]
 layout_mode = 0
 offset_left = 681.89
 offset_top = 402.0
@@ -215,7 +215,7 @@ offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(681.89, 402)
 
-[node name="startNode" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
+[node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
 layout_mode = 0
 offset_left = 48.89
 offset_top = 402.0
