@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_hh4a2"]
 [ext_resource type="Script" uid="uid://bh0krp17tvay0" path="res://Scripts/Graph/Nodes/final_node.gd" id="1_kae1j"]
 
-[node name="GraphNode" type="GraphNode"]
+[node name="Final_node" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 131.0
 offset_bottom = 55.0
 theme = ExtResource("1_hh4a2")

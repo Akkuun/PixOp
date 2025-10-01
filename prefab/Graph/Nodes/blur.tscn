@@ -1,9 +1,12 @@
-[gd_scene format=3 uid="uid://bkhwcx8kk7q67"]
+[gd_scene load_steps=2 format=3 uid="uid://busm27n7ir8iq"]
 
-[node name="GraphNode" type="GraphNode" groups=["custom_nodes"]]
-offset_right = 153.0
-offset_bottom = 120.0
-title = "Compression"
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_l57s8"]
+
+[node name="Blur_node" type="GraphNode" groups=["custom_nodes"]]
+offset_right = 9.0
+offset_bottom = 55.0
+theme = ExtResource("1_l57s8")
+title = "Blur"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)

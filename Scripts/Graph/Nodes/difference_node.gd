@@ -1,4 +1,4 @@
-extends GraphNode
+extends "res://Scripts/Graph/CustomGraphNode.gd"
 
 func _ready():
 	self.title = "Difference"
@@ -55,3 +55,5 @@ func _ready():
 	hbox3.add_child(margin3)
 	add_child(hbox3)
 	set_slot(3, true, universal_type, y_color, false, universal_type, y_color)
+
+	init_pixop_graph_node(ImageLibWrapper.GraphState.Middle, image_lib.difference_operator)

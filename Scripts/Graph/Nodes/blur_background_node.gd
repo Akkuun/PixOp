@@ -1,5 +1,10 @@
 extends GraphNode
 
+const ImageLibWrapper = preload("res://Scripts/image_lib_wrapper.gd")
+
+var pixop_graph_node: ImageLibWrapper.PixopGraphNode
+
+
 func _ready():
 	self.title = "Blur background"
 	
@@ -55,3 +60,6 @@ func _ready():
 	hbox3.add_child(margin3)
 	add_child(hbox3)
 	set_slot(3, true, universal_type, y_color, false, universal_type, y_color)
+
+func _on_slot_updated(_slot_index: int) -> void:
+	pass # Replace with function body.

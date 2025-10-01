@@ -3,10 +3,11 @@
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_0oj8n"]
 [ext_resource type="Script" uid="uid://2bxb3y0hnlm5" path="res://Scripts/Graph/Nodes/blur_background_node.gd" id="2_0oj8n"]
 
-[node name="Blur_node" type="GraphNode"]
+[node name="Blur_background_node" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 195.0
 offset_bottom = 198.0
 theme = ExtResource("1_0oj8n")
+title = "Blur background"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
@@ -20,3 +21,5 @@ script = ExtResource("2_0oj8n")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+
+[connection signal="slot_updated" from="." to="." method="_on_slot_updated"]

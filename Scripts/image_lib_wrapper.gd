@@ -5,7 +5,7 @@ enum GraphState {Start, Middle, End}
 func display_final_image():
 	pass
 
-class Operator:
+class Operator extends Resource:
 	var name: String
 	var requiredParents: int
 	var returnedImages = 1
@@ -38,12 +38,15 @@ func _negatif_wrapper(img: Image) -> Image:
 var negatif_operator = Operator.new("negatif", Callable(self, "_negatif_wrapper"), 1, 1)
 var end_operator = Operator.new("end", Callable(self, "display_final_image"), 1, 0)
 
-class PixopGraphNode:
+class PixopGraphNode extends Resource:
 	var state: GraphState
 	
 	var childs: Array
 	var parents: Array
 	var operatorApplied: Operator
+
+	var startNode: PixopGraphNode
+	var endNode: PixopGraphNode
 
 	var parameters: Dictionary
 

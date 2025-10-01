@@ -7,7 +7,7 @@
 default_font = ExtResource("1_04ya2")
 default_font_size = 24
 
-[node name="startNode" type="GraphNode"]
+[node name="Start_node" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 131.0
 offset_bottom = 55.0
 theme = SubResource("Theme_c3nk5")

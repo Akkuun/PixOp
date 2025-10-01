@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_0g4be"]
 [ext_resource type="Script" uid="uid://dvw628b8kersc" path="res://Scripts/Graph/Nodes/ycbcr_to_rgb_node.gd" id="2_0g4be"]
 
-[node name="Blur_node" type="GraphNode"]
+[node name="Ycbcr_to_rgb_node" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 195.0
 offset_bottom = 198.0
 theme = ExtResource("1_0g4be")

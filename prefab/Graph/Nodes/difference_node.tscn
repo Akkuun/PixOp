@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_ky62n"]
 [ext_resource type="Script" uid="uid://bg1b7ssska7kl" path="res://Scripts/Graph/Nodes/difference_node.gd" id="2_ky62n"]
 
-[node name="Blur_node" type="GraphNode"]
+[node name="Difference_node" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 195.0
 offset_bottom = 198.0
 theme = ExtResource("1_ky62n")
