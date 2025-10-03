@@ -182,12 +182,12 @@ offset_right = 75.00021
 offset_bottom = -9.307053
 
 [node name="CurrentSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
-position = Vector2(770.89014, 127.000015)
+position = Vector2(495.88998, 137.00002)
 scale = Vector2(0.16031693, 0.16031693)
 texture = ExtResource("2_sbxmg")
 
 [node name="TargetSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
-position = Vector2(524.8901, 129)
+position = Vector2(746.89, 136.00002)
 scale = Vector2(0.16031693, 0.16031693)
 texture = ExtResource("2_sbxmg")
 

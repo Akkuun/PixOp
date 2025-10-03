@@ -45,9 +45,6 @@ class PixopGraphNode extends Resource:
 	var parents: Array
 	var operatorApplied: Operator
 
-	var startNode: PixopGraphNode
-	var endNode: PixopGraphNode
-
 	var parameters: Dictionary
 
 	func _init(state: GraphState, operatorApplied: Operator = null, parameters: Dictionary = {}, parents: Array = [], child = []) -> void:
@@ -77,6 +74,16 @@ class PixopGraphNode extends Resource:
 		if state == GraphState.Start:
 			return true
 		return parents.size() != operatorApplied.requiredParents
+	
+	func get_last_correct_node() -> PixopGraphNode:
+		# TODO (this was garbage generated code, doesn't do what i want)
+		if state == GraphState.End:
+			return self
+		for child in childs:
+			var last = child.get_last_correct_node()
+			if last != null:
+				return last
+		return null
 	
 	func is_graph_full(start: bool = true) -> bool:
 		if start:

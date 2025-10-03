@@ -5,6 +5,9 @@ var images_folder = "res://Images"
 var startNode: PixopGraphNode
 var endNode: PixopGraphNode
 
+var definedW = 192.0
+var definedH = 256.0
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
@@ -21,8 +24,12 @@ func load_level(id: int) -> void:
 	var level_path = images_folder + "/" + str(id)
 	var texCurrent := load(level_path + "/current.png")
 	current.texture = texCurrent
+	var imgW = current.texture.get_width()
+	var imgH = current.texture.get_height()
+	current.scale = Vector2(definedW / imgW, definedH / imgH)
 	var texTarget := load(level_path + "/target.png")
 	target.texture = texTarget
+	target.scale = Vector2(definedW / imgW, definedH / imgH)
 
 func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
@@ -169,19 +176,19 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 	elif operator == "final":
 		new_pixop_node = endNode
 	elif operator == "blur":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "dilatation":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5})
 	elif operator == "erosion":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5})
 	elif operator == "seuil_otsu":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {})
 	elif operator == "difference":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
 	elif operator == "negatif":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
 	elif operator == "blur_background":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 15}, [startNode])
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":
 		# Placeholder for future operator
 		print("Warning: rgb_to_ycbcr operator not implemented yet")
@@ -190,8 +197,8 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		# Placeholder for future operator
 		print("Warning: ycbcr_to_rgb operator not implemented yet")
 		return
-	else:
-		print("Warning: Unknown operator type '", operator, "' for node '", graph_node_name, "'")
+	if new_pixop_node == null:
+		print("Warning: Could not create PixopGraphNode for operator '", operator, "'")
 		return
 	graph_node_map[graph_node_name] = new_pixop_node
 	print("Registered GraphNode '", graph_node_name, "' with operator '", operator, "'")
