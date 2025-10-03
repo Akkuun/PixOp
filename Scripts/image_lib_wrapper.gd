@@ -5,7 +5,7 @@ enum GraphState {Start, Middle, End}
 func display_final_image():
 	pass
 
-class Operator:
+class Operator extends Resource:
 	var name: String
 	var requiredParents: int
 	var returnedImages = 1
@@ -38,7 +38,7 @@ func _negatif_wrapper(img: Image) -> Image:
 var negatif_operator = Operator.new("negatif", Callable(self, "_negatif_wrapper"), 1, 1)
 var end_operator = Operator.new("end", Callable(self, "display_final_image"), 1, 0)
 
-class PixopGraphNode:
+class PixopGraphNode extends Resource:
 	var state: GraphState
 	
 	var childs: Array
@@ -74,6 +74,16 @@ class PixopGraphNode:
 		if state == GraphState.Start:
 			return true
 		return parents.size() != operatorApplied.requiredParents
+	
+	func get_last_correct_node() -> PixopGraphNode:
+		# TODO (this was garbage generated code, doesn't do what i want)
+		if state == GraphState.End:
+			return self
+		for child in childs:
+			var last = child.get_last_correct_node()
+			if last != null:
+				return last
+		return null
 	
 	func is_graph_full(start: bool = true) -> bool:
 		if start:

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwehgfkap3ffg"]
+
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_0g4be"]
+[ext_resource type="Script" uid="uid://dvw628b8kersc" path="res://Scripts/Graph/Nodes/ycbcr_to_rgb_node.gd" id="2_0g4be"]
+
+[node name="Ycbcr_to_rgb_node" type="GraphNode" groups=["custom_nodes"]]
+offset_right = 195.0
+offset_bottom = 198.0
+theme = ExtResource("1_0g4be")
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = true
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+script = ExtResource("2_0g4be")
+metadata/operator = "ycbcr_to_rgb"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2

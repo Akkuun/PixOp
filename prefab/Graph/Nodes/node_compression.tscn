@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bkhwcx8kk7q67"]
 
-[node name="GraphNode" type="GraphNode"]
+[node name="GraphNode" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 153.0
 offset_bottom = 120.0
 title = "Compression"
