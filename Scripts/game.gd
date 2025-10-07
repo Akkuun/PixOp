@@ -8,6 +8,11 @@ var endNode: PixopGraphNode
 var definedW = 192.0
 var definedH = 256.0
 
+var levelId: int = 0
+
+var baseImage: Image
+var targetImage: Image
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
@@ -16,6 +21,7 @@ var definedH = 256.0
 @export var graph_edit : GraphEdit
 
 func load_level(id: int) -> void:
+	levelId = id
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
 	graph_node_map.clear()
@@ -23,13 +29,197 @@ func load_level(id: int) -> void:
 	graph_node_map["Final_node"] = endNode
 	var level_path = images_folder + "/" + str(id)
 	var texCurrent := load(level_path + "/current.png")
-	current.texture = texCurrent
-	var imgW = current.texture.get_width()
-	var imgH = current.texture.get_height()
-	current.scale = Vector2(definedW / imgW, definedH / imgH)
 	var texTarget := load(level_path + "/target.png")
-	target.texture = texTarget
+	baseImage = texCurrent.get_image()
+	targetImage = texTarget.get_image()
+
+	update_current(baseImage)
+	update_target(targetImage)
+
+func update_current(image: Image) -> void:
+	var texture := ImageTexture.create_from_image(image)
+	current.texture = texture
+	var imgW = texture.get_width()
+	var imgH = texture.get_height()
+	current.scale = Vector2(definedW / imgW, definedH / imgH)
+
+func update_target(image: Image) -> void:
+	var texture := ImageTexture.create_from_image(image)
+	target.texture = texture
+	var imgW = texture.get_width()
+	var imgH = texture.get_height()
 	target.scale = Vector2(definedW / imgW, definedH / imgH)
+
+func update_current_from_graph() -> void:
+	"""
+	Recomputes the entire graph and updates the current image display.
+	Call this after making changes to the node graph.
+	"""
+	print("=== update_current_from_graph called ===")
+	var computed_image = await compute_updated_image()
+	print("Got computed image, updating current display...")
+	update_current(computed_image)
+	print("=== update_current_from_graph finished ===")
+
+func compute_updated_image() -> Image:
+	print("=== Starting compute_updated_image ===")
+	
+	# First, check if there's a complete path from start to end
+	var path_to_end = startNode.get_nodes_from_start_to_end()
+	if path_to_end.is_empty():
+		print("No complete path from start to end found - returning base image")
+		return baseImage
+	
+	print("Found complete path to end with ", path_to_end.size(), " nodes")
+	
+	# Dictionary to store computed images for each node (by node ID)
+	var computed_images: Dictionary = {}
+	
+	# Start with the base image for the start node
+	computed_images[startNode.id] = baseImage.duplicate()
+	print("Added base image for start node ID: ", startNode.id)
+	
+	# Get all nodes in the graph in topological order
+	var all_nodes = get_nodes_in_topological_order()
+	print("Found ", all_nodes.size(), " nodes in topological order")
+	
+	for i in range(all_nodes.size()):
+		var node = all_nodes[i]
+		print("  Node ", i, ": ID=", node.id, " State=", node.state, " Operator=", node.operatorApplied.name if node.operatorApplied else "none")
+	
+	if all_nodes.is_empty():
+		print("Warning: No nodes found or circular dependency detected")
+		return baseImage
+	
+	# Process each node in topological order
+	for current_node in all_nodes:
+		print("Processing node ID=", current_node.id, " State=", current_node.state, " Operator=", current_node.operatorApplied.name if current_node.operatorApplied else "none")
+		
+		# Skip if this is the start node (already has image) or end node (no operation)
+		if current_node.state == GraphState.Start:
+			print("  Skipping start node")
+			continue
+		elif current_node.state == GraphState.End:
+			print("  Skipping end node")
+			continue
+			
+		# Collect input images from all parent nodes
+		var input_images: Array = []
+		print("  Node has ", current_node.parents.size(), " parent(s)")
+		for parent in current_node.parents:
+			print("    Parent ID=", parent.id, " computed=", computed_images.has(parent.id))
+			if computed_images.has(parent.id):
+				input_images.append(computed_images[parent.id])
+			else:
+				print("Error: Parent node ", parent.id, " has not been computed yet")
+				return baseImage
+		
+		# Check if we have the required number of inputs
+		print("  Required inputs: ", current_node.operatorApplied.requiredParents, " Got: ", input_images.size())
+		if input_images.size() != current_node.operatorApplied.requiredParents:
+			print("Error: Node requires ", current_node.operatorApplied.requiredParents, " inputs but got ", input_images.size())
+			return baseImage
+		
+		print("  Applying operator: ", current_node.operatorApplied.name)
+		# Apply the operator based on the number of required inputs
+		var result_image: Image
+		if current_node.operatorApplied.requiredParents == 1:
+			# Single input operator
+			if current_node.parameters.has("kernel_size"):
+				print("    Calling with kernel_size: ", current_node.parameters["kernel_size"])
+				result_image = await current_node.operatorApplied.function.call(input_images[0], current_node.parameters["kernel_size"])
+			else:
+				print("    Calling with single image input")
+				result_image = await current_node.operatorApplied.function.call(input_images[0])
+		elif current_node.operatorApplied.requiredParents == 2:
+			# Two input operator (like difference)
+			print("    Calling with two image inputs")
+			result_image = await current_node.operatorApplied.function.call(input_images[0], input_images[1])
+		else:
+			print("Error: Operators with ", current_node.operatorApplied.requiredParents, " inputs not implemented yet")
+			return baseImage
+		
+		# Store the computed image for this node
+		computed_images[current_node.id] = result_image
+		print("  ✓ Computed image for node ", current_node.id, " (", current_node.operatorApplied.name, ")")
+	
+	# Find the node that connects to the end node to get the final result
+	print("End node has ", endNode.parents.size(), " parent(s)")
+	for parent in endNode.parents:
+		print("  End node parent ID=", parent.id, " computed=", computed_images.has(parent.id))
+		if computed_images.has(parent.id):
+			print("✓ Returning final image from node ", parent.id)
+			return computed_images[parent.id]
+	
+	# Fallback: return the last computed image
+	print("No end node parent found, using fallback")
+	if computed_images.size() > 1: # More than just the start node
+		var last_computed_id = computed_images.keys()[-1]
+		print("✓ Returning last computed image from node ", last_computed_id)
+		return computed_images[last_computed_id]
+	
+	print("✓ Returning original base image (no processing)")
+	return baseImage
+
+func get_nodes_in_topological_order() -> Array:
+	"""
+	Returns all nodes in the graph in topological order (dependencies first).
+	Uses Kahn's algorithm for topological sorting.
+	"""
+	print("=== get_nodes_in_topological_order ===")
+	var all_nodes: Array = []
+	var visited: Dictionary = {}
+	
+	# Collect all nodes in the graph using DFS from start node
+	_collect_all_nodes(startNode, all_nodes, visited)
+	print("Collected ", all_nodes.size(), " nodes total")
+	
+	# Calculate in-degree for each node (number of parents)
+	var in_degree: Dictionary = {}
+	for node in all_nodes:
+		in_degree[node.id] = node.parents.size()
+		print("  Node ID=", node.id, " in_degree=", node.parents.size(), " children=", node.childs.size())
+	
+	# Queue for nodes with no dependencies (in-degree = 0)
+	var queue: Array = []
+	for node in all_nodes:
+		if in_degree[node.id] == 0:
+			queue.append(node)
+	
+	var result: Array = []
+	
+	# Process nodes in topological order
+	while not queue.is_empty():
+		var current_node = queue.pop_front()
+		result.append(current_node)
+		
+		# For each child of current node, decrease its in-degree
+		for child in current_node.childs:
+			in_degree[child.id] -= 1
+			# If child has no more dependencies, add it to queue
+			if in_degree[child.id] == 0:
+				queue.append(child)
+	
+	# Check for circular dependencies
+	if result.size() != all_nodes.size():
+		print("Warning: Circular dependency detected in graph")
+		return []
+	
+	return result
+
+func _collect_all_nodes(node: PixopGraphNode, all_nodes: Array, visited: Dictionary) -> void:
+	"""
+	Helper function to collect all nodes in the graph using DFS.
+	"""
+	if visited.has(node.id):
+		return
+	
+	visited[node.id] = true
+	all_nodes.append(node)
+	
+	# Visit all children
+	for child in node.childs:
+		_collect_all_nodes(child, all_nodes, visited)
 
 func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
@@ -47,63 +237,12 @@ func _ready() -> void:
 	else:
 		print("Warning: GraphEdit node not found")
 
-func _on_flou_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-	
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-	
-
-
-
-func _on_dilatation_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-func _on_erosion_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-func _on_seuil_otsu_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
-func _on_difference_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), target.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
-func _on_negatif_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
 func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
-	print("Connection request: ", from_node, ":", from_port, " -> ", to_node, ":", to_port)
-
+	print("=== Connection request ===")
+	print("From: ", from_node, ":", from_port, " -> To: ", to_node, ":", to_port)
+	print("Available nodes in graph_node_map:")
+	for key in graph_node_map.keys():
+		print("  ", key, " -> ", graph_node_map[key])
 	
 	# Get the PixopGraphNode instances
 	var from_pixop_node = graph_node_map.get(from_node)
@@ -122,28 +261,28 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		print("✓ Successfully connected: ", from_node, " -> ", to_node)
 		print("  From node children count: ", from_pixop_node.childs.size())
 		print("  To node parents count: ", to_pixop_node.parents.size())
+		
+		# Recompute the graph and update display
+		print("Calling update_current_from_graph()...")
+		update_current_from_graph()
 	else:
 		print("✗ Connection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
 		print("  To node (", to_node, "): ", "Found" if to_pixop_node else "Not found")
 
 func _on_graph_edit_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
+	print("=== DISCONNECTION REQUEST ===")
 	print("Disconnection request: ", from_node, ":", from_port, " -> ", to_node, ":", to_port)
 	
-	# Get the actual GraphNode instances using the GraphEdit
-	var graph_node_from = graph_edit.get_node(NodePath(from_node))
-	var graph_node_to = graph_edit.get_node(NodePath(to_node))
+	print("Available nodes in graph_node_map:")
+	for key in graph_node_map.keys():
+		print("  ", key, " -> ", graph_node_map[key])
 	
-	print("Found GraphNodes - From: ", graph_node_from != null, " To: ", graph_node_to != null)
+	# Get the PixopGraphNode instances using the same method as connection
+	var from_pixop_node = graph_node_map.get(from_node)
+	var to_pixop_node = graph_node_map.get(to_node)
 	
-	# Get the PixopGraphNode instances
-	var from_pixop_node = null
-	if graph_node_from and graph_node_from.has_method("get_pixop_graph_node"):
-		from_pixop_node = graph_node_from.get_pixop_graph_node()
-
-	var to_pixop_node = null
-	if graph_node_to and graph_node_to.has_method("get_pixop_graph_node"):
-		to_pixop_node = graph_node_to.get_pixop_graph_node()
+	print("Found PixopGraphNodes - From: ", from_pixop_node != null, " To: ", to_pixop_node != null)
 	
 	if from_pixop_node and to_pixop_node:
 		print("Found both PixopGraphNodes - updating disconnections")
@@ -156,6 +295,10 @@ func _on_graph_edit_disconnection_request(from_node: StringName, from_port: int,
 		print("✓ Successfully disconnected: ", from_node, " -> ", to_node)
 		print("  From node children count: ", from_pixop_node.childs.size())
 		print("  To node parents count: ", to_pixop_node.parents.size())
+		
+		# Recompute the graph and update display
+		print("Calling update_current_from_graph() after disconnection...")
+		update_current_from_graph()
 	else:
 		print("✗ Disconnection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
@@ -217,3 +360,67 @@ func validate_connection(from_node: StringName, to_node: StringName) -> bool:
 		return false
 	
 	return true
+
+
+
+
+
+
+
+
+
+
+
+
+func _on_flou_button_down() -> void:
+	var newNode = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [startNode])
+	startNode.add_child(newNode)
+	
+	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
+	var texNew := ImageTexture.create_from_image(newImg)
+	current.texture = texNew
+	
+
+
+
+func _on_dilatation_button_down() -> void:
+	var newNode = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [startNode])
+	startNode.add_child(newNode)
+
+	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
+	var texNew := ImageTexture.create_from_image(newImg)
+	current.texture = texNew
+
+func _on_erosion_button_down() -> void:
+	var newNode = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [startNode])
+	startNode.add_child(newNode)
+
+	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
+	var texNew := ImageTexture.create_from_image(newImg)
+	current.texture = texNew
+
+func _on_seuil_otsu_button_down() -> void:
+	var newNode = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [startNode])
+	startNode.add_child(newNode)
+
+	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
+	var texNew := ImageTexture.create_from_image(newImg)
+	current.texture = texNew
+
+
+func _on_difference_button_down() -> void:
+	var newNode = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [startNode])
+	startNode.add_child(newNode)
+
+	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), target.texture.get_image())
+	var texNew := ImageTexture.create_from_image(newImg)
+	current.texture = texNew
+
+
+func _on_negatif_button_down() -> void:
+	var newNode = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [startNode])
+	startNode.add_child(newNode)
+
+	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
+	var texNew := ImageTexture.create_from_image(newImg)
+	current.texture = texNew
