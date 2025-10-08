@@ -2,9 +2,14 @@ extends Button
 
 @export var prefabNode: PackedScene
 @export var graph_edit: GraphEdit
+@export var addNodeSound: AudioStream
+
+var audio_player_addNode: AudioStreamPlayer
 
 func _ready():
 	pressed.connect(_on_button_pressed)
+	audio_player_addNode = AudioStreamPlayer.new()
+	audio_player_addNode.stream = addNodeSound
 
 func _on_button_pressed():
 	if prefabNode == null or graph_edit == null:
@@ -16,6 +21,11 @@ func _on_button_pressed():
 	# Positionner au centre du GraphEdit
 	var offset = graph_edit.scroll_offset + graph_edit.size / 2
 	new_node.position_offset = offset / graph_edit.zoom
+
+
+	add_child(audio_player_addNode)
+
+	audio_player_addNode.play()
 	
 	graph_edit.add_child(new_node, true)
 	
