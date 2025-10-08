@@ -163,7 +163,7 @@ script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("9_okhx4")
 graph_edit = NodePath("../../../../../GraphEdit")
 
-[node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer"]
+[node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer" node_paths=PackedStringArray("end_Node")]
 layout_mode = 2
 right_disconnects = true
 connection_lines_thickness = 6.0
@@ -172,6 +172,7 @@ show_zoom_label = true
 show_minimap_button = false
 show_arrange_button = false
 script = ExtResource("6_y6xl6")
+end_Node = NodePath("Final_node")
 
 [node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("1_1jf4g")]
 visible = false
