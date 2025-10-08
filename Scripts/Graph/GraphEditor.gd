@@ -45,7 +45,7 @@ func isConnectionValid(from_node: StringName, from_port: int, to_node: StringNam
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_DELETE or event.keycode == KEY_BACKSPACE:
+		if event.keycode == KEY_DELETE or event.keycode == 4194308:
 			for child in get_children():
 				if child is GraphNode and child.selected:
 					# on skip pour les nodes start et end
