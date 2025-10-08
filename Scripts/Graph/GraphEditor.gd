@@ -2,8 +2,12 @@ extends GraphEdit
 
 
 @export var connectionSound: AudioStream 
+@export var startNode : GraphNode
+@export var endNode : GraphNode
 
 var audio_player: AudioStreamPlayer
+
+
 
 func _ready():
 	# Connexions pour créer / supprimer les liens
@@ -32,3 +36,19 @@ func isConnectionValid(from_node: StringName, from_port: int, to_node: StringNam
 		if conn["to_node"] == to_node and conn["to_port"] == to_port:
 			return false
 	return true
+
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_DELETE or event.keycode == KEY_BACKSPACE:
+			for child in get_children():
+				if child is GraphNode and child.selected:
+					# on skip pour les nodes start et end
+					if child == startNode or child == endNode:
+						continue
+					var node_name = child.name
+					# Déconnecte toutes les connexions du node sauf pour le node de start et le node de end
+					for conn in get_connection_list():
+						if conn["from_node"] == node_name or conn["to_node"] == node_name:
+							disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+					# Supprime le node
+					child.queue_free()
