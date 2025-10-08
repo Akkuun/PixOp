@@ -5,6 +5,17 @@ enum GraphState {Start, Middle, End}
 func display_final_image():
 	pass
 
+class PixopGraphNodeIdentifier extends Resource:
+	static var current_id: int = 0
+
+	static func get_next_id() -> int:
+		current_id += 1
+		return current_id
+	
+	func _init() -> void:
+		pass
+
+
 class Operator extends Resource:
 	var name: String
 	var requiredParents: int
@@ -40,7 +51,7 @@ var end_operator = Operator.new("end", Callable(self, "display_final_image"), 1,
 
 class PixopGraphNode extends Resource:
 	var state: GraphState
-	
+	var id: int
 	var childs: Array
 	var parents: Array
 	var operatorApplied: Operator
@@ -48,6 +59,7 @@ class PixopGraphNode extends Resource:
 	var parameters: Dictionary
 
 	func _init(state: GraphState, operatorApplied: Operator = null, parameters: Dictionary = {}, parents: Array = [], child = []) -> void:
+		id = PixopGraphNodeIdentifier.get_next_id()
 		self.state = state
 		self.childs = childs
 		self.operatorApplied = operatorApplied
@@ -57,33 +69,75 @@ class PixopGraphNode extends Resource:
 			parent.add_child(self)
 
 	func add_child(child: PixopGraphNode) -> void:
-		childs.append(child)
+		# Only add if not already a child
+		if child not in childs:
+			childs.append(child)
+		# Only add self as parent if not already a parent
+		if self not in child.parents:
+			child.parents.append(self)
 
 	func private_remove_parent(parent: PixopGraphNode) -> void:
-		var index = parents.find(parent)
-		if index != -1:
-			parents.remove_at(index)
+		# Remove ALL instances of this parent (in case there were duplicates)
+		while parent in parents:
+			var index = parents.find(parent)
+			if index != -1:
+				parents.remove_at(index)
 
 	func remove_child(child: PixopGraphNode) -> void:
-		var index = childs.find(child)
-		if index != -1:
-			childs[index].private_remove_parent(self)
-			childs.remove_at(index)
+		# Remove ALL instances of this child (in case there were duplicates)
+		while child in childs:
+			var index = childs.find(child)
+			if index != -1:
+				childs.remove_at(index)
+		# Remove self from child's parents
+		child.private_remove_parent(self)
 
 	func check_conditions() -> bool:
 		if state == GraphState.Start:
 			return true
 		return parents.size() != operatorApplied.requiredParents
 	
-	func get_last_correct_node() -> PixopGraphNode:
-		# TODO (this was garbage generated code, doesn't do what i want)
+	func search_for_end(current_path: Array = []) -> Array:
+		# Prevent infinite recursion by checking if we've already visited this node
+		if self in current_path:
+			return []
+		
+		# Add this node to the current path
+		var new_path = current_path + [self]
+		
+		# If this is an end node, return the path of nodes leading to it
 		if state == GraphState.End:
-			return self
+			return new_path
+		
+		# If this is a leaf node (no children), return empty array (end not reached)
+		if childs.size() == 0:
+			return []
+		
+		# Recursively search through all children
 		for child in childs:
-			var last = child.get_last_correct_node()
-			if last != null:
-				return last
-		return null
+			var child_path = child.search_for_end(new_path)
+			# If any child found a path to end, return it immediately
+			if child_path.size() > 0:
+				return child_path
+		
+		# If no child found a path to end, return empty array
+		return []
+
+	func get_nodes_from_start_to_end() -> Array:
+		if state != GraphState.Start:
+			return []
+		var path = search_for_end()
+		print("Path from start to end: ", path.size(), " nodes")
+		for i in range(path.size()):
+			var node = path[i]
+			print("  Path[", i, "]: ID=", node.id, " State=", node.state)
+		return path
+
+	func is_correct_node() -> bool:
+		var parents_corrects = false;
+		for parent in parents:
+			parents_corrects = parents_corrects or parent.is_correct_node()
+		return check_conditions() and (state == GraphState.Start or parents_corrects)
 	
 	func is_graph_full(start: bool = true) -> bool:
 		if start:
