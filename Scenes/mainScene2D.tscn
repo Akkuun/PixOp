@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=22 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
@@ -17,6 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="8_c7brk"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="9_okhx4"]
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="9_ys8n2"]
+[ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
+[ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
+[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scenes/lutz_animation.gd" id="19_pai0q"]
+[ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="20_2tgnd"]
 
 [node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit")]
 position = Vector2(10.11, 0)
@@ -223,3 +227,35 @@ offset_right = 179.89001
 offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(48.89, 402)
+
+[node name="TutorialUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="TutorialUI"]
+z_index = 1
+layout_mode = 0
+offset_left = 400.89
+offset_top = 535.0
+offset_right = 981.89
+offset_bottom = 639.0
+texture = ExtResource("18_8jv5d")
+
+[node name="Texte ici ? remplace le node" type="Node2D" parent="TutorialUI/TextureRect"]
+
+[node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
+script = ExtResource("19_pai0q")
+lutz = NodePath("Lutz")
+lutz_mouth = NodePath("LutzMouth")
+
+[node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
+position = Vector2(1017.89, 561.00006)
+scale = Vector2(0.49456516, 0.49456516)
+texture = ExtResource("19_2tgnd")
+
+[node name="LutzMouth" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
+position = Vector2(1017.89, 561.00006)
+scale = Vector2(0.49456516, 0.49456516)
+texture = ExtResource("20_2tgnd")

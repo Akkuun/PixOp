@@ -13,6 +13,8 @@ var levelId: int = 0
 var baseImage: Image
 var targetImage: Image
 
+var NB_TUTORIALS = 3
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
@@ -35,6 +37,10 @@ func load_level(id: int) -> void:
 
 	update_current(baseImage)
 	update_target(targetImage)
+
+
+	if (id <= NB_TUTORIALS):
+		pass
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
