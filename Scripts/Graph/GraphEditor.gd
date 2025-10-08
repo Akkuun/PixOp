@@ -45,6 +45,7 @@ func isConnectionValid(from_node: StringName, from_port: int, to_node: StringNam
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
+		# Supprimer les nodes sélectionnés avec la touche delete
 		if event.keycode == KEY_DELETE or event.keycode == 4194308:
 			for child in get_children():
 				if child is GraphNode and child.selected:
@@ -59,3 +60,4 @@ func _unhandled_input(event):
 					# Supprime le node
 					child.queue_free()
 			audio_player_clear.play()
+			
