@@ -3,6 +3,7 @@ extends GraphEdit
 
 @export var connectionSound: AudioStream 
 @export var clearSound : AudioStream
+
 @export var startNode : GraphNode
 @export var endNode : GraphNode
 

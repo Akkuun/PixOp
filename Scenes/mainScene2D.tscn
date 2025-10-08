@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=21 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="3_6h4i3"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="4_80xi3"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="4_yhrhi"]
+[ext_resource type="AudioStream" uid="uid://dldqqpkh2snx" path="res://ressources/sound/addNodeSound.mp3" id="5_2tgnd"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="5_y6xl6"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="6_hs7us"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="6_shetg"]
@@ -77,6 +78,7 @@ text = "Blur
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("4_yhrhi")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -90,6 +92,7 @@ text = "Erosion
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("3_6h4i3")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -102,6 +105,7 @@ text = "Downscale"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("4_80xi3")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonImgToYCbCr" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -114,6 +118,7 @@ text = "RGB to YCbCr"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("6_shetg")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonYCrCbToRGB" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -126,6 +131,7 @@ text = "YCbCr to RGB"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("7_shetg")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -139,6 +145,7 @@ text = "Dilatation
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("8_c7brk")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -151,6 +158,7 @@ text = "Blur background"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("9_ys8n2")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonDifference" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
 layout_mode = 0
@@ -164,6 +172,7 @@ text = "Difference
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("9_okhx4")
 graph_edit = NodePath("../../../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer" node_paths=PackedStringArray("startNode", "endNode")]
 layout_mode = 2
