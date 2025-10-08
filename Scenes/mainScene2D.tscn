@@ -205,6 +205,16 @@ theme_override_fonts/normal_font = ExtResource("3_1jf4g")
 theme_override_font_sizes/normal_font_size = 46
 text = "Target"
 
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
+layout_mode = 0
+offset_left = 448.89
+offset_top = 248.0
+offset_right = 612.89
+offset_bottom = 285.0
+theme_override_fonts/normal_font = ExtResource("3_1jf4g")
+theme_override_font_sizes/normal_font_size = 46
+text = "Actual"
+
 [node name="Control" type="Control" parent="Control/HSplitContainer/GraphEdit"]
 anchors_preset = 0
 offset_right = 40.0
@@ -226,4 +236,5 @@ offset_top = 402.0
 offset_right = 179.89001
 offset_bottom = 457.0
 mouse_filter = 1
+theme = ExtResource("1_sjd8l")
 position_offset = Vector2(48.89, 402)
