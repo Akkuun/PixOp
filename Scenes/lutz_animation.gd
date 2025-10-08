@@ -33,4 +33,3 @@ func _process(delta: float) -> void:
 	# The mouth should move along a vector that is oriented towards translation angle
 	var translation_distance = abs(max_translation_distance * sin(time_since_start * base_speed))
 	lutz_mouth.position = default_mouth_position + translation_vector * translation_distance 
-

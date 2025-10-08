@@ -1,8 +1,11 @@
-[gd_scene format=3 uid="uid://bkhwcx8kk7q67"]
+[gd_scene load_steps=2 format=3 uid="uid://bkhwcx8kk7q67"]
+
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_grekq"]
 
 [node name="GraphNode" type="GraphNode" groups=["custom_nodes"]]
 offset_right = 153.0
 offset_bottom = 120.0
+theme = ExtResource("1_grekq")
 title = "Compression"
 slot/0/left_enabled = true
 slot/0/left_type = 0
