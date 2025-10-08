@@ -2,10 +2,12 @@ extends GraphEdit
 
 
 @export var connectionSound: AudioStream 
+@export var clearSound : AudioStream
 @export var startNode : GraphNode
 @export var endNode : GraphNode
 
-var audio_player: AudioStreamPlayer
+var audio_player_connection: AudioStreamPlayer
+var audio_player_clear : AudioStreamPlayer
 
 
 
@@ -14,14 +16,17 @@ func _ready():
 	connection_request.connect(_on_connection_request)
 	disconnection_request.connect(_on_disconnection_request)
 
-	audio_player = AudioStreamPlayer.new()
-	audio_player.stream = connectionSound
-	add_child(audio_player)
+	audio_player_connection = AudioStreamPlayer.new()
+	audio_player_clear = AudioStreamPlayer.new()
+	audio_player_connection.stream = connectionSound
+	audio_player_clear.stream = clearSound
+	add_child(audio_player_connection)
+	add_child(audio_player_clear)
 
 func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
 	if isConnectionValid(from_node, from_port, to_node, to_port):
 		connect_node(from_node, from_port, to_node, to_port)
-		audio_player.play()
+		audio_player_connection.play()
 
 
 func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
@@ -52,3 +57,4 @@ func _unhandled_input(event):
 							disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
 					# Supprime le node
 					child.queue_free()
+			audio_player_clear.play()

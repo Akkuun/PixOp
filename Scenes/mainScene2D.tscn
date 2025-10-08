@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=20 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="9_okhx4"]
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="9_ys8n2"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="13_g0jy3"]
+[ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="14_8jv5d"]
 
 [node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit")]
 position = Vector2(10.11, 0)
@@ -174,6 +175,7 @@ show_minimap_button = false
 show_arrange_button = false
 script = ExtResource("6_y6xl6")
 connectionSound = ExtResource("13_g0jy3")
+clearSound = ExtResource("14_8jv5d")
 startNode = NodePath("Start_node")
 endNode = NodePath("Final_node")
 
@@ -231,10 +233,10 @@ position_offset = Vector2(681.89, 402)
 
 [node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
 layout_mode = 0
-offset_left = 48.89
-offset_top = 402.0
-offset_right = 179.89001
-offset_bottom = 457.0
+offset_left = 41.89
+offset_top = 393.0
+offset_right = 172.89001
+offset_bottom = 448.0
 mouse_filter = 1
 theme = ExtResource("1_sjd8l")
-position_offset = Vector2(48.89, 402)
+position_offset = Vector2(41.89, 393)
