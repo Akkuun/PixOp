@@ -17,7 +17,7 @@ var last_value: float = -1.0
 
 func _ready() -> void:
 	default_mouth_position = lutz_mouth.position
-	running = true
+	# running = true
 
 func start_animation() -> void:
 	running = true
