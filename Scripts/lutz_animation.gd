@@ -24,6 +24,10 @@ func start_animation() -> void:
 	time_since_start = 0.0
 	last_value = 0.0
 
+func stop_animation() -> void:
+	running = false
+	lutz_mouth.position = default_mouth_position
+
 func _process(delta: float) -> void:
 	if not running:
 		return

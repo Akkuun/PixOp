@@ -22,8 +22,8 @@
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="14_8jv5d"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
-[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scenes/lutz_animation.gd" id="19_pai0q"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="20_2tgnd"]
+[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="21_8og7d"]
 [ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="23_v7c4u"]
 [ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="24_8og7d"]
 
@@ -262,7 +262,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
-script = ExtResource("19_pai0q")
+script = ExtResource("21_8og7d")
 lutz = NodePath("Lutz")
 lutz_mouth = NodePath("LutzMouth")
 
