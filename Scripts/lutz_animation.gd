@@ -17,12 +17,16 @@ var last_value: float = -1.0
 
 func _ready() -> void:
 	default_mouth_position = lutz_mouth.position
-	running = true
+	# running = true
 
 func start_animation() -> void:
 	running = true
 	time_since_start = 0.0
 	last_value = 0.0
+
+func stop_animation() -> void:
+	running = false
+	lutz_mouth.position = default_mouth_position
 
 func _process(delta: float) -> void:
 	if not running:

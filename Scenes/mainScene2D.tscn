@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=27 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
@@ -18,12 +18,14 @@
 [ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="8_c7brk"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="9_okhx4"]
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="9_ys8n2"]
-[ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
-[ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
-[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scenes/lutz_animation.gd" id="19_pai0q"]
-[ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="20_2tgnd"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="13_g0jy3"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="14_8jv5d"]
+[ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
+[ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
+[ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="20_2tgnd"]
+[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="21_8og7d"]
+[ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="23_v7c4u"]
+[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="24_8og7d"]
 
 [node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit")]
 position = Vector2(10.11, 0)
@@ -246,10 +248,10 @@ position_offset = Vector2(681.89, 402)
 
 [node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
 layout_mode = 0
-offset_left = 41.89
-offset_top = 393.0
-offset_right = 172.89001
-offset_bottom = 448.0
+offset_left = 48.89
+offset_top = 402.0
+offset_right = 179.89001
+offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(48.89, 402)
 
@@ -259,21 +261,33 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="TutorialUI"]
+[node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
+script = ExtResource("21_8og7d")
+lutz = NodePath("Lutz")
+lutz_mouth = NodePath("LutzMouth")
+
+[node name="TextureRect" type="TextureRect" parent="TutorialUI/Lutz Animation"]
 z_index = 1
-layout_mode = 0
 offset_left = 400.89
 offset_top = 535.0
 offset_right = 981.89
 offset_bottom = 639.0
 texture = ExtResource("18_8jv5d")
+script = ExtResource("23_v7c4u")
 
-[node name="Texte ici ? remplace le node" type="Node2D" parent="TutorialUI/TextureRect"]
+[node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
+script = ExtResource("24_8og7d")
 
-[node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
-script = ExtResource("19_pai0q")
-lutz = NodePath("Lutz")
-lutz_mouth = NodePath("LutzMouth")
+[node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 538.0
+offset_bottom = 81.0
+theme = ExtResource("1_sjd8l")
+theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
+autowrap_mode = 2
+clip_text = true
 
 [node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
 position = Vector2(1017.89, 561.00006)
@@ -284,5 +298,3 @@ texture = ExtResource("19_2tgnd")
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
 texture = ExtResource("20_2tgnd")
-theme = ExtResource("1_sjd8l")
-position_offset = Vector2(41.89, 393)
