@@ -1,8 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://cycxghiutd75o"]
+[gd_scene load_steps=13 format=3 uid="uid://cycxghiutd75o"]
 
 [ext_resource type="Script" uid="uid://dfo2hywwvgdmk" path="res://Scripts/Menu.gd" id="1_fyqef"]
+[ext_resource type="Script" uid="uid://bqf0wm2k286vw" path="res://Scripts/pixop_anim.gd" id="2_wbdvm"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="2_xhh6f"]
+[ext_resource type="Texture2D" uid="uid://dwn0jiq6yxdnl" path="res://ressources/Image/P.png" id="3_jsrd8"]
+[ext_resource type="Texture2D" uid="uid://sgubiuh6qnu" path="res://ressources/Image/I.png" id="4_wbdvm"]
+[ext_resource type="Texture2D" uid="uid://cxw4dpp7l58sa" path="res://ressources/Image/X.png" id="5_q3rjx"]
+[ext_resource type="Texture2D" uid="uid://6dkocr0euekw" path="res://ressources/Image/O.png" id="6_6swd7"]
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="7_q3rjx"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6swd7"]
+texture = ExtResource("7_q3rjx")
+region_rect = Rect2(6, 80, 85, 112)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3rjx"]
+shader = ExtResource("9_6swd7")
+shader_parameter/spin_rotation_speed = 2.0
+shader_parameter/move_speed = 7.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.7708433, 0.5608059, 1.92523e-07, 1)
+shader_parameter/colour_2 = Color(0.3672265, 0.22336835, 0.1560984, 1)
+shader_parameter/colour_3 = Color(0, 0, 0, 1)
+shader_parameter/contrast = 3.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.25
+shader_parameter/pixel_filter = 740.0
+shader_parameter/is_rotating = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qvly"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="Control" type="Control" node_paths=PackedStringArray("buttonPlay", "buttonQuit")]
 layout_mode = 3
@@ -12,25 +39,93 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fyqef")
-buttonPlay = NodePath("CanvasLayer/ButtonPlay")
-buttonQuit = NodePath("CanvasLayer/ButtonQuit")
+buttonPlay = NodePath("CanvasLayer/VBoxContainer/ButtonPlay")
+buttonQuit = NodePath("CanvasLayer/VBoxContainer/ButtonQuit")
+
+[node name="PIXOP" type="Node2D" parent="." node_paths=PackedStringArray("P1Sprite", "ISprite", "XSprite", "OSprite", "P2Sprite")]
+position = Vector2(380, 150)
+script = ExtResource("2_wbdvm")
+P1Sprite = NodePath("P1")
+ISprite = NodePath("I")
+XSprite = NodePath("X")
+OSprite = NodePath("O")
+P2Sprite = NodePath("P2")
+
+[node name="P1" type="Sprite2D" parent="PIXOP"]
+modulate = Color(1, 0.8509804, 0.13725491, 1)
+scale = Vector2(1.837, 1.837)
+texture = ExtResource("3_jsrd8")
+
+[node name="I" type="Sprite2D" parent="PIXOP"]
+modulate = Color(1, 0.8509804, 0.13725491, 1)
+position = Vector2(82.712, 0)
+scale = Vector2(1.837, 1.837)
+texture = ExtResource("4_wbdvm")
+
+[node name="X" type="Sprite2D" parent="PIXOP"]
+modulate = Color(1, 0.8509804, 0.13725491, 1)
+position = Vector2(166, 0)
+scale = Vector2(1.837, 1.837)
+texture = ExtResource("5_q3rjx")
+
+[node name="O" type="Sprite2D" parent="PIXOP"]
+modulate = Color(0.80865973, 0.45782924, 5.7756904e-07, 1)
+position = Vector2(287, 0)
+scale = Vector2(1.837, 1.837)
+texture = ExtResource("6_6swd7")
+
+[node name="P2" type="Sprite2D" parent="PIXOP"]
+modulate = Color(0.80865973, 0.45782924, 5.7756904e-07, 1)
+position = Vector2(394, 0)
+scale = Vector2(1.837, 1.837)
+texture = ExtResource("3_jsrd8")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 406.0
+offset_top = 241.0
+offset_right = 745.0
+offset_bottom = 633.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_6swd7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ButtonPlay" type="Button" parent="CanvasLayer"]
-offset_left = 39.0
-offset_top = 383.0
-offset_right = 473.0
-offset_bottom = 584.0
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+offset_top = 280.0
+offset_right = 1154.0
+offset_bottom = 649.0
+theme_override_constants/separation = 24
+
+[node name="ButtonPlay" type="Button" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 88.354)
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_xhh6f")
 theme_override_font_sizes/font_size = 45
 text = "Play"
 
-[node name="ButtonQuit" type="Button" parent="CanvasLayer"]
-offset_left = 622.0
-offset_top = 378.0
-offset_right = 1056.0
-offset_bottom = 579.0
+[node name="ButtonSandbox" type="Button" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 88.354)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_xhh6f")
+theme_override_font_sizes/font_size = 45
+text = "Sandbox Mode"
+
+[node name="ButtonQuit" type="Button" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 88.354)
+layout_mode = 2
+size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_xhh6f")
 theme_override_font_sizes/font_size = 45
 text = "Quit"
+
+[node name="Background" type="Panel" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_q3rjx")
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 1154.0
+offset_bottom = 650.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7qvly")

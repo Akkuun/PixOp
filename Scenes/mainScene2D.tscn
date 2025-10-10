@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=32 format=3 uid="uid://tvt3e1jyarro"]
 
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
 [ext_resource type="Script" uid="uid://d1sspbukuvfid" path="res://Scripts/game.gd" id="1_okhx4"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_sjd8l"]
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="2_tb78f"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="3_6h4i3"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="4_80xi3"]
@@ -23,16 +24,97 @@
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="20_2tgnd"]
-[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="21_8og7d"]
+[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="21_8og7d"]
 [ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="23_v7c4u"]
 [ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="24_8og7d"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="28_vx6nh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
+shader = ExtResource("28_vx6nh")
+shader_parameter/spin_rotation_speed = 2.0
+shader_parameter/move_speed = 2.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.32978258, 0.2061784, 0.09140978, 1)
+shader_parameter/colour_2 = Color(0.3153568, 0.253243, 0.1346632, 1)
+shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
+shader_parameter/contrast = 3.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.25
+shader_parameter/pixel_filter = 740.0
+shader_parameter/is_rotating = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31jcy"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vx6nh"]
+content_margin_left = 48.0
+content_margin_top = 101.0
+content_margin_right = 114.0
+content_margin_bottom = 104.0
+texture = ExtResource("2_tb78f")
+region_rect = Rect2(7, 80, 84, 112)
 
 [node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit")]
-position = Vector2(10.11, 0)
+position = Vector2(0, -24.093)
 script = ExtResource("1_okhx4")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 target = NodePath("Control/HSplitContainer/GraphEdit/TargetSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
+
+[node name="TutorialUI" type="Control" parent="."]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 28.093
+offset_right = 1152.0
+offset_bottom = 670.67004
+
+[node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
+position = Vector2(43.068, -7.932)
+script = ExtResource("21_8og7d")
+lutz = NodePath("Lutz")
+lutz_mouth = NodePath("LutzMouth")
+
+[node name="TextureRect" type="TextureRect" parent="TutorialUI/Lutz Animation"]
+z_index = 1
+offset_left = 400.89
+offset_top = 535.0
+offset_right = 981.89
+offset_bottom = 639.0
+texture = ExtResource("18_8jv5d")
+script = ExtResource("23_v7c4u")
+
+[node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
+script = ExtResource("24_8og7d")
+
+[node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 538.0
+offset_bottom = 81.0
+theme = ExtResource("1_sjd8l")
+theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
+autowrap_mode = 2
+clip_text = true
+
+[node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
+position = Vector2(1017.89, 561.00006)
+scale = Vector2(0.49456516, 0.49456516)
+texture = ExtResource("19_2tgnd")
+
+[node name="LutzMouth" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
+position = Vector2(1017.89, 561.00006)
+scale = Vector2(0.49456516, 0.49456516)
+texture = ExtResource("20_2tgnd")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_876g8")
+offset_top = 24.093
+offset_right = 1152.0
+offset_bottom = 672.093
+theme_override_styles/panel = SubResource("StyleBoxFlat_31jcy")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -56,128 +138,112 @@ dragging_enabled = false
 [node name="Panel" type="Panel" parent="Control/HSplitContainer"]
 custom_minimum_size = Vector2(197.87, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vx6nh")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HSplitContainer/Panel"]
 layout_mode = 0
-offset_right = 194.89
+offset_left = 18.0
+offset_top = 8.0
+offset_right = 178.0
 offset_bottom = 647.0
 
 [node name="Label" type="Label" parent="Control/HSplitContainer/Panel/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Compression"
 
-[node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer/Label"]
-layout_mode = 0
-offset_top = 20.0
-offset_right = 193.89
-offset_bottom = 28.0
+[node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
 
-[node name="ButtonBlur" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 19.0
-offset_right = 196.89
-offset_bottom = 82.0
+[node name="ButtonBlur" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
-text = "Blur
-"
+text = "Blur"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("4_yhrhi")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 84.0
-offset_right = 197.89
-offset_bottom = 147.0
+[node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "Erosion
 "
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("3_6h4i3")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 150.0
-offset_right = 194.89
-offset_bottom = 213.0
+[node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "Downscale"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("4_80xi3")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonImgToYCbCr" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 220.0
-offset_right = 194.89
-offset_bottom = 283.0
+[node name="ButtonImgToYCbCr" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "RGB to YCbCr"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("6_shetg")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonYCrCbToRGB" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 290.0
-offset_right = 194.89
-offset_bottom = 353.0
+[node name="ButtonYCrCbToRGB" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "YCbCr to RGB"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("7_shetg")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 358.0
-offset_right = 194.89
-offset_bottom = 421.0
+[node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "Dilatation
 "
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("8_c7brk")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 427.0
-offset_right = 194.89
-offset_bottom = 490.0
+[node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "Blur background"
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("9_ys8n2")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="ButtonDifference" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer/Label/HSeparator" node_paths=PackedStringArray("graph_edit")]
-layout_mode = 0
-offset_left = -0.10999966
-offset_top = 499.0
-offset_right = 194.89
-offset_bottom = 562.0
+[node name="ButtonDifference" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme = ExtResource("1_sjd8l")
 text = "Difference
 "
 script = ExtResource("1_3q0cx")
 prefabNode = ExtResource("9_okhx4")
-graph_edit = NodePath("../../../../../GraphEdit")
+graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
 [node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer" node_paths=PackedStringArray("startNode", "endNode")]
@@ -254,47 +320,3 @@ offset_right = 179.89001
 offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(48.89, 402)
-
-[node name="TutorialUI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
-script = ExtResource("21_8og7d")
-lutz = NodePath("Lutz")
-lutz_mouth = NodePath("LutzMouth")
-
-[node name="TextureRect" type="TextureRect" parent="TutorialUI/Lutz Animation"]
-z_index = 1
-offset_left = 400.89
-offset_top = 535.0
-offset_right = 981.89
-offset_bottom = 639.0
-texture = ExtResource("18_8jv5d")
-script = ExtResource("23_v7c4u")
-
-[node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
-script = ExtResource("24_8og7d")
-
-[node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
-layout_mode = 0
-offset_left = 22.0
-offset_top = 22.0
-offset_right = 538.0
-offset_bottom = 81.0
-theme = ExtResource("1_sjd8l")
-theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
-autowrap_mode = 2
-clip_text = true
-
-[node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
-position = Vector2(1017.89, 561.00006)
-scale = Vector2(0.49456516, 0.49456516)
-texture = ExtResource("19_2tgnd")
-
-[node name="LutzMouth" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
-position = Vector2(1017.89, 561.00006)
-scale = Vector2(0.49456516, 0.49456516)
-texture = ExtResource("20_2tgnd")
