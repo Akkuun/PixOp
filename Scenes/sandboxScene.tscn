@@ -1,0 +1,317 @@
+[gd_scene load_steps=31 format=3 uid="uid://bctm8yx1s8vtk"]
+
+[ext_resource type="Script" uid="uid://br7855e33ue31" path="res://Scripts/sandbox.gd" id="1_xn00g"]
+[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
+[ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_ur4t3"]
+[ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="4_st4m7"]
+[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_bp4c6"]
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_tdk5e"]
+[ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_umo6e"]
+[ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_lkov1"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_yscyj"]
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_b54n1"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_iko5f"]
+[ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_jadr4"]
+[ext_resource type="AudioStream" uid="uid://dldqqpkh2snx" path="res://ressources/sound/addNodeSound.mp3" id="13_038kl"]
+[ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="14_5xwa7"]
+[ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="15_qi5e1"]
+[ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="16_b766o"]
+[ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="17_xru2a"]
+[ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="18_77mw8"]
+[ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="19_eaovq"]
+[ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="20_tk5wn"]
+[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="21_uhkwf"]
+[ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="22_mrc8p"]
+[ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="23_3javq"]
+[ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="24_lidpj"]
+[ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="25_4vfln"]
+[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="27_6rv4s"]
+[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="28_yb8rn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
+shader = ExtResource("9_yscyj")
+shader_parameter/spin_rotation_speed = 2.0
+shader_parameter/move_speed = 2.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.32978258, 0.2061784, 0.09140978, 1)
+shader_parameter/colour_2 = Color(0.3153568, 0.253243, 0.1346632, 1)
+shader_parameter/colour_3 = Color(0.086, 0.137, 0.145, 1)
+shader_parameter/contrast = 3.5
+shader_parameter/lighting = 0.4
+shader_parameter/spin_amount = 0.25
+shader_parameter/pixel_filter = 740.0
+shader_parameter/is_rotating = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_31jcy"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vx6nh"]
+content_margin_left = 48.0
+content_margin_top = 101.0
+content_margin_right = 114.0
+content_margin_bottom = 104.0
+texture = ExtResource("10_b54n1")
+region_rect = Rect2(7, 80, 84, 112)
+
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit")]
+position = Vector2(0, -24.093)
+script = ExtResource("1_xn00g")
+current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
+graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
+
+[node name="TutorialUI" type="Control" parent="."]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 28.093
+offset_right = 1152.0
+offset_bottom = 670.67004
+
+[node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
+position = Vector2(43.068, -7.932)
+script = ExtResource("2_gxxx5")
+lutz = NodePath("Lutz")
+lutz_mouth = NodePath("LutzMouth")
+
+[node name="TextureRect" type="TextureRect" parent="TutorialUI/Lutz Animation"]
+z_index = 1
+offset_left = 400.89
+offset_top = 535.0
+offset_right = 981.89
+offset_bottom = 639.0
+texture = ExtResource("3_ur4t3")
+script = ExtResource("4_st4m7")
+
+[node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
+script = ExtResource("5_bp4c6")
+
+[node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 538.0
+offset_bottom = 81.0
+theme = ExtResource("6_tdk5e")
+theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
+autowrap_mode = 2
+clip_text = true
+
+[node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
+position = Vector2(1017.89, 561.00006)
+scale = Vector2(0.49456516, 0.49456516)
+texture = ExtResource("7_umo6e")
+
+[node name="LutzMouth" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
+position = Vector2(1017.89, 561.00006)
+scale = Vector2(0.49456516, 0.49456516)
+texture = ExtResource("8_lkov1")
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_876g8")
+offset_top = 24.093
+offset_right = 1152.0
+offset_bottom = 672.093
+theme_override_styles/panel = SubResource("StyleBoxFlat_31jcy")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 18.0
+offset_top = 43.0
+offset_right = 18.0
+offset_bottom = 43.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1098.89
+offset_bottom = 606.0
+grow_horizontal = 2
+grow_vertical = 2
+dragging_enabled = false
+
+[node name="Panel" type="Panel" parent="Control/HSplitContainer"]
+custom_minimum_size = Vector2(197.87, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vx6nh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/HSplitContainer/Panel"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 8.0
+offset_right = 178.0
+offset_bottom = 647.0
+
+[node name="Label" type="Label" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Compression"
+
+[node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonBlur" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Blur"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("12_jadr4")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Erosion
+"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("14_5xwa7")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Downscale"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("15_qi5e1")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonImgToYCbCr" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "RGB to YCbCr"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("16_b766o")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonYCrCbToRGB" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "YCbCr to RGB"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("17_xru2a")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Dilatation
+"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("18_77mw8")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Blur background"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("19_eaovq")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonDifference" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Difference
+"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("20_tk5wn")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer" node_paths=PackedStringArray("startNode", "endNode")]
+layout_mode = 2
+right_disconnects = true
+connection_lines_thickness = 6.0
+minimap_enabled = false
+show_zoom_label = true
+show_minimap_button = false
+show_arrange_button = false
+script = ExtResource("21_uhkwf")
+connectionSound = ExtResource("22_mrc8p")
+clearSound = ExtResource("23_3javq")
+startNode = NodePath("Start_node")
+endNode = NodePath("Final_node")
+
+[node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("24_lidpj")]
+visible = false
+layout_mode = 1
+offset_left = 75.60919
+offset_top = -20.742004
+offset_right = 75.00021
+offset_bottom = -9.307053
+
+[node name="CurrentSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
+position = Vector2(746.00006, 161.093)
+scale = Vector2(0.16031693, 0.16031693)
+texture = ExtResource("25_4vfln")
+
+[node name="Control" type="Control" parent="Control/HSplitContainer/GraphEdit"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Final_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("27_6rv4s")]
+layout_mode = 0
+offset_left = 681.89
+offset_top = 402.0
+offset_right = 812.89
+offset_bottom = 457.0
+mouse_filter = 1
+position_offset = Vector2(681.89, 402)
+
+[node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("28_yb8rn")]
+layout_mode = 0
+offset_left = 48.89
+offset_top = 402.0
+offset_right = 179.89001
+offset_bottom = 457.0
+mouse_filter = 1
+position_offset = Vector2(48.89, 402)
+
+[node name="LoadNewButton" type="Button" parent="Control/HSplitContainer/GraphEdit"]
+z_index = 2
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 0
+offset_left = 624.0
+offset_top = 8.093
+offset_right = 744.0
+offset_bottom = 48.093002
+text = "Charger"
+
+[node name="SaveImageButton" type="Button" parent="Control/HSplitContainer/GraphEdit"]
+z_index = 2
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 0
+offset_left = 752.0
+offset_top = 8.093002
+offset_right = 878.0
+offset_bottom = 48.093018
+text = "Sauvegarder"
+
+[connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]

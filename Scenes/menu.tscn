@@ -129,3 +129,5 @@ offset_top = -2.0
 offset_right = 1154.0
 offset_bottom = 650.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7qvly")
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/ButtonSandbox" to="." method="_on_button_sandbox_pressed"]

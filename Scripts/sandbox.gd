@@ -6,12 +6,9 @@ var startNode: PixopGraphNode
 var endNode: PixopGraphNode
 
 var definedW = 192.0
-var definedH = 256.0
-
-var levelId: int = 0
+var definedH = 192.0
 
 var baseImage: Image
-var targetImage: Image
 
 var NB_TUTORIALS = 3
 
@@ -19,30 +16,47 @@ var NB_TUTORIALS = 3
 @export var graph_node_map: Dictionary = {}
 
 @export var current: Sprite2D
-@export var target: Sprite2D
 @export var graph_edit : GraphEdit
 
 var particles_connect: BurstParticles2D = BurstParticles2D.new()
 
-func load_level(id: int) -> void:
-	levelId = id
+func _on_load_new_button_pressed() -> void:
+	var file_dialog = FileDialog.new()
+	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	file_dialog.filters = ["*.png ; PNG Image", "*.jpg ; JPEG Image", "*.jpeg ; JPEG Image", "*.bmp ; BMP Image", "*.tga ; TGA Image", "*.webp ; WEBP Image", "*.gif ; GIF Image"]
+	add_child(file_dialog)
+
+	file_dialog.popup_centered(Vector2i(800, 600))
+
+	# Wait for file selection
+	var selected_file = await file_dialog.file_selected
+
+	print("File dialog closed, selected file: ", selected_file)
+	file_dialog.queue_free()
+	if selected_file != "":
+		print("Selected file: ", selected_file)
+
+		var image = Image.new()
+		var err = image.load(selected_file)
+		if err == OK:
+			baseImage = image	
+			update_current(baseImage)
+			update_current_from_graph()
+		else:
+			push_error("Failed to load image from path: " + selected_file)
+	else:
+		print("No file selected")
+
+func load_level() -> void:
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
 	graph_node_map.clear()
 	graph_node_map["Start_node"] = startNode
 	graph_node_map["Final_node"] = endNode
-	var level_path = images_folder + "/" + str(id)
-	var texCurrent := load(level_path + "/current.png")
-	var texTarget := load(level_path + "/target.png")
+	var texCurrent := load(images_folder + "/placeholder.jpg")
 	baseImage = texCurrent.get_image()
-	targetImage = texTarget.get_image()
-
 	update_current(baseImage)
-	update_target(targetImage)
-
-
-	if (id <= NB_TUTORIALS):
-		pass
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
@@ -50,13 +64,6 @@ func update_current(image: Image) -> void:
 	var imgW = texture.get_width()
 	var imgH = texture.get_height()
 	current.scale = Vector2(definedW / imgW, definedH / imgH)
-
-func update_target(image: Image) -> void:
-	var texture := ImageTexture.create_from_image(image)
-	target.texture = texture
-	var imgW = texture.get_width()
-	var imgH = texture.get_height()
-	target.scale = Vector2(definedW / imgW, definedH / imgH)
 
 func update_current_from_graph() -> void:
 	"""
@@ -233,7 +240,7 @@ func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
 	
-	load_level(0)
+	load_level()
 	
 	# Connect GraphEdit signals
 	if graph_edit:
@@ -273,11 +280,6 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph()...")
 		update_current_from_graph()
-
-		# Play particle effect at the connection point
-		particles_connect.position = graph_edit.get_connection_point(from_node, from_port, true)
-		particles_connect.emitting = false  # Reset in case it was already emitting
-		particles_connect.emitting = true   # Start emitting
 	else:
 		print("✗ Connection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
@@ -373,67 +375,3 @@ func validate_connection(from_node: StringName, to_node: StringName) -> bool:
 		return false
 	
 	return true
-
-
-
-
-
-
-
-
-
-
-
-
-func _on_flou_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-	
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-	
-
-
-
-func _on_dilatation_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-func _on_erosion_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-func _on_seuil_otsu_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
-func _on_difference_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), target.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
-func _on_negatif_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
