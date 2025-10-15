@@ -13,9 +13,10 @@ var audio_player_clear : AudioStreamPlayer
 
 
 func _ready():
-	# Connexions pour créer / supprimer les liens
-	connection_request.connect(_on_connection_request)
-	disconnection_request.connect(_on_disconnection_request)
+	# Les connexions sont maintenant gérées par game.gd qui appelle isConnectionValid()
+	# On ne connecte plus les signaux ici pour éviter les doublons
+	# connection_request.connect(_on_connection_request)
+	# disconnection_request.connect(_on_disconnection_request)
 
 	audio_player_connection = AudioStreamPlayer.new()
 	audio_player_clear = AudioStreamPlayer.new()
@@ -24,31 +25,50 @@ func _ready():
 	add_child(audio_player_connection)
 	add_child(audio_player_clear)
 
-func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
-	if isConnectionValid(from_node, from_port, to_node, to_port):
-		connect_node(from_node, from_port, to_node, to_port)
-		audio_player_connection.play()
+# Ces fonctions ne sont plus utilisées car game.gd gère les connexions
+# mais on les garde au cas où
+#func _on_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
+#	if isConnectionValid(from_node, from_port, to_node, to_port):
+#		connect_node(from_node, from_port, to_node, to_port)
+#		audio_player_connection.play()
+#
+#
+#func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
+#	disconnect_node(from_node, from_port, to_node, to_port)
 
 
-func _on_disconnection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int):
-	disconnect_node(from_node, from_port, to_node, to_port)
-
-
+# Cette fonction est appelée par game.gd pour valider les connexions
 func isConnectionValid(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> bool:
-	if from_node == to_node:  # Si le noeud de départ est le même que le noeud d'arrivée donc on tente une connexion sur sa propre entrée, on refuse la connexion
+	# Empêcher la connexion d'un node sur lui-même (sortie vers sa propre entrée)
+	if from_node == to_node:
+		print("Cannot connect a node to itself")
 		return false
 	
-	# Empecher de connecter plusieurs fois la même sortie au node de end
+	# Vérifier qu'il n'existe pas déjà une connexion dans le sens inverse (empêcher les boucles)
+	for conn in get_connection_list():
+		if conn["from_node"] == to_node and conn["to_node"] == from_node:
+			print("Cannot create reverse connection - would create a loop")
+			return false
+	
+	# Empêcher de connecter plus d'une sortie au node de end
 	if to_node == endNode.name:
 		for conn in get_connection_list():
 			if conn["to_node"] == to_node:
 				print("End node already has a connection - only one connection allowed")
 				return false
 	
-	# On empeche de connecter plusieurs fois une entrée
+	# Empêcher de connecter plusieurs fois la même entrée
 	for conn in get_connection_list():
 		if conn["to_node"] == to_node and conn["to_port"] == to_port:
+			print("This input port is already connected")
 			return false
+	
+	# Empêcher de connecter plusieurs fois la même sortie au même node
+	for conn in get_connection_list():
+		if conn["from_node"] == from_node and conn["from_port"] == from_port and conn["to_node"] == to_node:
+			print("This output is already connected to this node")
+			return false
+	
 	return true
 
 func _unhandled_input(event):
