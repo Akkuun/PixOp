@@ -5,9 +5,9 @@ extends Control
 @onready var label: Label = $Label
 @onready var lutz_animation: Node2D = get_node("../")  # Reference to the Lutz Animation node
 
-# Boutons de navigation (à créer dans la scène)
-@onready var prev_button: Button = $PrevButton
-@onready var next_button: Button = $NextButton
+# Boutons de navigation (DialogButtonsLayer)
+var prev_button: Button
+var next_button: Button
 
 
 var conversation = []
@@ -26,6 +26,12 @@ func _ready():
 	voicebox.connect("finished_phrase", _on_voicebox_finished_phrase)
 	
 	# Connecter les boutons si ils existent
+	# Les boutons sont dans un CanvasLayer racine; on les cherche dynamiquement
+	var root = get_tree().current_scene
+	if root:
+		prev_button = root.get_node_or_null("DialogButtonsLayer/PrevButton")
+		next_button = root.get_node_or_null("DialogButtonsLayer/NextButton")
+
 	if prev_button:
 		prev_button.pressed.connect(_on_prev_page)
 	if next_button:

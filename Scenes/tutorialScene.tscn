@@ -62,12 +62,13 @@ target = NodePath("Control/HSplitContainer/GraphEdit/TargetSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
 
 [node name="TutorialUI" type="Control" parent="."]
-z_index = 1
+z_index = 100
 layout_mode = 3
 anchors_preset = 0
 offset_top = 28.093
 offset_right = 1152.0
 offset_bottom = 670.67004
+mouse_filter = 2
 
 [node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
 position = Vector2(43.068, -7.932)
@@ -81,6 +82,7 @@ offset_left = 400.89
 offset_top = 535.0
 offset_right = 981.89
 offset_bottom = 639.0
+mouse_filter = 2
 texture = ExtResource("3_p11ph")
 script = ExtResource("4_biaiy")
 
@@ -99,24 +101,6 @@ theme_override_colors/font_outline_color = Color(0.8435265, 0, 0.03601576, 1)
 autowrap_mode = 2
 clip_text = true
 
-[node name="PrevButton" type="Button" parent="TutorialUI/Lutz Animation/TextureRect"]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 39.0
-offset_right = 25.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 18
-text = "◀"
-
-[node name="NextButton" type="Button" parent="TutorialUI/Lutz Animation/TextureRect"]
-layout_mode = 0
-offset_left = 541.0
-offset_top = 39.0
-offset_right = 562.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 18
-text = "▶"
-
 [node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
@@ -126,6 +110,26 @@ texture = ExtResource("7_nuios")
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
 texture = ExtResource("8_fq4us")
+
+[node name="DialogButtonsLayer" type="CanvasLayer" parent="."]
+
+[node name="PrevButton" type="Button" parent="DialogButtonsLayer"]
+offset_left = 446.89
+offset_top = 569.0
+offset_right = 469.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 17
+text = "◀"
+icon_alignment = 1
+
+[node name="NextButton" type="Button" parent="DialogButtonsLayer"]
+offset_left = 985.89
+offset_top = 569.0
+offset_right = 1008.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 17
+text = "▶"
+icon_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
 z_index = -1
