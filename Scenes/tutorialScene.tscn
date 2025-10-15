@@ -94,9 +94,26 @@ offset_top = 20.932007
 offset_right = 538.0
 offset_bottom = 85.0
 theme = ExtResource("6_a65cs")
-theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.8435265, 0, 0.03601576, 1)
 autowrap_mode = 2
 clip_text = true
+
+[node name="PrevButton" type="Button" parent="TutorialUI/Lutz Animation/TextureRect"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 39.0
+offset_right = 25.0
+offset_bottom = 70.0
+text = "◀"
+
+[node name="NextButton" type="Button" parent="TutorialUI/Lutz Animation/TextureRect"]
+layout_mode = 0
+offset_left = 541.0
+offset_top = 39.0
+offset_right = 562.0
+offset_bottom = 70.0
+text = "▶"
 
 [node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
 position = Vector2(1017.89, 561.00006)
