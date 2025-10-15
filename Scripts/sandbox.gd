@@ -370,7 +370,7 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5})
 	elif operator == "erosion":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5})
-	elif operator == "seuil_otsu":
+	elif operator == "seuil":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {})
 	elif operator == "difference":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
