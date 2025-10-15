@@ -28,7 +28,7 @@ func _ready():
 	hbox1.custom_minimum_size.y = 30
 	
 	var label1 = Label.new()
-	label1.text = "RGB                   Y"
+	label1.text = "RGB            Y"
 	label1.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	# We're adding a margin container for the left label
 	var margin1 = MarginContainer.new()

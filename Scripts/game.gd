@@ -250,6 +250,11 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 	for key in graph_node_map.keys():
 		print("  ", key, " -> ", graph_node_map[key])
 	
+	# Vérifier si la connexion est valide avant de continuer
+	if not graph_edit.isConnectionValid(from_node, from_port, to_node, to_port):
+		print("✗ Connection rejected by validation")
+		return
+	
 	# Get the PixopGraphNode instances
 	var from_pixop_node = graph_node_map.get(from_node)
 	var to_pixop_node = graph_node_map.get(to_node)
@@ -263,6 +268,10 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		
 		# Allow the GraphEdit connection
 		graph_edit.connect_node(from_node, from_port, to_node, to_port)
+		
+		# Jouer le son de connexion
+		if graph_edit.audio_player_connection:
+			graph_edit.audio_player_connection.play()
 		
 		print("✓ Successfully connected: ", from_node, " -> ", to_node)
 		print("  From node children count: ", from_pixop_node.childs.size())
