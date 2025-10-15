@@ -9,6 +9,7 @@ var definedW = 192.0
 var definedH = 192.0
 
 var baseImage: Image
+var editedImage: Image
 
 var NB_TUTORIALS = 3
 
@@ -24,6 +25,7 @@ func _on_load_new_button_pressed() -> void:
 	var file_dialog = FileDialog.new()
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	file_dialog.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
 	file_dialog.filters = ["*.png ; PNG Image", "*.jpg ; JPEG Image", "*.jpeg ; JPEG Image", "*.bmp ; BMP Image", "*.tga ; TGA Image", "*.webp ; WEBP Image", "*.gif ; GIF Image"]
 	add_child(file_dialog)
 
@@ -48,6 +50,33 @@ func _on_load_new_button_pressed() -> void:
 	else:
 		print("No file selected")
 
+
+func _on_save_image_button_pressed() -> void:
+	var file_dialog = FileDialog.new()
+	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
+	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+	file_dialog.current_dir = OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
+	file_dialog.filters = ["*.png", "*.jpg", "*.jpeg"]
+	file_dialog.title = "Save Image"
+	file_dialog.current_file = "pixop.png"
+
+	add_child(file_dialog)
+	file_dialog.popup_centered(Vector2i(800, 600))
+	var save_path = await file_dialog.file_selected
+	file_dialog.queue_free()
+
+	if save_path != "":
+		print("Selected save path: ", save_path)
+		var image = editedImage.duplicate()
+		var err = image.save_png(save_path)
+		if err == OK:
+			print("Image saved successfully!")
+		else:
+			push_error("Failed to save image to path: " + save_path)
+	else:
+		print("No save path selected")
+
+
 func load_level() -> void:
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
@@ -55,6 +84,7 @@ func load_level() -> void:
 	graph_node_map["Start_node"] = startNode
 	graph_node_map["Final_node"] = endNode
 	var texCurrent := load(images_folder + "/placeholder.jpg")
+	editedImage = texCurrent.get_image()
 	baseImage = texCurrent.get_image()
 	update_current(baseImage)
 
@@ -72,6 +102,7 @@ func update_current_from_graph() -> void:
 	"""
 	print("=== update_current_from_graph called ===")
 	var computed_image = await compute_updated_image()
+	editedImage = computed_image
 	print("Got computed image, updating current display...")
 	update_current(computed_image)
 	print("=== update_current_from_graph finished ===")
