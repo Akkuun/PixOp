@@ -105,6 +105,7 @@ offset_left = 4.0
 offset_top = 39.0
 offset_right = 25.0
 offset_bottom = 70.0
+theme_override_font_sizes/font_size = 18
 text = "◀"
 
 [node name="NextButton" type="Button" parent="TutorialUI/Lutz Animation/TextureRect"]
@@ -113,6 +114,7 @@ offset_left = 541.0
 offset_top = 39.0
 offset_right = 562.0
 offset_bottom = 70.0
+theme_override_font_sizes/font_size = 18
 text = "▶"
 
 [node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
