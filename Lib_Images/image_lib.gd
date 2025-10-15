@@ -121,7 +121,7 @@ func PSNR(img1: Image, img2: Image) -> float:
 	if mse == 0:
 		return 10000.0  # Images are identical
 	
-	var psnr = 10 * log(1.0 / mse) / log(10)
+	var psnr = 10 * log(255*255 / mse) / log(10)
 	return psnr
 
 func getShader(path: String) -> ShaderMaterial:
