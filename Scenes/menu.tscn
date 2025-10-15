@@ -1,14 +1,15 @@
-[gd_scene load_steps=13 format=3 uid="uid://cycxghiutd75o"]
+[gd_scene load_steps=14 format=3 uid="uid://cycxghiutd75o"]
 
 [ext_resource type="Script" uid="uid://dfo2hywwvgdmk" path="res://Scripts/Menu.gd" id="1_fyqef"]
-[ext_resource type="Script" uid="uid://bqf0wm2k286vw" path="res://Scripts/pixop_anim.gd" id="2_wbdvm"]
+[ext_resource type="Script" path="res://Scripts/pixop_anim.gd" id="2_wbdvm"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="2_xhh6f"]
 [ext_resource type="Texture2D" uid="uid://dwn0jiq6yxdnl" path="res://ressources/Image/P.png" id="3_jsrd8"]
 [ext_resource type="Texture2D" uid="uid://sgubiuh6qnu" path="res://ressources/Image/I.png" id="4_wbdvm"]
 [ext_resource type="Texture2D" uid="uid://cxw4dpp7l58sa" path="res://ressources/Image/X.png" id="5_q3rjx"]
 [ext_resource type="Texture2D" uid="uid://6dkocr0euekw" path="res://ressources/Image/O.png" id="6_6swd7"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="7_q3rjx"]
-[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
+[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
+[ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="9_7qvly"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6swd7"]
 texture = ExtResource("7_q3rjx")
@@ -104,6 +105,9 @@ theme_override_fonts/font = ExtResource("2_xhh6f")
 theme_override_font_sizes/font_size = 45
 text = "Play"
 
+[node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonPlay"]
+script = ExtResource("9_7qvly")
+
 [node name="ButtonSandbox" type="Button" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 88.354)
 layout_mode = 2
@@ -112,6 +116,9 @@ theme_override_fonts/font = ExtResource("2_xhh6f")
 theme_override_font_sizes/font_size = 45
 text = "Sandbox Mode"
 
+[node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonSandbox"]
+script = ExtResource("9_7qvly")
+
 [node name="ButtonQuit" type="Button" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 88.354)
 layout_mode = 2
@@ -119,6 +126,9 @@ size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_xhh6f")
 theme_override_font_sizes/font_size = 45
 text = "Quit"
+
+[node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonQuit"]
+script = ExtResource("9_7qvly")
 
 [node name="Background" type="Panel" parent="."]
 z_index = -1
