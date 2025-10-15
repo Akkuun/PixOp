@@ -89,7 +89,6 @@ func _ready():
 	var margin4 = MarginContainer.new()
 	#margin4.add_theme_constant_override("margin_right", 20)  # More space before the slot
 	margin4.add_child(label4)
-	
 	hbox4.add_child(margin4)
 	add_child(hbox4)
 	set_slot(4, true, universal_type, cb_color, false, universal_type, cb_color)
