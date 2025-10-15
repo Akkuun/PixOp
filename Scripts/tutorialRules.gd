@@ -21,6 +21,7 @@ var NB_TUTORIALS = 3
 @export var current: Sprite2D
 @export var target: Sprite2D
 @export var graph_edit : GraphEdit
+@export var dialogue_system: Control  # Référence au système de dialogue
 
 func load_level(id: int) -> void:
 	levelId = id
@@ -38,9 +39,9 @@ func load_level(id: int) -> void:
 	update_current(baseImage)
 	update_target(targetImage)
 
-
+	# Lancer les dialogues de tutoriel si c'est un niveau de tutoriel
 	if (id <= NB_TUTORIALS):
-		pass
+		show_tutorial_dialogue(id)
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
@@ -55,6 +56,64 @@ func update_target(image: Image) -> void:
 	var imgW = texture.get_width()
 	var imgH = texture.get_height()
 	target.scale = Vector2(definedW / imgW, definedH / imgH)
+
+func show_tutorial_dialogue(id: int) -> void:
+	"""
+	Affiche le dialogue de tutoriel correspondant au niveau.
+	"""
+	# Si dialogue_system n'est pas défini, essayer de le trouver automatiquement
+	if dialogue_system == null:
+		# Chercher dans le chemin spécifique de la scène
+		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
+		
+		if dialogue_system == null:
+			dialogue_system = get_node_or_null("../DialogueSystem")
+			if dialogue_system == null:
+				dialogue_system = get_node_or_null("../VoiceDialogue")
+				if dialogue_system == null:
+					# Chercher dans toute la scène
+					var root = get_tree().current_scene
+					for child in root.get_children():
+						if child.has_method("start_dialogue"):
+							dialogue_system = child
+							print("Found dialogue_system automatically: ", dialogue_system.name)
+							break
+	
+	if dialogue_system == null:
+		print("Warning: dialogue_system not found. Please assign it in the inspector or ensure a node with start_dialogue() method exists.")
+		return
+	
+	var tutorial_dialogues = {
+		1: [
+			"Welcome to PixOp!
+			In this tutorial, you will learn how to use image processing operations.
+			Connect nodes from the start to the final node to transform the image.
+			Try to match the target image on the right!"
+		],
+		2: [
+			"Great job on the first level!",
+			"This time, you'll need to combine multiple operations.",
+			"Don't forget: order matters in image processing!"
+		],
+		3: [
+			"Final tutorial level!",
+			"You now know the basics.",
+			"Experiment with different operators to achieve the goal.",
+			"Good luck!"
+		]
+	}
+	
+	if tutorial_dialogues.has(id):
+		# Obtenir le noeud d'animation - il est au même niveau que le dialogue
+		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
+		
+		dialogue_system.start_dialogue(
+			tutorial_dialogues[id],
+			animation_node,
+			func(): print("Tutorial dialogue ", id, " finished!")
+		)
+	else:
+		print("No tutorial dialogue for level ", id)
 
 func update_current_from_graph() -> void:
 	"""
@@ -235,7 +294,7 @@ func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
 	
-	load_level(0)
+	load_level(1)
 	
 	# Connect GraphEdit signals
 	if graph_edit:

@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cxw4dpp7l58sa" path="res://ressources/Image/X.png" id="5_q3rjx"]
 [ext_resource type="Texture2D" uid="uid://6dkocr0euekw" path="res://ressources/Image/O.png" id="6_6swd7"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="7_q3rjx"]
-[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
+[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6swd7"]
 texture = ExtResource("7_q3rjx")
@@ -97,15 +97,23 @@ offset_bottom = 649.0
 theme_override_constants/separation = 24
 
 [node name="ButtonPlay" type="Button" parent="CanvasLayer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 88.354)
+custom_minimum_size = Vector2(250, 60.354)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_xhh6f")
 theme_override_font_sizes/font_size = 45
 text = "Play"
 
+[node name="ButtonTutorial" type="Button" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 60.354)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_xhh6f")
+theme_override_font_sizes/font_size = 45
+text = "Tutorials"
+
 [node name="ButtonSandbox" type="Button" parent="CanvasLayer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 88.354)
+custom_minimum_size = Vector2(250, 60.354)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_xhh6f")
@@ -113,7 +121,7 @@ theme_override_font_sizes/font_size = 45
 text = "Sandbox Mode"
 
 [node name="ButtonQuit" type="Button" parent="CanvasLayer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 88.354)
+custom_minimum_size = Vector2(250, 60.354)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_xhh6f")
@@ -129,3 +137,5 @@ offset_top = -2.0
 offset_right = 1154.0
 offset_bottom = 650.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7qvly")
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/ButtonTutorial" to="." method="_on_button_tutorial_pressed"]
