@@ -348,13 +348,13 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 	elif operator == "blur_background":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":
-		# Placeholder for future operator
-		print("Warning: rgb_to_ycbcr operator not implemented yet")
-		return
+		# Utiliser temporairement negatif_operator en attendant l'implémentation
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
+		print("Info: rgb_to_ycbcr using temporary negatif_operator")
 	elif operator == "ycbcr_to_rgb":
-		# Placeholder for future operator
-		print("Warning: ycbcr_to_rgb operator not implemented yet")
-		return
+		# Utiliser temporairement negatif_operator en attendant l'implémentation
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
+		print("Info: ycbcr_to_rgb using temporary negatif_operator")
 	if new_pixop_node == null:
 		print("Warning: Could not create PixopGraphNode for operator '", operator, "'")
 		return
