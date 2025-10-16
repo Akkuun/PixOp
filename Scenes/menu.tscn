@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://6dkocr0euekw" path="res://ressources/Image/O.png" id="6_6swd7"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="7_q3rjx"]
 [ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
-[ext_resource type="Script" path="res://Scripts/FloatingAnimationButton.gd" id="9_7qvly"]
+[ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="9_7qvly"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6swd7"]
 texture = ExtResource("7_q3rjx")
@@ -32,7 +32,7 @@ shader_parameter/is_rotating = false
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qvly"]
 bg_color = Color(1, 1, 1, 1)
 
-[node name="Control" type="Control" node_paths=PackedStringArray("buttonPlay", "buttonQuit")]
+[node name="Control" type="Control" node_paths=PackedStringArray("buttonPlay", "buttonTutorial", "buttonSandbox", "buttonQuit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,6 +41,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fyqef")
 buttonPlay = NodePath("CanvasLayer/VBoxContainer/ButtonPlay")
+buttonTutorial = NodePath("CanvasLayer/VBoxContainer/ButtonTutorial")
+buttonSandbox = NodePath("CanvasLayer/VBoxContainer/ButtonSandbox")
 buttonQuit = NodePath("CanvasLayer/VBoxContainer/ButtonQuit")
 
 [node name="PIXOP" type="Node2D" parent="." node_paths=PackedStringArray("P1Sprite", "ISprite", "XSprite", "OSprite", "P2Sprite")]

@@ -1,6 +1,6 @@
 extends "res://Scripts/image_lib_wrapper.gd"
 
-var images_folder = "res://Images"
+var images_folder = "res://Levels"
 
 var startNode: PixopGraphNode
 var endNode: PixopGraphNode
@@ -13,7 +13,9 @@ var levelId: int = 0
 var baseImage: Image
 var targetImage: Image
 
-var NB_TUTORIALS = 3
+var dialog: String = ""
+var psnr_start: float = 0.0
+var psnr_goal: float = 0.0
 
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
@@ -21,9 +23,18 @@ var NB_TUTORIALS = 3
 @export var current: Sprite2D
 @export var target: Sprite2D
 @export var graph_edit : GraphEdit
-@export var dialogue_system: Control  # Référence au système de dialogue
+
+@export var PSNRMeterFill: Sprite2D
+var dialogue_system: Control  # Référence au système de dialogue
+
+func animate_psnr_meter(value: float) -> void:
+	var clamped_value = clamp(value, 0.0, 1.0)
+
+	var tween = create_tween()
+	tween.tween_property(PSNRMeterFill, "scale:y", clamped_value, 0.5)
 
 func load_level(id: int) -> void:
+	animate_psnr_meter(0.0) # Reset PSNR meter at level start
 	levelId = id
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
@@ -36,12 +47,26 @@ func load_level(id: int) -> void:
 	baseImage = texCurrent.get_image()
 	targetImage = texTarget.get_image()
 
+	var level_data = FileAccess.get_file_as_string("res://Levels/levels_data.json")
+	
+	var json = JSON.new()
+	var error = json.parse(level_data)
+	if error != OK:
+		push_error("Failed to parse levels_data.json: " + str(error))
+		return
+	var level_data_dict = json.data
+	print("Level data dict: ", level_data_dict)
+
+	dialog = level_data_dict.get(str(id)).get("dialog")
+	psnr_start = level_data_dict.get(str(id)).get("psnr_start")
+	psnr_goal = level_data_dict.get(str(id)).get("psnr_goal")
+	print("Loaded level ", id, ": dialog=", dialog, " psnr_start=", psnr_start, " psnr_goal=", psnr_goal)
+
 	update_current(baseImage)
 	update_target(targetImage)
 
-	# Lancer les dialogues de tutoriel si c'est un niveau de tutoriel
-	if (id <= NB_TUTORIALS):
-		show_tutorial_dialogue(id)
+
+	show_tutorial_dialogue(id)
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
@@ -83,32 +108,12 @@ func show_tutorial_dialogue(id: int) -> void:
 		print("Warning: dialogue_system not found. Please assign it in the inspector or ensure a node with start_dialogue() method exists.")
 		return
 	
-	var tutorial_dialogues = {
-		1: [
-			"Welcome to PixOp!
-			In this tutorial, you will learn how to use image processing operations.
-			Connect nodes from the start to the final node to transform the image.
-			Try to match the target image on the right!"
-		],
-		2: [
-			"Great job on the first level!",
-			"This time, you'll need to combine multiple operations.",
-			"Don't forget: order matters in image processing!"
-		],
-		3: [
-			"Final tutorial level!",
-			"You now know the basics.",
-			"Experiment with different operators to achieve the goal.",
-			"Good luck!"
-		]
-	}
-	
-	if tutorial_dialogues.has(id):
+	if dialog != "":
 		# Obtenir le noeud d'animation - il est au même niveau que le dialogue
 		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
 		
 		dialogue_system.start_dialogue(
-			tutorial_dialogues[id],
+			dialog,
 			animation_node,
 			func(): print("Tutorial dialogue ", id, " finished!")
 		)
@@ -216,6 +221,7 @@ func compute_updated_image() -> Image:
 			var final_image = computed_images[parent.id]
 			# Calculer le PSNR entre l'image finale et l'image cible
 			var psnr_value = PSNR(final_image, targetImage)
+			animate_psnr_meter(psnr_value / 100.0) # Assuming 50 dB is the max for full meter
 			print("✓ PSNR calculé: ", psnr_value, " dB")
 			print("✓ Returning final image from node ", parent.id)
 			return final_image
@@ -293,9 +299,9 @@ func _collect_all_nodes(node: PixopGraphNode, all_nodes: Array, visited: Diction
 func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
-	
-	load_level(1)
-	
+
+	load_level(RequestedLevel.get_level_id())
+
 	# Connect GraphEdit signals
 	if graph_edit:
 		graph_edit.connection_request.connect(_on_graph_edit_connection_request)
@@ -429,67 +435,3 @@ func validate_connection(from_node: StringName, to_node: StringName) -> bool:
 		return false
 	
 	return true
-
-
-
-
-
-
-
-
-
-
-
-
-func _on_flou_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-	
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-	
-
-
-
-func _on_dilatation_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-func _on_erosion_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), newNode.parameters["kernel_size"])
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-func _on_seuil_otsu_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
-func _on_difference_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image(), target.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew
-
-
-func _on_negatif_button_down() -> void:
-	var newNode = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [startNode])
-	startNode.add_child(newNode)
-
-	var newImg = await newNode.operatorApplied.function.call(current.texture.get_image())
-	var texNew := ImageTexture.create_from_image(newImg)
-	current.texture = texNew

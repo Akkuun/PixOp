@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xs77newq7xa"
-path="res://.godot/imported/target.png-1819532ed4db59d25bf992d6f43447f0.ctex"
+uid="uid://diafinhrcexsa"
+path="res://.godot/imported/target.png-ae53e2eb0f821bed421d3645de2d996b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/1/target.png"
-dest_files=["res://.godot/imported/target.png-1819532ed4db59d25bf992d6f43447f0.ctex"]
+source_file="res://Levels/floufond/target.png"
+dest_files=["res://.godot/imported/target.png-ae53e2eb0f821bed421d3645de2d996b.ctex"]
 
 [params]
 

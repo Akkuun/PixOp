@@ -15,6 +15,10 @@ run/main_scene="uid://cycxghiutd75o"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+RequestedLevel="*res://Scripts/requested_level.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"
