@@ -85,6 +85,7 @@ func _unhandled_input(event):
 					for conn in get_connection_list():
 						if conn["from_node"] == node_name or conn["to_node"] == node_name:
 							disconnect_node(conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
+							emit_signal("disconnection_request", conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
 					# Supprime le node
 					child.queue_free()
 			audio_player_clear.play()

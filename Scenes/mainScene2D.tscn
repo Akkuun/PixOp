@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="9_ys8n2"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="13_g0jy3"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="14_8jv5d"]
+[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="14_876g8"]
 [ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_31jcy"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
@@ -168,12 +169,16 @@ prefabNode = ExtResource("4_yhrhi")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("5_2tgnd")
 
-[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlur"]
-script = ExtResource("14_31jcy")
-float_amplitude = 0.5
-float_speed = 0.5
-horizontal_sway = 1.0
-rotation_amount = 1.0
+[node name="ButtonSeuil" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_sjd8l")
+text = "Seuil"
+script = ExtResource("1_3q0cx")
+prefabNode = ExtResource("14_876g8")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("5_2tgnd")
 
 [node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3

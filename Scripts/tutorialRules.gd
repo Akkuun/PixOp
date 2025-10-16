@@ -21,8 +21,7 @@ var NB_TUTORIALS = 3
 @export var current: Sprite2D
 @export var target: Sprite2D
 @export var graph_edit : GraphEdit
-
-var particles_connect: BurstParticles2D = BurstParticles2D.new()
+@export var dialogue_system: Control  # Référence au système de dialogue
 
 func load_level(id: int) -> void:
 	levelId = id
@@ -40,9 +39,9 @@ func load_level(id: int) -> void:
 	update_current(baseImage)
 	update_target(targetImage)
 
-
+	# Lancer les dialogues de tutoriel si c'est un niveau de tutoriel
 	if (id <= NB_TUTORIALS):
-		pass
+		show_tutorial_dialogue(id)
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
@@ -57,6 +56,64 @@ func update_target(image: Image) -> void:
 	var imgW = texture.get_width()
 	var imgH = texture.get_height()
 	target.scale = Vector2(definedW / imgW, definedH / imgH)
+
+func show_tutorial_dialogue(id: int) -> void:
+	"""
+	Affiche le dialogue de tutoriel correspondant au niveau.
+	"""
+	# Si dialogue_system n'est pas défini, essayer de le trouver automatiquement
+	if dialogue_system == null:
+		# Chercher dans le chemin spécifique de la scène
+		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
+		
+		if dialogue_system == null:
+			dialogue_system = get_node_or_null("../DialogueSystem")
+			if dialogue_system == null:
+				dialogue_system = get_node_or_null("../VoiceDialogue")
+				if dialogue_system == null:
+					# Chercher dans toute la scène
+					var root = get_tree().current_scene
+					for child in root.get_children():
+						if child.has_method("start_dialogue"):
+							dialogue_system = child
+							print("Found dialogue_system automatically: ", dialogue_system.name)
+							break
+	
+	if dialogue_system == null:
+		print("Warning: dialogue_system not found. Please assign it in the inspector or ensure a node with start_dialogue() method exists.")
+		return
+	
+	var tutorial_dialogues = {
+		1: [
+			"Welcome to PixOp!
+			In this tutorial, you will learn how to use image processing operations.
+			Connect nodes from the start to the final node to transform the image.
+			Try to match the target image on the right!"
+		],
+		2: [
+			"Great job on the first level!",
+			"This time, you'll need to combine multiple operations.",
+			"Don't forget: order matters in image processing!"
+		],
+		3: [
+			"Final tutorial level!",
+			"You now know the basics.",
+			"Experiment with different operators to achieve the goal.",
+			"Good luck!"
+		]
+	}
+	
+	if tutorial_dialogues.has(id):
+		# Obtenir le noeud d'animation - il est au même niveau que le dialogue
+		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
+		
+		dialogue_system.start_dialogue(
+			tutorial_dialogues[id],
+			animation_node,
+			func(): print("Tutorial dialogue ", id, " finished!")
+		)
+	else:
+		print("No tutorial dialogue for level ", id)
 
 func update_current_from_graph() -> void:
 	"""
@@ -237,7 +294,7 @@ func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
 	
-	load_level(0)
+	load_level(1)
 	
 	# Connect GraphEdit signals
 	if graph_edit:
@@ -256,11 +313,6 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 	for key in graph_node_map.keys():
 		print("  ", key, " -> ", graph_node_map[key])
 	
-	# Vérifier si la connexion est valide avant de continuer
-	if not graph_edit.isConnectionValid(from_node, from_port, to_node, to_port):
-		print("✗ Connection rejected by validation")
-		return
-	
 	# Get the PixopGraphNode instances
 	var from_pixop_node = graph_node_map.get(from_node)
 	var to_pixop_node = graph_node_map.get(to_node)
@@ -275,10 +327,6 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		# Allow the GraphEdit connection
 		graph_edit.connect_node(from_node, from_port, to_node, to_port)
 		
-		# Jouer le son de connexion
-		if graph_edit.audio_player_connection:
-			graph_edit.audio_player_connection.play()
-		
 		print("✓ Successfully connected: ", from_node, " -> ", to_node)
 		print("  From node children count: ", from_pixop_node.childs.size())
 		print("  To node parents count: ", to_pixop_node.parents.size())
@@ -286,11 +334,6 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph()...")
 		update_current_from_graph()
-
-		# Play particle effect at the connection point
-		particles_connect.position = graph_edit.get_connection_point(from_node, from_port, true)
-		particles_connect.emitting = false  # Reset in case it was already emitting
-		particles_connect.emitting = true   # Start emitting
 	else:
 		print("✗ Connection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
@@ -350,7 +393,7 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5})
 	elif operator == "erosion":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5})
-	elif operator == "seuil":
+	elif operator == "seuil_otsu":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {})
 	elif operator == "difference":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
@@ -359,13 +402,13 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 	elif operator == "blur_background":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":
-		# Utiliser temporairement negatif_operator en attendant l'implémentation
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
-		print("Info: rgb_to_ycbcr using temporary negatif_operator")
+		# Placeholder for future operator
+		print("Warning: rgb_to_ycbcr operator not implemented yet")
+		return
 	elif operator == "ycbcr_to_rgb":
-		# Utiliser temporairement negatif_operator en attendant l'implémentation
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
-		print("Info: ycbcr_to_rgb using temporary negatif_operator")
+		# Placeholder for future operator
+		print("Warning: ycbcr_to_rgb operator not implemented yet")
+		return
 	if new_pixop_node == null:
 		print("Warning: Could not create PixopGraphNode for operator '", operator, "'")
 		return
