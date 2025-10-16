@@ -1,0 +1,17 @@
+{
+    "0": {
+        "dialog": "Welcome to PixOp!\nIn this tutorial, you will learn how to use image processing operations.\nConnect nodes from the start to the final node to transform the image.\nTry to match the target image on the right!",
+        "psnr_start": 61.54,
+        "psnr_goal": 200.0
+    },
+    "1": {
+        "dialog": "Great job on the first level!\nThis time, you'll need to combine multiple operations.\nDon't forget: order matters in image processing!",
+        "psnr_start": 0.0,
+        "psnr_goal": 200.0
+    },
+    "2": {
+        "dialog": "Final tutorial level!\nYou now know the basics.\nExperiment with different operators to achieve the goal.\nGood luck!",
+        "psnr_start": 0.0,
+        "psnr_goal": 200.0
+    }
+}

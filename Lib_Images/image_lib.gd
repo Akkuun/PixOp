@@ -119,7 +119,7 @@ func PSNR(img1: Image, img2: Image) -> float:
 	mse /= (width * height * 3)
 	
 	if mse == 0:
-		return 10000.0  # Images are identical
+		return 200.0  # Images are identical
 	
 	var psnr = 10 * log(255*255 / mse) / log(10)
 	return psnr

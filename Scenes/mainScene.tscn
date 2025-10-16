@@ -1,39 +1,38 @@
-[gd_scene load_steps=34 format=3 uid="uid://tvt3e1jyarro"]
+[gd_scene load_steps=36 format=3 uid="uid://ce4ecxpm8jf8b"]
 
-[ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="1_1jf4g"]
-[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="1_3q0cx"]
-[ext_resource type="Script" uid="uid://d1sspbukuvfid" path="res://Scripts/game.gd" id="1_okhx4"]
-[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="1_sjd8l"]
-[ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="2_sbxmg"]
-[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="2_tb78f"]
-[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="3_1jf4g"]
-[ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="3_6h4i3"]
-[ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="4_80xi3"]
-[ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="4_yhrhi"]
-[ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="5_2tgnd"]
-[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="5_y6xl6"]
-[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="6_hs7us"]
-[ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="6_shetg"]
-[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="6_y6xl6"]
-[ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="7_shetg"]
-[ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="8_c7brk"]
-[ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="9_okhx4"]
-[ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="9_ys8n2"]
-[ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="13_g0jy3"]
-[ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="14_8jv5d"]
-[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="14_876g8"]
-[ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_31jcy"]
-[ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="18_8jv5d"]
-[ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="19_2tgnd"]
-[ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="20_2tgnd"]
-[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="21_8og7d"]
-[ext_resource type="Script" path="res://Scripts/testlabelVoice.gd" id="23_v7c4u"]
-[ext_resource type="Script" path="res://Scripts/ACVoicebox.gd" id="24_8og7d"]
-[ext_resource type="Script" uid="uid://bivkow85wupqg" path="res://Scripts/FloatingAnimationSprite.gd" id="26_876g8"]
-[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="28_vx6nh"]
+[ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
+[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
+[ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_wrx63"]
+[ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="4_uh2eo"]
+[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_3p0dd"]
+[ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_5paew"]
+[ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_swlrs"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_qshdt"]
+[ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_afia4"]
+[ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_22sd7"]
+[ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_a32h5"]
+[ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_a520j"]
+[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
+[ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="16_ptsrf"]
+[ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="17_ifsvn"]
+[ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="18_78jh6"]
+[ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="19_0ul6n"]
+[ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="20_5amkk"]
+[ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="21_2de5a"]
+[ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="22_j5cla"]
+[ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="23_dxshx"]
+[ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="24_k16gn"]
+[ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="25_w6dai"]
+[ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="26_7rks3"]
+[ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="27_kjuub"]
+[ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="28_ekww4"]
+[ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="29_ci2jp"]
+[ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="30_l56qm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
-shader = ExtResource("28_vx6nh")
+shader = ExtResource("9_llqta")
 shader_parameter/spin_rotation_speed = 2.0
 shader_parameter/move_speed = 2.0
 shader_parameter/offset = Vector2(0, 0)
@@ -54,27 +53,37 @@ content_margin_left = 48.0
 content_margin_top = 101.0
 content_margin_right = 114.0
 content_margin_bottom = 104.0
-texture = ExtResource("2_tb78f")
+texture = ExtResource("10_qshdt")
 region_rect = Rect2(7, 80, 84, 112)
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_on0m7"]
+atlas = ExtResource("10_qshdt")
+region = Rect2(374, 351, 7, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p11ph"]
+atlas = ExtResource("10_qshdt")
+region = Rect2(338, 353, 3, 48)
+
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill")]
 position = Vector2(0, -24.093)
-script = ExtResource("1_okhx4")
+script = ExtResource("1_boirm")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 target = NodePath("Control/HSplitContainer/GraphEdit/TargetSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
+PSNRMeterFill = NodePath("PSNRMeter/Fill")
 
 [node name="TutorialUI" type="Control" parent="."]
-z_index = 1
+z_index = 100
 layout_mode = 3
 anchors_preset = 0
 offset_top = 28.093
 offset_right = 1152.0
 offset_bottom = 670.67004
+mouse_filter = 2
 
 [node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
 position = Vector2(43.068, -7.932)
-script = ExtResource("21_8og7d")
+script = ExtResource("2_7ew7i")
 lutz = NodePath("Lutz")
 lutz_mouth = NodePath("LutzMouth")
 
@@ -84,32 +93,54 @@ offset_left = 400.89
 offset_top = 535.0
 offset_right = 981.89
 offset_bottom = 639.0
-texture = ExtResource("18_8jv5d")
-script = ExtResource("23_v7c4u")
+mouse_filter = 2
+texture = ExtResource("3_wrx63")
+script = ExtResource("4_uh2eo")
 
 [node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
-script = ExtResource("24_8og7d")
+script = ExtResource("5_mqfxr")
 
 [node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 22.0
+offset_left = 29.041992
+offset_top = 20.932007
 offset_right = 538.0
-offset_bottom = 81.0
-theme = ExtResource("1_sjd8l")
-theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
+offset_bottom = 85.0
+theme = ExtResource("6_3p0dd")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.8435265, 0, 0.03601576, 1)
 autowrap_mode = 2
 clip_text = true
 
 [node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
-texture = ExtResource("19_2tgnd")
+texture = ExtResource("7_5paew")
 
 [node name="LutzMouth" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
-texture = ExtResource("20_2tgnd")
+texture = ExtResource("8_swlrs")
+
+[node name="DialogButtonsLayer" type="CanvasLayer" parent="."]
+
+[node name="PrevButton" type="Button" parent="DialogButtonsLayer"]
+offset_left = 446.89
+offset_top = 569.0
+offset_right = 469.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 17
+text = "◀"
+icon_alignment = 1
+
+[node name="NextButton" type="Button" parent="DialogButtonsLayer"]
+offset_left = 985.89
+offset_top = 569.0
+offset_right = 1008.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 17
+text = "▶"
+icon_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
 z_index = -1
@@ -162,38 +193,52 @@ layout_mode = 2
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Blur"
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("4_yhrhi")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("12_22sd7")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlur"]
+script = ExtResource("14_a520j")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonSeuil" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Seuil"
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("14_876g8")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("15_kdpd1")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonSeuil"]
+script = ExtResource("14_a520j")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Erosion
 "
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("3_6h4i3")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("16_ptsrf")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonErosion"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -203,15 +248,15 @@ rotation_amount = 1.0
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Downscale"
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("4_80xi3")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("17_ifsvn")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDownscale"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -221,15 +266,15 @@ rotation_amount = 1.0
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "RGB to YCbCr"
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("6_shetg")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("18_78jh6")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonImgToYCbCr"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -239,15 +284,15 @@ rotation_amount = 1.0
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "YCbCr to RGB"
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("7_shetg")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("19_0ul6n")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonYCrCbToRGB"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -257,16 +302,16 @@ rotation_amount = 1.0
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Dilatation
 "
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("8_c7brk")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("20_5amkk")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDilatation"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -276,15 +321,15 @@ rotation_amount = 1.0
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Blur background"
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("9_ys8n2")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("21_2de5a")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlurBackground"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -294,16 +339,16 @@ rotation_amount = 1.0
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("1_sjd8l")
+theme = ExtResource("6_3p0dd")
 text = "Difference
 "
-script = ExtResource("1_3q0cx")
-prefabNode = ExtResource("9_okhx4")
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("22_j5cla")
 graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("5_2tgnd")
+addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDifference"]
-script = ExtResource("14_31jcy")
+script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
@@ -317,13 +362,13 @@ minimap_enabled = false
 show_zoom_label = true
 show_minimap_button = false
 show_arrange_button = false
-script = ExtResource("6_y6xl6")
-connectionSound = ExtResource("13_g0jy3")
-clearSound = ExtResource("14_8jv5d")
+script = ExtResource("23_dxshx")
+connectionSound = ExtResource("24_k16gn")
+clearSound = ExtResource("25_w6dai")
 startNode = NodePath("Start_node")
 endNode = NodePath("Final_node")
 
-[node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("1_1jf4g")]
+[node name="ImageStack" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("26_7rks3")]
 visible = false
 layout_mode = 1
 offset_left = 75.60919
@@ -332,29 +377,22 @@ offset_right = 75.00021
 offset_bottom = -9.307053
 
 [node name="CurrentSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
-z_index = 6
 position = Vector2(495.88998, 137.00002)
 scale = Vector2(0.16031693, 0.16031693)
-texture = ExtResource("2_sbxmg")
-
-[node name="Node" type="Node" parent="Control/HSplitContainer/GraphEdit/CurrentSprite2D"]
-script = ExtResource("26_876g8")
+texture = ExtResource("27_kjuub")
 
 [node name="TargetSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
-position = Vector2(746.89, 136.00002)
+position = Vector2(727, 136.09302)
 scale = Vector2(0.16031693, 0.16031693)
-texture = ExtResource("2_sbxmg")
-
-[node name="Node" type="Node" parent="Control/HSplitContainer/GraphEdit/TargetSprite2D"]
-script = ExtResource("26_876g8")
+texture = ExtResource("27_kjuub")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
 layout_mode = 0
-offset_left = 701.89
-offset_top = 248.0
-offset_right = 865.89
-offset_bottom = 285.0
-theme_override_fonts/normal_font = ExtResource("3_1jf4g")
+offset_left = 670.0
+offset_top = 247.09299
+offset_right = 834.0
+offset_bottom = 284.093
+theme_override_fonts/normal_font = ExtResource("28_ekww4")
 theme_override_font_sizes/normal_font_size = 46
 text = "Target"
 
@@ -364,7 +402,7 @@ offset_left = 448.89
 offset_top = 248.0
 offset_right = 612.89
 offset_bottom = 285.0
-theme_override_fonts/normal_font = ExtResource("3_1jf4g")
+theme_override_fonts/normal_font = ExtResource("28_ekww4")
 theme_override_font_sizes/normal_font_size = 46
 text = "Actual"
 
@@ -373,7 +411,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Final_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("5_y6xl6")]
+[node name="Final_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("29_ci2jp")]
 layout_mode = 0
 offset_left = 681.89
 offset_top = 402.0
@@ -382,7 +420,7 @@ offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(681.89, 402)
 
-[node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("6_hs7us")]
+[node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("30_l56qm")]
 layout_mode = 0
 offset_left = 48.89
 offset_top = 402.0
@@ -390,3 +428,25 @@ offset_right = 179.89001
 offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(48.89, 402)
+
+[node name="PSNRMeter" type="Node2D" parent="."]
+scale = Vector2(5, 5)
+
+[node name="Frame" type="Sprite2D" parent="PSNRMeter"]
+self_modulate = Color(1.353256, 1.353256, 1.353256, 1)
+position = Vector2(215.9, 38.8186)
+texture = SubResource("AtlasTexture_on0m7")
+
+[node name="Fill" type="Sprite2D" parent="PSNRMeter"]
+self_modulate = Color(1.2929591, 1.0703899, 1.2680892, 1)
+position = Vector2(215.79999, 63.018597)
+scale = Vector2(1, 1e-05)
+texture = SubResource("AtlasTexture_p11ph")
+offset = Vector2(0, -24)
+
+[node name="Node" type="Node" parent="PSNRMeter"]
+script = ExtResource("14_a520j")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
