@@ -26,6 +26,10 @@ var psnr_goal: float = 0.0
 
 @export var PSNRMeterFill: Sprite2D
 var dialogue_system: Control  # Référence au système de dialogue
+@export var level_complete_popup_scene: PackedScene
+
+var _current_popup: Node = null
+
 
 func animate_psnr_meter(value: float) -> void:
 	var clamped_value = clamp(value, 0.0, 1.0)
@@ -224,17 +228,97 @@ func compute_updated_image() -> Image:
 			animate_psnr_meter(psnr_value / 100.0) # Assuming 50 dB is the max for full meter
 			print("✓ PSNR calculé: ", psnr_value, " dB")
 			print("✓ Returning final image from node ", parent.id)
+			# Si l'objectif PSNR est atteint, afficher la popup de succès
+			if psnr_value >= psnr_goal:
+				print("Level completed! PSNR goal of ", psnr_goal, " dB reached.")
+				_show_level_complete_popup(psnr_value)
+				return final_image
 			return final_image
-	
-	# Fallback: return the last computed image
+
+	# Fallback: return the last computed image if no parent of end node had a computed image
 	print("No end node parent found, using fallback")
 	if computed_images.size() > 1: # More than just the start node
 		var last_computed_id = computed_images.keys()[-1]
 		print("✓ Returning last computed image from node ", last_computed_id)
 		return computed_images[last_computed_id]
-	
+
 	print("✓ Returning original base image (no processing)")
 	return baseImage
+
+func _show_level_complete_popup(psnr_value: float) -> void:
+	# Instantiate popup scene (use exported PackedScene if set, otherwise load default prefab)
+	var popup_scene = level_complete_popup_scene if level_complete_popup_scene else load("res://prefab/pop-up_end.tscn")
+	if not popup_scene:
+		push_warning("Level complete popup scene not found")
+		return
+
+	var popup = popup_scene.instantiate()
+	# Add to current scene so it displays above
+	var root = get_tree().current_scene
+	if root:
+		# Prefer an existing UI CanvasLayer so popup is above other UI
+		var ui_layer = root.get_node_or_null("DialogButtonsLayer")
+		if ui_layer and ui_layer is CanvasLayer:
+			ui_layer.add_child(popup)
+		else:
+			root.add_child(popup)
+	else:
+		add_child(popup)
+
+	# Keep reference so handlers can remove it
+	_current_popup = popup
+
+	# Show message
+	var message = "PSNR: " + str(psnr_value) + " dB\nGoal: " + str(psnr_goal) + " dB"
+	if popup.has_method("popup_with"):
+		popup.call("popup_with", message)
+	elif popup.has_method("popup_centered"):
+		# Fallback: set label if exists then popup
+		var lbl = popup.get_node_or_null("PopupPanel/Panel/Label")
+		if lbl:
+			lbl.text = message
+		popup.call_deferred("popup_centered")
+
+	# Connect signals if present
+	if popup.has_signal("menu_pressed"):
+		popup.connect("menu_pressed", Callable(self, "_on_popup_menu"))
+	if popup.has_signal("retry_pressed"):
+		popup.connect("retry_pressed", Callable(self, "_on_popup_retry"))
+	if popup.has_signal("next_pressed"):
+		popup.connect("next_pressed", Callable(self, "_on_popup_next"))
+
+func _on_popup_menu() -> void:
+	# Close and go to menu scene
+	if _current_popup:
+		_current_popup.queue_free()
+		_current_popup = null
+
+	# Change to menu scene if exists
+	var menu_scene_path = "res://Scenes/menu.tscn"
+	if FileAccess.file_exists(menu_scene_path):
+		get_tree().change_scene(menu_scene_path)
+	else:
+		print("Menu scene not found: ", menu_scene_path)
+
+func _on_popup_retry() -> void:
+	# Close popup and reload current level
+	if _current_popup:
+		_current_popup.queue_free()
+		_current_popup = null
+
+	print("Retrying level ", levelId)
+	load_level(levelId)
+
+func _on_popup_next() -> void:
+	# Close popup and load next level
+	if _current_popup:
+		_current_popup.queue_free()
+		_current_popup = null
+
+	var next_id = levelId + 1
+	print("Loading next level: ", next_id)
+	load_level(next_id)
+
 
 func get_nodes_in_topological_order() -> Array:
 	"""

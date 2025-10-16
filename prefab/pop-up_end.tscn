@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://cvqjk7xid7vcd"]
+
+[node name="PopUpEnd" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 476.0
+offset_bottom = 476.0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 10.0
+offset_right = 299.0
+offset_bottom = 42.0
+theme_override_font_sizes/font_size = 40
+text = "Victoire"
+
+[node name="Buttons" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.002
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.94400007
+offset_top = 414.0
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="MenuButton" type="Button" parent="Panel/Buttons"]
+layout_mode = 2
+text = "Menu"
+
+[node name="RetryButton" type="Button" parent="Panel/Buttons"]
+layout_mode = 2
+text = "Rejouer"
+
+[node name="NextButton" type="Button" parent="Panel/Buttons"]
+layout_mode = 2
+text = "Niveau suivant"

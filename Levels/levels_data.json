@@ -1,6 +1,6 @@
 {
     "0": {
-        "dialog": "Welcome to PixOp!\nIn this tutorial, you will learn how to use image processing operations.\nConnect nodes from the start to the final node to transform the image.\nTry to match the target image on the right!",
+        "dialog": "Welcome to PixOp!\nIn this tutorial, you will learn how to use image processing operations.\nConnect nodes from the start to the final node to transform the image, you can use the toolbox on the left to get new nodes.\nTry to match the target image on the right!",
         "psnr_start": 61.54,
         "psnr_goal": 200.0
     },
