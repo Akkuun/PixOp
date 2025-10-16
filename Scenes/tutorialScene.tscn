@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://da75477cq1twa"]
+[gd_scene load_steps=33 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://bc7kg0hkoklom" path="res://Scripts/tutorialRules.gd" id="1_gmr0u"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_on0m7"]
@@ -8,12 +8,13 @@
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_a65cs"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_nuios"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_fq4us"]
-[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_1jy5q"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_1jy5q"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_57eka"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_4mwwu"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_3b686"]
-[ext_resource type="AudioStream" uid="uid://dldqqpkh2snx" path="res://ressources/sound/addNodeSound.mp3" id="13_w1ueo"]
+[ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_w1ueo"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="14_el1ia"]
+[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="14_on0m7"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="15_w68ag"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="16_idwbd"]
 [ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="17_ffor2"]
@@ -186,6 +187,17 @@ theme = ExtResource("6_a65cs")
 text = "Blur"
 script = ExtResource("11_4mwwu")
 prefabNode = ExtResource("12_3b686")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_w1ueo")
+
+[node name="ButtonSeuil" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_a65cs")
+text = "Seuil"
+script = ExtResource("11_4mwwu")
+prefabNode = ExtResource("14_on0m7")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_w1ueo")
 
