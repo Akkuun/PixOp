@@ -28,7 +28,7 @@ func _ready():
 	hbox1.custom_minimum_size.y = 30
 	
 	var label1 = Label.new()
-	label1.text = "  Y"
+	label1.text = "Y"
 	label1.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	# We're adding a margin container for the left label
 	var margin1 = MarginContainer.new()
@@ -65,7 +65,7 @@ func _ready():
 	hbox3.alignment = BoxContainer.ALIGNMENT_BEGIN # Align to the right
 	
 	var label3 = Label.new()
-	label3.text = "      Cb"
+	label3.text = "Cb"
 	label3.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
 	var margin3 = MarginContainer.new()
@@ -89,7 +89,6 @@ func _ready():
 	var margin4 = MarginContainer.new()
 	#margin4.add_theme_constant_override("margin_right", 20)  # More space before the slot
 	margin4.add_child(label4)
-	
 	hbox4.add_child(margin4)
 	add_child(hbox4)
 	set_slot(4, true, universal_type, cb_color, false, universal_type, cb_color)

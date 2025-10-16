@@ -1,4 +1,4 @@
 extends GraphNode
 
 func _ready():
-    self.title = "Erosion"
+	set_slot(0, true, 0, Color.WHITE, true, 0, Color.WHITE)

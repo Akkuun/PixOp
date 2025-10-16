@@ -10,6 +10,7 @@ func _ready():
 	pressed.connect(_on_button_pressed)
 	audio_player_addNode = AudioStreamPlayer.new()
 	audio_player_addNode.stream = addNodeSound
+	add_child(audio_player_addNode)
 
 func _on_button_pressed():
 	if prefabNode == null or graph_edit == null:
@@ -21,9 +22,6 @@ func _on_button_pressed():
 	# Positionner au centre du GraphEdit
 	var offset = graph_edit.scroll_offset + graph_edit.size / 2
 	new_node.position_offset = offset / graph_edit.zoom
-
-
-	add_child(audio_player_addNode)
 
 	audio_player_addNode.play()
 	
