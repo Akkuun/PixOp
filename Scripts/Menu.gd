@@ -19,3 +19,7 @@ func _on_quit_pressed():
 
 func _on_button_sandbox_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/sandboxScene.tscn")
+
+func _on_button_tutorial_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/tutorialScene.tscn")
+
