@@ -2,6 +2,7 @@ extends "res://Scripts/image_lib_wrapper.gd"
 
 # Preload the particle scene
 const PARTICLE_SCENE = preload("res://prefab/node_particles.tscn")
+const CONFETTI_SCENE = preload("res://prefab/confettis_particles.tscn")
 
 var images_folder = "res://Levels"
 
@@ -28,13 +29,53 @@ var psnr_goal: float = 0.0
 @export var graph_edit : GraphEdit
 
 @export var PSNRMeterFill: Sprite2D
+@export var ConfettiPosition: Node2D
+
 var dialogue_system: Control  # Référence au système de dialogue
 
 func animate_psnr_meter(value: float) -> void:
 	var clamped_value = clamp(value, 0.0, 1.0)
-
+	
+	# Define epsilon for the success threshold
+	var epsilon = 0.01  # Adjust this value as needed
+	
 	var tween = create_tween()
 	tween.tween_property(PSNRMeterFill, "scale:y", clamped_value, 0.5)
+
+	# Check if PSNR is high enough to trigger confetti
+	if clamped_value >= (1.0 - epsilon):
+		# Wait for the meter animation to finish, then show confetti
+		tween.finished.connect(_spawn_success_confetti, CONNECT_ONE_SHOT)
+
+func _spawn_success_confetti() -> void:
+	if not PSNRMeterFill:
+		print("Warning: PSNRMeterFill not found for confetti spawn")
+		return
+	
+	# Instance the confetti scene
+	var confetti_instance = CONFETTI_SCENE.instantiate()
+	
+	# Add to the scene tree
+	get_tree().current_scene.add_child(confetti_instance)
+	
+	# Position confetti at the top of the PSNR gauge
+
+	confetti_instance.global_position = ConfettiPosition.global_position
+	
+	print("🎉 Success! Spawned confetti at PSNR gauge top: ", ConfettiPosition.global_position)
+	
+	# Start the confetti emission if it has a GPUParticles2D
+	var gpu_particles = confetti_instance.get_node_or_null("GPUParticles2D")
+	if gpu_particles:
+		gpu_particles.restart()
+	
+	# Auto-remove the confetti node after emission
+	var timer = Timer.new()
+	timer.wait_time = 3.0  # Adjust based on confetti duration
+	timer.one_shot = true
+	timer.timeout.connect(_remove_particles.bind(confetti_instance))
+	confetti_instance.add_child(timer)
+	timer.start()
 
 func spawn_connection_particles(from_node_name: String, to_node_name: String) -> void:
 	# Get the GraphNode instances to find their positions

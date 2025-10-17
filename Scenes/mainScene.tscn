@@ -65,13 +65,14 @@ region = Rect2(374, 351, 7, 52)
 atlas = ExtResource("10_qshdt")
 region = Rect2(338, 353, 3, 48)
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill")]
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_boirm")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 target = NodePath("Control/HSplitContainer/GraphEdit/TargetSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
 PSNRMeterFill = NodePath("PSNRMeter/Fill")
+ConfettiPosition = NodePath("PSNRMeter/ConfettiPosition")
 
 [node name="TutorialUI" type="Control" parent="."]
 z_index = 100
@@ -444,9 +445,5 @@ scale = Vector2(1, 1e-05)
 texture = SubResource("AtlasTexture_p11ph")
 offset = Vector2(0, -24)
 
-[node name="Node" type="Node" parent="PSNRMeter"]
-script = ExtResource("14_a520j")
-float_amplitude = 0.5
-float_speed = 0.5
-horizontal_sway = 1.0
-rotation_amount = 1.0
+[node name="ConfettiPosition" type="Node2D" parent="PSNRMeter"]
+position = Vector2(215.79999, 14.4186)
