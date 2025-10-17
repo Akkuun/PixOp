@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jg74v8uf852p"
-path="res://.godot/imported/icon.svg-04c67a4539594db4bfd22af189671d1b.ctex"
+uid="uid://bxr1tle05ri7l"
+path="res://.godot/imported/HighPanel.png-43da3a86cfd80440d46f26b2d3d0308c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/BurstParticles2D/icon.svg"
-dest_files=["res://.godot/imported/icon.svg-04c67a4539594db4bfd22af189671d1b.ctex"]
+source_file="res://ressources/Theme/UI/Panels/HighPanel.png"
+dest_files=["res://.godot/imported/HighPanel.png-43da3a86cfd80440d46f26b2d3d0308c.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

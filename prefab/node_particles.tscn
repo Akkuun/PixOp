@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://b7bvqi0trckaw"]
+
+[ext_resource type="Script" uid="uid://dkrdhvng307ja" path="res://Scripts/connection_particles.gd" id="1_0x8p7"]
+
+[sub_resource type="Curve" id="Curve_weh5n"]
+_data = [Vector2(0.03606101, 1), 0.0, 0.0, 0, 0, Vector2(0.5557215, 0.98511446), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_cdoia"]
+curve = SubResource("Curve_weh5n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cp5dy"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 15.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, 50, 0)
+linear_accel_min = 32.499996
+linear_accel_max = 46.92
+scale_min = 2.0
+scale_max = 3.5
+alpha_curve = SubResource("CurveTexture_cdoia")
+turbulence_enabled = true
+turbulence_noise_scale = 0.0
+turbulence_noise_speed_random = 0.0
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2(10, 10)
+script = ExtResource("1_0x8p7")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_cp5dy")
