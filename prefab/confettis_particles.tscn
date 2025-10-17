@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://20o77cco0p1h"]
+
+[ext_resource type="Script" uid="uid://dkrdhvng307ja" path="res://Scripts/connection_particles.gd" id="1_6lgrg"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cp5dy"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 15.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, 50, 0)
+linear_accel_min = 32.499996
+linear_accel_max = 46.92
+scale_min = 2.0
+scale_max = 3.5
+turbulence_enabled = true
+turbulence_noise_scale = 0.0
+turbulence_noise_speed_random = 0.0
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2(10, 10)
+script = ExtResource("1_6lgrg")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 16
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_cp5dy")

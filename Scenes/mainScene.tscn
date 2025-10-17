@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=37 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_5paew"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_swlrs"]
 [ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
+[ext_resource type="Texture2D" uid="uid://bxr1tle05ri7l" path="res://ressources/Theme/UI/Panels/HighPanel.png" id="10_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_qshdt"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_afia4"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_22sd7"]
@@ -53,8 +54,8 @@ content_margin_left = 48.0
 content_margin_top = 101.0
 content_margin_right = 114.0
 content_margin_bottom = 104.0
-texture = ExtResource("10_qshdt")
-region_rect = Rect2(7, 80, 84, 112)
+texture = ExtResource("10_7ew7i")
+region_rect = Rect2(0, 0, 85, 210)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_on0m7"]
 atlas = ExtResource("10_qshdt")
@@ -177,14 +178,14 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_vx6nh")
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/HSplitContainer/Panel"]
 layout_mode = 0
 offset_left = 18.0
-offset_top = 8.0
+offset_top = 18.093
 offset_right = 178.0
-offset_bottom = 647.0
+offset_bottom = 580.093
 
 [node name="Label" type="Label" parent="Control/HSplitContainer/Panel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Compression"
+text = "Operateurs"
 
 [node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
 layout_mode = 2
