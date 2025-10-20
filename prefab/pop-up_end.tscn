@@ -1,9 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://cvqjk7xid7vcd"]
 
-[ext_resource type="Script" path="res://prefab/pop-up_end.gd" id="1_x8r5o"]
+[ext_resource type="Script" uid="uid://bqcgdmotbcjw2" path="res://prefab/pop-up_end.gd" id="1_x8r5o"]
 
 [node name="PopUpEnd" type="Node2D"]
 script = ExtResource("1_x8r5o")
+label_path = NodePath("Panel/Victoire")
 
 [node name="Panel" type="Panel" parent="."]
 offset_left = 4.0
@@ -11,14 +12,24 @@ offset_top = 4.0
 offset_right = 476.0
 offset_bottom = 476.0
 
+[node name="Victoire" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 147.0
+offset_top = 10.0
+offset_right = 339.0
+offset_bottom = 61.0
+theme_override_font_sizes/font_size = 64
+text = "Victoire"
+
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 179.0
-offset_top = 10.0
-offset_right = 299.0
-offset_bottom = 42.0
-theme_override_font_sizes/font_size = 40
-text = "Victoire"
+offset_left = 125.0
+offset_top = 175.0
+offset_right = 379.0
+offset_bottom = 262.0
+theme_override_font_sizes/font_size = 45
+text = "PSNR : 200.0 dB
+GOAL : 200.0 dB"
 
 [node name="Buttons" type="HBoxContainer" parent="Panel"]
 layout_mode = 1
@@ -33,12 +44,12 @@ alignment = 1
 
 [node name="MenuButton" type="Button" parent="Panel/Buttons"]
 layout_mode = 2
-text = "Menu"
+text = " Menu "
 
 [node name="RetryButton" type="Button" parent="Panel/Buttons"]
 layout_mode = 2
-text = "Rejouer"
+text = " Rejouer "
 
 [node name="NextButton" type="Button" parent="Panel/Buttons"]
 layout_mode = 2
-text = "Niveau suivant"
+text = " Niveau suivant "

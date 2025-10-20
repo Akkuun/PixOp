@@ -400,14 +400,11 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 
 	# Show message
 	var message = "PSNR: " + str(psnr_value) + " dB\nGoal: " + str(psnr_goal) + " dB"
-	if popup.has_method("popup_with"):
-		popup.call("popup_with", message)
-	elif popup.has_method("popup_centered"):
-		# Fallback: set label if exists then popup
-		var lbl = popup.get_node_or_null("PopupPanel/Panel/Label")
-		if lbl:
-			lbl.text = message
-		popup.call_deferred("popup_centered")
+	var lbl = popup.get_node_or_null("Panel/Label")
+	if lbl:
+		lbl.text = message
+	else:
+		print("Warning: Could not find Panel/Label in popup")
 
 	# Connect signals if present
 	if popup.has_signal("menu_pressed"):
