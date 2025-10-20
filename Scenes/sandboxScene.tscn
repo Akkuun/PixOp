@@ -346,8 +346,12 @@ offset_right = 878.0
 offset_bottom = 48.093018
 text = "Sauvegarder"
 
-[node name="PauseMenu" parent="." instance=ExtResource("30_ur4t3")]
+[node name="PauseCanvas" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("30_ur4t3")]
 visible = false
+offset_top = -24.093
+offset_bottom = -24.093018
 
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/SaveImageButton" to="." method="_on_save_image_button_pressed"]

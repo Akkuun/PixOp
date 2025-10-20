@@ -487,5 +487,9 @@ offset = Vector2(0, -24)
 [node name="ConfettiPosition" type="Node2D" parent="PSNRMeter"]
 position = Vector2(215.79999, 14.4186)
 
-[node name="PauseMenu" parent="." instance=ExtResource("33_uh2eo")]
+[node name="PauseCanvas" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("33_uh2eo")]
 visible = false
+offset_top = -24.093
+offset_bottom = -24.093018
