@@ -215,12 +215,8 @@ func expansion_dynamique(img: Image) -> Image:
 				maxs[2] = i
 				break
 
-
 	var betas = [255.0 / (maxs[0] - mins[0]), 255.0 / (maxs[1] - mins[1]), 255.0 / (maxs[2] - mins[2])]
 	var alphas = [-mins[0] * betas[0], -mins[1] * betas[1], -mins[2] * betas[2]]
-
-	print("Alphas: ", alphas)
-	print("Betas: ", betas)
 
 	return await expansion_dynamique_shader(img, alphas, betas)
 
