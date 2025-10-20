@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=38 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="19_0ul6n"]
 [ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="20_5amkk"]
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="21_2de5a"]
+[ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="21_wrx63"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="22_j5cla"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="23_dxshx"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="24_k16gn"]
@@ -312,6 +313,24 @@ graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_a32h5")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDilatation"]
+script = ExtResource("14_a520j")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
+[node name="ButtonNegatif" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_3p0dd")
+text = "Negatif"
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("21_wrx63")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_a32h5")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonNegatif"]
 script = ExtResource("14_a520j")
 float_amplitude = 0.5
 float_speed = 0.5
