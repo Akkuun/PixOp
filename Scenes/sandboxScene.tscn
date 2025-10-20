@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://cor5impnk7cmh"]
+[gd_scene load_steps=35 format=3 uid="uid://cor5impnk7cmh"]
 
 [ext_resource type="Script" uid="uid://br7855e33ue31" path="res://Scripts/sandbox.gd" id="1_xn00g"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="19_eaovq"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="20_gxxx5"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="20_tk5wn"]
+[ext_resource type="PackedScene" uid="uid://8wnvmkng21a1" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="21_uhkwf"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="22_mrc8p"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="23_3javq"]
@@ -238,6 +239,17 @@ theme = ExtResource("6_tdk5e")
 text = "Negatif"
 script = ExtResource("11_iko5f")
 prefabNode = ExtResource("20_gxxx5")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="ButtonExpDyn" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Exp. Dynamique"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("21_st4m7")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 

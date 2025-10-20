@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy4n3omjdmd35"
-path="res://.godot/imported/target.png-53e2fa17825ec2216b3762c30aa4f2ed.ctex"
+uid="uid://t3gbjyen7umv"
+path="res://.godot/imported/uwu_dark.png-45ba383af0f7b5c31687aa68430ad01b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Levels/0/target.png"
-dest_files=["res://.godot/imported/target.png-53e2fa17825ec2216b3762c30aa4f2ed.ctex"]
+source_file="res://Images/uwu_dark.png"
+dest_files=["res://.godot/imported/uwu_dark.png-45ba383af0f7b5c31687aa68430ad01b.ctex"]
 
 [params]
 
