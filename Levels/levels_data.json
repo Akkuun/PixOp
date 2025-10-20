@@ -13,5 +13,10 @@
         "dialog": "Excellent! Now let's learn about dilation.\nDilation is the opposite of erosion: it expands dark regions and shrinks bright regions.\nThis operation uses a kernel and takes the maximum pixel value.\nIt's useful to fill small holes, connect nearby objects, or enhance features.\nDilation and erosion are often combined for advanced image processing.\nTry using dilation to match the target!",
         "psnr_start": 0.0,
         "psnr_goal": 200.0
+    },
+    "3": {
+        "dialog": "Time for a challenge! Try to blur only the background of the image.\nTo do this, you'll need a truth map (mask) that tells which areas to blur and which to keep sharp.\nYou should know by now how to binarize an image to create such a mask.\nCombine what you've learned: thresholding, morphological operations, and blur.\nGood luck!",
+        "psnr_start": 0.0,
+        "psnr_goal": 200.0
     }
 }
