@@ -338,9 +338,9 @@ func compute_updated_image() -> Image:
 			print("✓ PSNR calculé: ", psnr, " dB")
 			print("✓ Returning final image from node ", parent.id)
 			# Si l'objectif PSNR est atteint, afficher la popup de succès
-			if psnr_start >= psnr_goal:
-				print("Level completed! PSNR goal of ", psnr_goal, " dB reached.")
-				_show_level_complete_popup(psnr_start)
+			if psnr >= psnr_goal:
+				print("Level completed! PSNR goal of ", psnr, " dB reached.")
+				_show_level_complete_popup(psnr)
 				return final_image
 			return final_image
 
