@@ -264,6 +264,24 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 			root.add_child(popup)
 	else:
 		add_child(popup)
+	
+	# place in center of screen the popup
+	# by moving the node2D of the popup
+	# The popup root is already the PopUpEnd Node2D
+	var popup_node2d = popup
+
+	print("J'ai trouvé le popup_node2d: ", popup_node2d)
+	
+	# Center the popup on screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	var panel = popup_node2d.get_node_or_null("Panel")
+	if panel:
+		var panel_size = panel.size
+		popup_node2d.position = Vector2(
+			(viewport_size.x - panel_size.x) / 2.0,
+			(viewport_size.y - panel_size.y) / 2.0
+		)
+		print("Popup centered at position: ", popup_node2d.position)
 
 	# Keep reference so handlers can remove it
 	_current_popup = popup
