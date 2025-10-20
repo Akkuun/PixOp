@@ -11,15 +11,11 @@ var definedH = 192.0
 var baseImage: Image
 var editedImage: Image
 
-var NB_TUTORIALS = 3
-
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
 @export var current: Sprite2D
 @export var graph_edit : GraphEdit
-
-var particles_connect: BurstParticles2D = BurstParticles2D.new()
 
 func _on_load_new_button_pressed() -> void:
 	var file_dialog = FileDialog.new()
