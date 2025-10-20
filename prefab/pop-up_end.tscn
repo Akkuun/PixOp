@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://cvqjk7xid7vcd"]
+[gd_scene load_steps=2 format=3 uid="uid://cvqjk7xid7vcd"]
+
+[ext_resource type="Script" path="res://prefab/pop-up_end.gd" id="1_x8r5o"]
 
 [node name="PopUpEnd" type="Node2D"]
+script = ExtResource("1_x8r5o")
 
 [node name="Panel" type="Panel" parent="."]
 offset_left = 4.0

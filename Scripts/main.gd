@@ -300,12 +300,24 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 	# Connect signals if present
 	if popup.has_signal("menu_pressed"):
 		popup.connect("menu_pressed", Callable(self, "_on_popup_menu"))
+		print("✓ Connected menu_pressed signal")
+	else:
+		print("✗ menu_pressed signal not found on popup")
+		
 	if popup.has_signal("retry_pressed"):
 		popup.connect("retry_pressed", Callable(self, "_on_popup_retry"))
+		print("✓ Connected retry_pressed signal")
+	else:
+		print("✗ retry_pressed signal not found on popup")
+		
 	if popup.has_signal("next_pressed"):
 		popup.connect("next_pressed", Callable(self, "_on_popup_next"))
+		print("✓ Connected next_pressed signal")
+	else:
+		print("✗ next_pressed signal not found on popup")
 
 func _on_popup_menu() -> void:
+	print("=== MAIN: _on_popup_menu called ===")
 	# Close and go to menu scene
 	if _current_popup:
 		_current_popup.queue_free()
@@ -314,11 +326,13 @@ func _on_popup_menu() -> void:
 	# Change to menu scene if exists
 	var menu_scene_path = "res://Scenes/menu.tscn"
 	if FileAccess.file_exists(menu_scene_path):
-		get_tree().change_scene(menu_scene_path)
+		print("=== MAIN: Changing to menu scene ===")
+		get_tree().change_scene_to_file(menu_scene_path)
 	else:
 		print("Menu scene not found: ", menu_scene_path)
 
 func _on_popup_retry() -> void:
+	print("=== MAIN: _on_popup_retry called ===")
 	# Close popup and reload current level
 	if _current_popup:
 		_current_popup.queue_free()
@@ -328,6 +342,7 @@ func _on_popup_retry() -> void:
 	load_level(levelId)
 
 func _on_popup_next() -> void:
+	print("=== MAIN: _on_popup_next called ===")
 	# Close popup and load next level
 	if _current_popup:
 		_current_popup.queue_free()
