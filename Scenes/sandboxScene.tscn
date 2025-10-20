@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cor5impnk7cmh"]
+[gd_scene load_steps=34 format=3 uid="uid://cor5impnk7cmh"]
 
 [ext_resource type="Script" uid="uid://br7855e33ue31" path="res://Scripts/sandbox.gd" id="1_xn00g"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="25_4vfln"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="27_6rv4s"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="28_yb8rn"]
+[ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="30_ur4t3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
 shader = ExtResource("9_yscyj")
@@ -332,6 +333,9 @@ offset_top = 8.093002
 offset_right = 878.0
 offset_bottom = 48.093018
 text = "Sauvegarder"
+
+[node name="PauseMenu" parent="." instance=ExtResource("30_ur4t3")]
+visible = false
 
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/SaveImageButton" to="." method="_on_save_image_button_pressed"]

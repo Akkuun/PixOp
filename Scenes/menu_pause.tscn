@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://f21jk3r5uqcy"]
+[gd_scene load_steps=7 format=3 uid="uid://f21jk3r5uqcy"]
 
-[ext_resource type="Shader" uid="uid://dnqqqqkp7flq8" path="res://Shaders/pause_shader.gdshader" id="1_nhsed"]
+[ext_resource type="Script" uid="uid://b7b7plnk7skvg" path="res://Scripts/menu_pause.gd" id="1_n8bbg"]
+[ext_resource type="Shader" uid="uid://cgvie4tpmpwc" path="res://Shaders/pause_shader.gdshader" id="1_nhsed"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u3b7n"]
 shader = ExtResource("1_nhsed")
@@ -8,25 +9,59 @@ shader_parameter/lod = 0.0
 
 [sub_resource type="Animation" id="Animation_nhsed"]
 resource_name = "pause_blur"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.2950001090125]
+}
+
+[sub_resource type="Animation" id="Animation_i1muu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:material:shader_parameter/lod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u3b7n"]
 _data = {
+&"RESET": SubResource("Animation_i1muu"),
 &"pause_blur": SubResource("Animation_nhsed")
 }
 
 [node name="PauseMenu" type="Control"]
+process_mode = 3
+z_index = 101
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_n8bbg")
 
 [node name="Control" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_u3b7n")
 layout_mode = 0
-offset_right = 1150.0
-offset_bottom = 647.0
+offset_left = -1.0
+offset_top = -46.0
+offset_right = 1181.0
+offset_bottom = 694.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Control"]
 use_parent_material = true
@@ -34,13 +69,16 @@ layout_mode = 0
 offset_right = 1150.0
 offset_bottom = 646.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer"]
+[node name="dqsdqsdq" type="VBoxContainer" parent="Control/PanelContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control/PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/dqsdqsdq"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 96
@@ -49,17 +87,21 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/VBoxContainer"]
+[node name="ReprendreButton" type="Button" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
+custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Reprendre"
 
-[node name="OptionsButton" type="Button" parent="Control/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Options"
 
-[node name="MainMenuButton" type="Button" parent="Control/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="MainMenuButton" type="Button" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -70,3 +112,6 @@ text = "Retour au menu"
 libraries = {
 &"": SubResource("AnimationLibrary_u3b7n")
 }
+
+[connection signal="pressed" from="Control/PanelContainer/dqsdqsdq/VBoxContainer/ReprendreButton" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Control/PanelContainer/dqsdqsdq/VBoxContainer/MainMenuButton" to="." method="_on_quit_pressed"]

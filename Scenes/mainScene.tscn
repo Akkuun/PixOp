@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=39 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
@@ -32,6 +32,7 @@
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="28_ekww4"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="29_ci2jp"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="30_l56qm"]
+[ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="33_uh2eo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
 shader = ExtResource("9_llqta")
@@ -466,3 +467,6 @@ offset = Vector2(0, -24)
 
 [node name="ConfettiPosition" type="Node2D" parent="PSNRMeter"]
 position = Vector2(215.79999, 14.4186)
+
+[node name="PauseMenu" parent="." instance=ExtResource("33_uh2eo")]
+visible = false
