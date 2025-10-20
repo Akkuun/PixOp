@@ -39,6 +39,10 @@ func animate_psnr_meter(value: float) -> void:
 
 func load_level(id: int) -> void:
 	animate_psnr_meter(0.0) # Reset PSNR meter at level start
+	
+	# Clear the graph before loading new level
+	_clear_graph()
+	
 	levelId = id
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
@@ -71,6 +75,34 @@ func load_level(id: int) -> void:
 
 
 	show_tutorial_dialogue(id)
+
+func _clear_graph() -> void:
+	"""
+	Clears all graph nodes from the GraphEdit except Start and Final nodes.
+	"""
+	if not graph_edit:
+		return
+	
+	print("=== Clearing graph ===")
+	
+	# Get all GraphNode children
+	var nodes_to_remove = []
+	for child in graph_edit.get_children():
+		if child is GraphNode:
+			# Keep Start_node and Final_node
+			if child.name != "Start_node" and child.name != "Final_node":
+				nodes_to_remove.append(child)
+	
+	# Remove all GraphNodes except Start and Final
+	for node in nodes_to_remove:
+		print("Removing node: ", node.name)
+		graph_edit.remove_child(node)
+		node.queue_free()
+	
+	# Clear all connections
+	graph_edit.clear_connections()
+	
+	print("✓ Graph cleared: ", nodes_to_remove.size(), " nodes removed (kept Start_node and Final_node)")
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
@@ -333,24 +365,21 @@ func _on_popup_menu() -> void:
 
 func _on_popup_retry() -> void:
 	print("=== MAIN: _on_popup_retry called ===")
-	# Close popup and reload current level
-	if _current_popup:
-		_current_popup.queue_free()
-		_current_popup = null
-
-	print("Retrying level ", levelId)
-	load_level(levelId)
+	_close_popup_and_load_level(levelId)
 
 func _on_popup_next() -> void:
 	print("=== MAIN: _on_popup_next called ===")
-	# Close popup and load next level
+	_close_popup_and_load_level(levelId + 1)
+
+func _close_popup_and_load_level(level_id: int) -> void:
+	print("=== MAIN: Loading level ", level_id, " ===")
+	# Close popup
 	if _current_popup:
 		_current_popup.queue_free()
 		_current_popup = null
-
-	var next_id = levelId + 1
-	print("Loading next level: ", next_id)
-	load_level(next_id)
+	
+	# Load the requested level
+	load_level(level_id)
 
 
 func get_nodes_in_topological_order() -> Array:
