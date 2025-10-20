@@ -42,8 +42,10 @@ scale = Vector2(5, 5)
 script = ExtResource("1_6lgrg")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
 amount = 32
 lifetime = 2.0
+one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_cp5dy")
