@@ -31,7 +31,7 @@ var psnr_goal: float = 200.0
 @export var PSNRMeterFill: Sprite2D
 @export var ConfettiPosition: Node2D
 @export var psnr_anim_duration: float = 0.5
-
+@export var main_theme_player : AudioStreamPlayer
 var dialogue_system: Control  # Référence au système de dialogue
 
 func animate_psnr_meter(value: float) -> void:

@@ -10,6 +10,8 @@ func _ready():
 	pressed.connect(_on_button_pressed)
 	audio_player_addNode = AudioStreamPlayer.new()
 	audio_player_addNode.stream = addNodeSound
+	audio_player_addNode.bus = "Resume"
+	audio_player_addNode.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(audio_player_addNode)
 
 func _on_button_pressed():

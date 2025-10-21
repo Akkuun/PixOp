@@ -18,6 +18,7 @@ var editedImage: Image
 
 @export var current: Sprite2D
 @export var graph_edit : GraphEdit
+@export var main_theme_player : AudioStreamPlayer
 
 func _on_load_new_button_pressed() -> void:
 	var file_dialog = FileDialog.new()
