@@ -13,6 +13,10 @@ var definedH = 192.0
 var baseImage: Image
 var editedImage: Image
 
+var dialog: String = ""
+
+var dialogue_system: Control  # Référence au système de dialogue
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
@@ -107,6 +111,44 @@ func _remove_particles(particle_node: Node) -> void:
 	if particle_node and is_instance_valid(particle_node):
 		particle_node.queue_free()
 
+func show_tutorial_dialogue() -> void:
+	"""
+	Affiche le dialogue de tutoriel correspondant au niveau.
+	"""
+	# Si dialogue_system n'est pas défini, essayer de le trouver automatiquement
+	if dialogue_system == null:
+		# Chercher dans le chemin spécifique de la scène
+		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
+		
+		if dialogue_system == null:
+			dialogue_system = get_node_or_null("../DialogueSystem")
+			if dialogue_system == null:
+				dialogue_system = get_node_or_null("../VoiceDialogue")
+				if dialogue_system == null:
+					# Chercher dans toute la scène
+					var root = get_tree().current_scene
+					for child in root.get_children():
+						if child.has_method("start_dialogue"):
+							dialogue_system = child
+							print("Found dialogue_system automatically: ", dialogue_system.name)
+							break
+	
+	if dialogue_system == null:
+		print("Warning: dialogue_system not found. Please assign it in the inspector or ensure a node with start_dialogue() method exists.")
+		return
+	
+	if dialog != "":
+		# Obtenir le noeud d'animation - il est au même niveau que le dialogue
+		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
+		
+		dialogue_system.start_dialogue(
+			dialog,
+			animation_node,
+			func(): print("Tutorial dialogue finished!")
+		)
+	else:
+		print("No tutorial dialogue")
+
 func load_level() -> void:
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
@@ -117,6 +159,20 @@ func load_level() -> void:
 	editedImage = texCurrent.get_image()
 	baseImage = texCurrent.get_image()
 	update_current(baseImage)
+
+	var level_data = FileAccess.get_file_as_string("res://Levels/levels_data.json")
+	
+	var json = JSON.new()
+	var error = json.parse(level_data)
+	if error != OK:
+		push_error("Failed to parse levels_data.json: " + str(error))
+		return
+	var level_data_dict = json.data
+	print("Level data dict: ", level_data_dict)
+
+	dialog = level_data_dict.get("sandbox").get("dialog")
+
+	show_tutorial_dialogue()
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)

@@ -1,4 +1,7 @@
 {
+    "sandbox": {
+        "dialog": "Bienvenue dans le mode sandbox !\n Ici, tu peux experimenter librement sur une image de ton choix et sauvegarder le resultat !"
+    },
     "0": {
         "dialog": "Welcome to PixOp!\nIn this tutorial, you will learn how to use image processing operations.\nConnect nodes from the start to the final node to transform the image.\nTry to match the target image on the right!",
         "psnr_start": 61.54,
