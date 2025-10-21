@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=40 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="21_2de5a"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="21_wrx63"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="22_j5cla"]
+[ext_resource type="PackedScene" uid="uid://8wnvmkng21a1" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="22_mqfxr"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="23_dxshx"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="24_k16gn"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="25_w6dai"]
@@ -67,7 +68,7 @@ region = Rect2(374, 351, 7, 52)
 atlas = ExtResource("10_qshdt")
 region = Rect2(338, 353, 3, 48)
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition")]
+[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_boirm")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
@@ -338,6 +339,24 @@ float_speed = 0.5
 horizontal_sway = 1.0
 rotation_amount = 1.0
 
+[node name="ButtonExpDyn" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_3p0dd")
+text = "Exp. Dynamique"
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("22_mqfxr")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_a32h5")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonExpDyn"]
+script = ExtResource("14_a520j")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -468,5 +487,9 @@ offset = Vector2(0, -24)
 [node name="ConfettiPosition" type="Node2D" parent="PSNRMeter"]
 position = Vector2(215.79999, 14.4186)
 
-[node name="PauseMenu" parent="." instance=ExtResource("33_uh2eo")]
+[node name="PauseCanvas" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("33_uh2eo")]
 visible = false
+offset_top = -24.093
+offset_bottom = -24.093018

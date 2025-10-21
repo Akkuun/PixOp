@@ -47,6 +47,9 @@ var difference_operator = Operator.new("difference", Callable(self, "_difference
 func _negatif_wrapper(img: Image) -> Image:
 	return await negatif(img)
 var negatif_operator = Operator.new("negatif", Callable(self, "_negatif_wrapper"), 1, 1)
+func _expansion_dynamique_wrapper(img: Image) -> Image:
+	return await expansion_dynamique(img)
+var expansion_dynamique_operator = Operator.new("expansion_dynamique", Callable(self, "_expansion_dynamique_wrapper"), 1, 1)
 var end_operator = Operator.new("end", Callable(self, "display_final_image"), 1, 0)
 
 class PixopGraphNode extends Resource:
