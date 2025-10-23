@@ -31,7 +31,7 @@ var psnr_goal: float = 200.0
 @export var PSNRMeterFill: Sprite2D
 @export var ConfettiPosition: Node2D
 @export var psnr_anim_duration: float = 0.5
-
+@export var main_theme_player : AudioStreamPlayer
 var dialogue_system: Control  # Référence au système de dialogue
 @export var level_complete_popup_scene: PackedScene
 
@@ -631,6 +631,8 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
 	elif operator == "negatif":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
+	elif operator == "expdyn":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, expansion_dynamique_operator, {})
 	elif operator == "blur_background":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":

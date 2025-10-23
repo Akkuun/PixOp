@@ -1,29 +1,30 @@
-[gd_scene load_steps=38 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=41 format=3 uid="uid://ckauvkbpbmxg2"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
-[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
+[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_wrx63"]
 [ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="4_uh2eo"]
-[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
+[ext_resource type="Script" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_3p0dd"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_5paew"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_swlrs"]
-[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
+[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
 [ext_resource type="Texture2D" uid="uid://bxr1tle05ri7l" path="res://ressources/Theme/UI/Panels/HighPanel.png" id="10_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_qshdt"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_afia4"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_22sd7"]
 [ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_a32h5"]
 [ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_a520j"]
-[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="16_ptsrf"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="17_ifsvn"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="18_78jh6"]
 [ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="19_0ul6n"]
 [ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="20_5amkk"]
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="21_2de5a"]
-[ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="21_wrx63"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="21_wrx63"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="22_j5cla"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="22_mqfxr"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="23_dxshx"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="24_k16gn"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="25_w6dai"]
@@ -32,6 +33,8 @@
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="28_ekww4"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="29_ci2jp"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="30_l56qm"]
+[ext_resource type="PackedScene" uid="uid://dr7u68v3bjuxy" path="res://Scenes/menu_pause.tscn" id="33_uh2eo"]
+[ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="35_3p0dd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
 shader = ExtResource("9_llqta")
@@ -66,7 +69,7 @@ region = Rect2(374, 351, 7, 52)
 atlas = ExtResource("10_qshdt")
 region = Rect2(338, 353, 3, 48)
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition")]
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_boirm")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
@@ -74,6 +77,7 @@ target = NodePath("Control/HSplitContainer/GraphEdit/TargetSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
 PSNRMeterFill = NodePath("PSNRMeter/Fill")
 ConfettiPosition = NodePath("PSNRMeter/ConfettiPosition")
+main_theme_player = NodePath("AudioStreamPlayer")
 
 [node name="TutorialUI" type="Control" parent="."]
 z_index = 100
@@ -102,6 +106,8 @@ script = ExtResource("4_uh2eo")
 
 [node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
 script = ExtResource("5_mqfxr")
+bus = &"Resume"
+process_mode = 4
 
 [node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
 layout_mode = 0
@@ -337,6 +343,24 @@ float_speed = 0.5
 horizontal_sway = 1.0
 rotation_amount = 1.0
 
+[node name="ButtonExpDyn" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_3p0dd")
+text = "Exp. Dynamique"
+script = ExtResource("11_afia4")
+prefabNode = ExtResource("22_mqfxr")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_a32h5")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonExpDyn"]
+script = ExtResource("14_a520j")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -466,3 +490,16 @@ offset = Vector2(0, -24)
 
 [node name="ConfettiPosition" type="Node2D" parent="PSNRMeter"]
 position = Vector2(215.79999, 14.4186)
+
+[node name="PauseCanvas" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("33_uh2eo")]
+visible = false
+offset_top = -24.093
+offset_bottom = -24.093018
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("35_3p0dd")
+autoplay = true
+bus = &"Resume"
+process_mode = 4

@@ -22,6 +22,10 @@ func _ready():
 	audio_player_clear = AudioStreamPlayer.new()
 	audio_player_connection.stream = connectionSound
 	audio_player_clear.stream = clearSound
+	audio_player_connection.bus = "Resume"
+	audio_player_clear.bus = "Resume"
+	audio_player_connection.process_mode = Node.PROCESS_MODE_ALWAYS
+	audio_player_clear.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(audio_player_connection)
 	add_child(audio_player_clear)
 

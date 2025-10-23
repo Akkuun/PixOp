@@ -1,5 +1,7 @@
 extends "res://Scripts/image_lib_wrapper.gd"
 
+const PARTICLE_SCENE = preload("res://prefab/node_particles.tscn")
+
 var images_folder = "res://Images"
 
 var startNode: PixopGraphNode
@@ -16,6 +18,7 @@ var editedImage: Image
 
 @export var current: Sprite2D
 @export var graph_edit : GraphEdit
+@export var main_theme_player : AudioStreamPlayer
 
 func _on_load_new_button_pressed() -> void:
 	var file_dialog = FileDialog.new()
@@ -72,6 +75,38 @@ func _on_save_image_button_pressed() -> void:
 	else:
 		print("No save path selected")
 
+func spawn_connection_particles(from_node_name: String, to_node_name: String) -> void:
+	# Get the GraphNode instances to find their positions
+	var from_graph_node = graph_edit.get_node_or_null(from_node_name)
+	var to_graph_node = graph_edit.get_node_or_null(to_node_name)
+	
+	if not from_graph_node or not to_graph_node:
+		print("Could not find GraphNodes for particle spawn: ", from_node_name, " or ", to_node_name)
+		return
+
+	var connection_position = graph_edit.get_local_mouse_position()
+	connection_position += graph_edit.global_position
+	
+	# Instance the particle scene
+	var particle_instance = PARTICLE_SCENE.instantiate()
+	get_tree().current_scene.add_child(particle_instance)
+	particle_instance.global_position = connection_position
+	
+	# Start the particle emission
+	var gpu_particles = particle_instance.get_node("GPUParticles2D")
+	gpu_particles.restart()
+	
+	# Auto-remove the particle node after emission is complete
+	var timer = Timer.new()
+	timer.wait_time = particle_instance.get_node("GPUParticles2D").lifetime * 1.1
+	timer.one_shot = true
+	timer.timeout.connect(_remove_particles.bind(particle_instance))
+	particle_instance.add_child(timer)
+	timer.start()
+
+func _remove_particles(particle_node: Node) -> void:
+	if particle_node and is_instance_valid(particle_node):
+		particle_node.queue_free()
 
 func load_level() -> void:
 	startNode = PixopGraphNode.new(GraphState.Start)
@@ -299,6 +334,8 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		
 		# Allow the GraphEdit connection
 		graph_edit.connect_node(from_node, from_port, to_node, to_port)
+
+		spawn_connection_particles(from_node, to_node)
 		
 		print("✓ Successfully connected: ", from_node, " -> ", to_node)
 		print("  From node children count: ", from_pixop_node.childs.size())
@@ -372,6 +409,8 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
 	elif operator == "negatif":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
+	elif operator == "expdyn":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, expansion_dynamique_operator, {})
 	elif operator == "blur_background":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":

@@ -22,8 +22,6 @@ var NB_TUTORIALS = 3
 @export var target: Sprite2D
 @export var graph_edit : GraphEdit
 
-var particles_connect: BurstParticles2D = BurstParticles2D.new()
-
 func load_level(id: int) -> void:
 	levelId = id
 	startNode = PixopGraphNode.new(GraphState.Start)
@@ -156,12 +154,8 @@ func compute_updated_image() -> Image:
 	for parent in endNode.parents:
 		print("  End node parent ID=", parent.id, " computed=", computed_images.has(parent.id))
 		if computed_images.has(parent.id):
-			var final_image = computed_images[parent.id]
-			# Calculer le PSNR entre l'image finale et l'image cible
-			var psnr_value = PSNR(final_image, targetImage)
-			print("✓ PSNR calculé: ", psnr_value, " dB")
 			print("✓ Returning final image from node ", parent.id)
-			return final_image
+			return computed_images[parent.id]
 	
 	# Fallback: return the last computed image
 	print("No end node parent found, using fallback")
@@ -286,11 +280,6 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph()...")
 		update_current_from_graph()
-
-		# Play particle effect at the connection point
-		particles_connect.position = graph_edit.get_connection_point(from_node, from_port, true)
-		particles_connect.emitting = false  # Reset in case it was already emitting
-		particles_connect.emitting = true   # Start emitting
 	else:
 		print("✗ Connection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
@@ -350,7 +339,7 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5})
 	elif operator == "erosion":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5})
-	elif operator == "seuil":
+	elif operator == "seuil_otsu":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {})
 	elif operator == "difference":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
@@ -359,13 +348,13 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 	elif operator == "blur_background":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":
-		# Utiliser temporairement negatif_operator en attendant l'implémentation
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
-		print("Info: rgb_to_ycbcr using temporary negatif_operator")
+		# Placeholder for future operator
+		print("Warning: rgb_to_ycbcr operator not implemented yet")
+		return
 	elif operator == "ycbcr_to_rgb":
-		# Utiliser temporairement negatif_operator en attendant l'implémentation
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
-		print("Info: ycbcr_to_rgb using temporary negatif_operator")
+		# Placeholder for future operator
+		print("Warning: ycbcr_to_rgb operator not implemented yet")
+		return
 	if new_pixop_node == null:
 		print("Warning: Could not create PixopGraphNode for operator '", operator, "'")
 		return

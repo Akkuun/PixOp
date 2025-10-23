@@ -187,6 +187,45 @@ func apply_shader_to_two_images(img1: Image, img2: Image, shader_material: Shade
 	viewport.queue_free()
 	return img_result
 
+func expansion_dynamique(img: Image) -> Image:
+	var histo = getHistogramRGB(img)
+	var mins = [0, 0, 0]
+	var maxs = [255, 255, 255]
+	for c in range(3):
+		# Trouver le minimum non nul
+		for i in range(256):
+			if c == 0 and histo.red[i] > 0:
+				mins[0] = i
+				break
+			elif c == 1 and histo.green[i] > 0:
+				mins[1] = i
+				break
+			elif c == 2 and histo.blue[i] > 0:
+				mins[2] = i
+				break
+		# Trouver le maximum non nul
+		for i in range(255, -1, -1):
+			if c == 0 and histo.red[i] > 0:
+				maxs[0] = i
+				break
+			elif c == 1 and histo.green[i] > 0:
+				maxs[1] = i
+				break
+			elif c == 2 and histo.blue[i] > 0:
+				maxs[2] = i
+				break
+
+	var betas = [255.0 / (maxs[0] - mins[0]), 255.0 / (maxs[1] - mins[1]), 255.0 / (maxs[2] - mins[2])]
+	var alphas = [-mins[0] * betas[0], -mins[1] * betas[1], -mins[2] * betas[2]]
+
+	return await expansion_dynamique_shader(img, alphas, betas)
+
+func expansion_dynamique_shader(img: Image, alphas: Array, betas: Array) -> Image:
+	var shader_material = getShader(base_path + "expansion_dynamique.gdshader")
+	shader_material.set_shader_parameter("alphas", alphas)
+	shader_material.set_shader_parameter("betas", betas)
+	return await apply_shader_to_image(img, shader_material)
+
 func flou(img: Image, kernel_size: int) -> Image:
 	var shader_material := getShader(base_path + "flou.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))

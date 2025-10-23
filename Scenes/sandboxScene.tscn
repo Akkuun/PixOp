@@ -1,27 +1,28 @@
-[gd_scene load_steps=33 format=3 uid="uid://cor5impnk7cmh"]
+[gd_scene load_steps=36 format=3 uid="uid://i382l4do0j1s"]
 
 [ext_resource type="Script" uid="uid://br7855e33ue31" path="res://Scripts/sandbox.gd" id="1_xn00g"]
-[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
+[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_ur4t3"]
 [ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="4_st4m7"]
-[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_bp4c6"]
+[ext_resource type="Script" path="res://Scripts/ACVoicebox.gd" id="5_bp4c6"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_tdk5e"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_umo6e"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_lkov1"]
-[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_yscyj"]
+[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_yscyj"]
 [ext_resource type="Texture2D" uid="uid://bxr1tle05ri7l" path="res://ressources/Theme/UI/Panels/HighPanel.png" id="10_6lcnp"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_iko5f"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_jadr4"]
 [ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_038kl"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="14_5xwa7"]
-[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="14_6lcnp"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/seuil.tscn" id="14_6lcnp"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="15_qi5e1"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="16_b766o"]
 [ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="17_xru2a"]
 [ext_resource type="PackedScene" uid="uid://on0x5wphpheb" path="res://prefab/Graph/Nodes/dilatation_node.tscn" id="18_77mw8"]
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="19_eaovq"]
-[ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="20_gxxx5"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="20_gxxx5"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="20_tk5wn"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="21_uhkwf"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="22_mrc8p"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="23_3javq"]
@@ -29,6 +30,8 @@
 [ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="25_4vfln"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="27_6rv4s"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="28_yb8rn"]
+[ext_resource type="PackedScene" path="res://Scenes/menu_pause.tscn" id="30_ur4t3"]
+[ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="32_bp4c6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
 shader = ExtResource("9_yscyj")
@@ -50,11 +53,12 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gxxx5"]
 texture = ExtResource("10_6lcnp")
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit")]
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit", "main_theme_player")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_xn00g")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
+main_theme_player = NodePath("AudioStreamPlayer")
 
 [node name="TutorialUI" type="Control" parent="."]
 z_index = 1
@@ -81,6 +85,8 @@ script = ExtResource("4_st4m7")
 
 [node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
 script = ExtResource("5_bp4c6")
+bus = &"Resume"
+process_mode = 4
 
 [node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
 layout_mode = 0
@@ -240,6 +246,17 @@ prefabNode = ExtResource("20_gxxx5")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
+[node name="ButtonExpDyn" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Exp. Dynamique"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("21_st4m7")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
 [node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -332,6 +349,19 @@ offset_top = 8.093002
 offset_right = 878.0
 offset_bottom = 48.093018
 text = "Sauvegarder"
+
+[node name="PauseCanvas" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("30_ur4t3")]
+visible = false
+offset_top = -24.093
+offset_bottom = -24.093018
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("32_bp4c6")
+autoplay = true
+bus = &"Resume"
+process_mode = 4
 
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/SaveImageButton" to="." method="_on_save_image_button_pressed"]

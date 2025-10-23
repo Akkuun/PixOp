@@ -109,6 +109,10 @@ text = "Jouer"
 
 [node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonPlay"]
 script = ExtResource("9_7qvly")
+float_amplitude = 0.5
+float_speed = 1.0
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonTutorial" type="Button" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60.354)
@@ -120,6 +124,10 @@ text = "Tutoriel"
 
 [node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonTutorial"]
 script = ExtResource("9_7qvly")
+float_amplitude = 0.5
+float_speed = 1.0
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonSandbox" type="Button" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60.354)
@@ -131,6 +139,10 @@ text = "Mode Sandbox"
 
 [node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonSandbox"]
 script = ExtResource("9_7qvly")
+float_amplitude = 0.5
+float_speed = 1.0
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonQuit" type="Button" parent="CanvasLayer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60.354)
@@ -142,6 +154,10 @@ text = "Quitter"
 
 [node name="Node" type="Node" parent="CanvasLayer/VBoxContainer/ButtonQuit"]
 script = ExtResource("9_7qvly")
+float_amplitude = 0.5
+float_speed = 1.0
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="Background" type="Panel" parent="."]
 z_index = -1
