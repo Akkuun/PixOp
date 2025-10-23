@@ -229,7 +229,9 @@ func expansion_dynamique_shader(img: Image, alphas: Array, betas: Array) -> Imag
 func flou(img: Image, kernel_size: int) -> Image:
 	var shader_material := getShader(base_path + "flou.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
-	return await apply_shader_to_image(img, shader_material)
+	var i1 = await apply_shader_to_image(img, shader_material)
+	var i2 = await apply_shader_to_image(i1, shader_material)
+	return await apply_shader_to_image(i2, shader_material) 
 
 func dilatation(img: Image, kernel_size: int) -> Image:
 	var shader_material = getShader(base_path + "dilatation.gdshader")
@@ -272,7 +274,9 @@ func seuil_otsu(img: Image) -> Image:
 func flou_fond(input: Image, carte_verite: Image, kernel_size: int) -> Image:
 	var shader_material = getShader(base_path + "flou_fond.gdshader")
 	shader_material.set_shader_parameter("kernel_size", float(kernel_size))
-	return await apply_shader_to_two_images(input, carte_verite, shader_material)
+	var i1 = await apply_shader_to_two_images(input, carte_verite, shader_material)
+	var i2 = await apply_shader_to_two_images(i1, carte_verite, shader_material)
+	return await apply_shader_to_two_images(i2, carte_verite, shader_material) 
 
 func greyscale(input: Image) -> Image:
 	var shader_material = getShader(base_path + "greyscale.gdshader")
