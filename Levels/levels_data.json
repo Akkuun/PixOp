@@ -15,6 +15,11 @@
         "psnr_goal": 200.0
     },
     "3": {
+        "dialog": "Great progress! Now let's explore dynamic range expansion.\nThe goal is to reveal details hidden in a nearly monochrome image.\nDynamic range expansion stretches pixel values to use the full intensity range (0-255).\nThis technique enhances contrast and makes subtle differences visible.\nStart with a dark image and expand its range to reveal the hidden content.\nTransform the image to match the target!",
+        "psnr_start": 0.0,
+        "psnr_goal": 200.0
+    },
+    "4": {
         "dialog": "Time for a challenge! Try to blur only the background of the image.\nTo do this, you'll need a truth map (mask) that tells which areas to blur and which to keep sharp.\nYou should know by now how to binarize an image to create such a mask.\nCombine what you've learned: thresholding, morphological operations, and blur.\nGood luck!",
         "psnr_start": 0.0,
         "psnr_goal": 200.0
