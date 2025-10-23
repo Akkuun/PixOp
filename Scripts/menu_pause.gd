@@ -35,6 +35,12 @@ func pause():
 	
 	# Ensure audio continues playing during pause
 	_configure_audio_nodes(get_tree().current_scene)
+	
+	# Mettre en pause le dialogue si il existe
+	var dialogue_system = _find_dialogue_system()
+	if dialogue_system and dialogue_system.has_method("pause_dialogue"):
+		dialogue_system.pause_dialogue()
+		print("DEBUG: Dialogue paused")
 
 func resume():
 	hide()
@@ -48,6 +54,32 @@ func resume():
 		print("DEBUG: Pause effects disabled on Resume bus")
 	else:
 		print("Warning: Resume bus not found!")
+	
+	# Reprendre le dialogue si il existe
+	var dialogue_system = _find_dialogue_system()
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
+		print("DEBUG: Dialogue resumed")
+
+func _find_dialogue_system() -> Node:
+	"""
+	Cherche le système de dialogue dans la scène
+	"""
+	var root = get_tree().current_scene
+	if not root:
+		return null
+	
+	# Chercher dans le chemin typique
+	var dialogue = root.get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
+	if dialogue:
+		return dialogue
+	
+	# Chercher dans tous les enfants
+	for child in root.get_children():
+		if child.has_method("pause_dialogue"):
+			return child
+	
+	return null
 func testEsc():
 	if Input.is_action_just_pressed("Escape") and !get_tree().paused:
 		pause()

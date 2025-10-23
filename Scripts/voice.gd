@@ -20,6 +20,10 @@ var pages: Array = []  # Chaque page contient les lignes de texte
 var lines_per_page: int = 3  # Nombre de lignes par page
 var current_full_text: String = ""  # Le texte complet en cours
 
+# Variables pour la pause
+var is_paused: bool = false
+var was_playing_before_pause: bool = false
+
 
 func _ready():
 	voicebox.connect("characters_sounded", _on_voicebox_characters_sounded)
@@ -38,6 +42,46 @@ func _ready():
 		next_button.pressed.connect(_on_next_page)
 	
 	_update_navigation_buttons()
+
+
+func pause_dialogue() -> void:
+	"""
+	Met en pause le dialogue (arrête l'animation et le son)
+	"""
+	if is_paused:
+		return
+	
+	is_paused = true
+	was_playing_before_pause = voicebox.is_playing()
+	
+	# Arrêter le son
+	if voicebox:
+		voicebox.stop()
+	
+	# Arrêter l'animation
+	if lutz_animation != null and lutz_animation.has_method("stop_animation"):
+		lutz_animation.stop_animation()
+	
+	print("Dialogue paused")
+
+
+func resume_dialogue() -> void:
+	"""
+	Reprend le dialogue après une pause
+	"""
+	if not is_paused:
+		return
+	
+	is_paused = false
+	
+	# Reprendre le son si il jouait avant
+	if was_playing_before_pause and voicebox and current_page < pages.size():
+		# Rejouer la page actuelle
+		if lutz_animation != null and lutz_animation.has_method("start_animation"):
+			lutz_animation.start_animation()
+		voicebox.play_string(pages[current_page])
+	
+	print("Dialogue resumed")
 
 
 func _create_navigation_buttons():
@@ -205,6 +249,10 @@ func _on_voicebox_characters_sounded(characters: String):
 
 
 func _on_voicebox_finished_phrase():
+	# Ne rien faire si en pause
+	if is_paused:
+		return
+	
 	# Arrêter l'animation quand le personnage finit de parler
 	if lutz_animation != null:
 		lutz_animation.stop_animation()
@@ -232,6 +280,10 @@ func _on_voicebox_finished_phrase():
 	
 
 func play_next_in_conversation():
+	# Ne rien faire si en pause
+	if is_paused:
+		return
+	
 	if conversation_index < conversation.size():
 		current_full_text = conversation[conversation_index]
 		

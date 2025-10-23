@@ -398,6 +398,10 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 	# Keep reference so handlers can remove it
 	_current_popup = popup
 
+	# Pause the dialogue system 
+	if dialogue_system and dialogue_system.has_method("pause_dialogue"):
+		dialogue_system.pause_dialogue()
+
 	# Show message
 	var message = "PSNR: " + str(psnr_value) + " dB\nGoal: " + str(psnr_goal) + " dB"
 	var lbl = popup.get_node_or_null("Panel/Label")
@@ -427,6 +431,10 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 
 func _on_popup_menu() -> void:
 	print("=== MAIN: _on_popup_menu called ===")
+	# Continue the dialogue before going to menu
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
+	
 	# Close and go to menu scene
 	if _current_popup:
 		_current_popup.queue_free()
@@ -442,10 +450,16 @@ func _on_popup_menu() -> void:
 
 func _on_popup_retry() -> void:
 	print("=== MAIN: _on_popup_retry called ===")
+	# Continue the dialogue before reloading
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
 	_close_popup_and_load_level(levelId)
 
 func _on_popup_next() -> void:
 	print("=== MAIN: _on_popup_next called ===")
+	# Continue the dialogue before going to the next level
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
 	_close_popup_and_load_level(levelId + 1)
 
 func _close_popup_and_load_level(level_id: int) -> void:
