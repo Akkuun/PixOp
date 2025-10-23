@@ -249,14 +249,39 @@ func compute_updated_image() -> Image:
 		# Collect input images from all parent nodes
 		var input_images: Array = []
 		print("  Node has ", current_node.parents.size(), " parent(s)")
-		for parent in current_node.parents:
-			print("    Parent ID=", parent.id, " computed=", computed_images.has(parent.id))
-			if computed_images.has(parent.id):
-				input_images.append(computed_images[parent.id])
-			else:
-				print("Error: Parent node ", parent.id, " has not been computed yet")
-				animate_psnr_meter(psnr_start)
-				return baseImage
+		
+		# If we have port connections, use them to order the inputs correctly
+		if current_node.port_connections.size() > 0:
+			print("  Using port_connections to order inputs")
+			# Get the required number of inputs based on operator
+			var required_inputs = current_node.operatorApplied.requiredParents
+			
+			# Build the input array in port order
+			for port_index in range(required_inputs):
+				if current_node.port_connections.has(port_index):
+					var parent = current_node.port_connections[port_index]
+					print("    Port ", port_index, ": Parent ID=", parent.id, " computed=", computed_images.has(parent.id))
+					if computed_images.has(parent.id):
+						input_images.append(computed_images[parent.id])
+					else:
+						print("Error: Parent node ", parent.id, " at port ", port_index, " has not been computed yet")
+						animate_psnr_meter(psnr_start)
+						return baseImage
+				else:
+					print("Error: Port ", port_index, " has no connection")
+					animate_psnr_meter(psnr_start)
+					return baseImage
+		else:
+			# Fallback to old behavior if no port connections (shouldn't happen in normal use)
+			print("  No port_connections, using parents array order (fallback)")
+			for parent in current_node.parents:
+				print("    Parent ID=", parent.id, " computed=", computed_images.has(parent.id))
+				if computed_images.has(parent.id):
+					input_images.append(computed_images[parent.id])
+				else:
+					print("Error: Parent node ", parent.id, " has not been computed yet")
+					animate_psnr_meter(psnr_start)
+					return baseImage
 		
 		# Check if we have the required number of inputs
 		print("  Required inputs: ", current_node.operatorApplied.requiredParents, " Got: ", input_images.size())
@@ -398,6 +423,12 @@ func _ready() -> void:
 func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	print("=== Connection request ===")
 	print("From: ", from_node, ":", from_port, " -> To: ", to_node, ":", to_port)
+	
+	# Validate the connection first using GraphEditor's validation function
+	if not graph_edit.isConnectionValid(from_node, from_port, to_node, to_port):
+		print("✗ Connection validation failed")
+		return
+	
 	print("Available nodes in graph_node_map:")
 	for key in graph_node_map.keys():
 		print("  ", key, " -> ", graph_node_map[key])
@@ -409,18 +440,29 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 	print("Found PixopGraphNodes - From: ", from_pixop_node != null, " To: ", to_pixop_node != null)
 	
 	if from_pixop_node and to_pixop_node:
+		# Additional validation: check if the node can accept more inputs
+		if to_pixop_node.operatorApplied and to_pixop_node.port_connections.size() >= to_pixop_node.operatorApplied.requiredParents:
+			print("✗ Target node already has maximum number of inputs (", to_pixop_node.operatorApplied.requiredParents, ")")
+			return
+		
+		# Additional validation: check if this specific port is already connected
+		if to_pixop_node.port_connections.has(to_port):
+			print("✗ Target port ", to_port, " is already connected")
+			return
+		
 		print("Found both PixopGraphNodes - updating connections")
-		# Update the PixopGraphNode connections
-		from_pixop_node.add_child(to_pixop_node)
+		# Update the PixopGraphNode connections with port information
+		from_pixop_node.add_child(to_pixop_node, to_port)
 		
 		# Allow the GraphEdit connection
 		graph_edit.connect_node(from_node, from_port, to_node, to_port)
 		
 		spawn_connection_particles(from_node, to_node)
 		
-		print("✓ Successfully connected: ", from_node, " -> ", to_node)
+		print("✓ Successfully connected: ", from_node, " -> ", to_node, " (port ", to_port, ")")
 		print("  From node children count: ", from_pixop_node.childs.size())
 		print("  To node parents count: ", to_pixop_node.parents.size())
+		print("  To node port_connections: ", to_pixop_node.port_connections)
 		
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph()...")
@@ -446,16 +488,17 @@ func _on_graph_edit_disconnection_request(from_node: StringName, from_port: int,
 	
 	if from_pixop_node and to_pixop_node:
 		print("Found both PixopGraphNodes - updating disconnections")
-		# Update the PixopGraphNode connections
-		from_pixop_node.remove_child(to_pixop_node)
+		# Update the PixopGraphNode connections with port information
+		from_pixop_node.remove_child(to_pixop_node, to_port)
 		
 		# Allow the GraphEdit disconnection
 		graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
 		
 		
-		print("✓ Successfully disconnected: ", from_node, " -> ", to_node)
+		print("✓ Successfully disconnected: ", from_node, " -> ", to_node, " (port ", to_port, ")")
 		print("  From node children count: ", from_pixop_node.childs.size())
 		print("  To node parents count: ", to_pixop_node.parents.size())
+		print("  To node port_connections: ", to_pixop_node.port_connections)
 		
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph() after disconnection...")
@@ -508,18 +551,3 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		return
 	graph_node_map[graph_node_name] = new_pixop_node
 	print("Registered GraphNode '", graph_node_name, "' with operator '", operator, "'")
-
-# Helper function to validate if a connection is allowed
-func validate_connection(from_node: StringName, to_node: StringName) -> bool:
-	var from_pixop_node = graph_node_map.get(from_node)
-	var to_pixop_node = graph_node_map.get(to_node)
-	
-	if not from_pixop_node or not to_pixop_node:
-		return false
-	
-	# Check if the connection would create a valid graph
-	if to_pixop_node.operatorApplied and to_pixop_node.parents.size() >= to_pixop_node.operatorApplied.requiredParents:
-		print("Node already has enough parents")
-		return false
-	
-	return true
