@@ -28,7 +28,9 @@ class Operator extends Resource:
 		self.function = function
 		self.returnedImages = returnedImages
 
-
+func _flou_fond_wrapper(img: Image, img2: Image, kernel_size: int) -> Image:
+	return await flou_fond(img, img2, kernel_size)
+var flou_fond_operator = Operator.new("flou_fond", Callable(self, "_flou_fond_wrapper"), 2, 1)
 func _flou_wrapper(img: Image, kernel_size: int) -> Image:
 	return await flou(img, kernel_size)
 var flou_operator = Operator.new("flou", Callable(self, "_flou_wrapper"), 1, 1)

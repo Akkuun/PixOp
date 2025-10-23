@@ -265,8 +265,12 @@ func compute_updated_image() -> Image:
 				result_image = await current_node.operatorApplied.function.call(input_images[0])
 		elif current_node.operatorApplied.requiredParents == 2:
 			# Two input operator (like difference)
-			print("    Calling with two image inputs")
-			result_image = await current_node.operatorApplied.function.call(input_images[0], input_images[1])
+			if current_node.parameters.has("kernel_size"):
+				print("    Calling with kernel_size: ", current_node.parameters["kernel_size"])
+				result_image = await current_node.operatorApplied.function.call(input_images[0], input_images[1], current_node.parameters["kernel_size"])
+			else:
+				print("    Calling with two image inputs")
+				result_image = await current_node.operatorApplied.function.call(input_images[0], input_images[1])
 		else:
 			print("Error: Operators with ", current_node.operatorApplied.requiredParents, " inputs not implemented yet")
 			return baseImage
@@ -467,7 +471,7 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 	elif operator == "expdyn":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, expansion_dynamique_operator, {})
 	elif operator == "blur_background":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_fond_operator, {"kernel_size": 5})
 	elif operator == "rgb_to_ycbcr":
 		# Placeholder for future operator
 		print("Warning: rgb_to_ycbcr operator not implemented yet")
