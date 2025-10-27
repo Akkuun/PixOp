@@ -286,3 +286,21 @@ func greyscale(input: Image) -> Image:
 func difference(input: Image, img: Image) -> Image:
 	var shader_material = getShader(base_path + "difference.gdshader")
 	return await apply_shader_to_two_images(input, img, shader_material)
+
+func y(input: Image) -> Image:
+	var shader_material = getShader(base_path + "y.gdshader")
+	return await apply_shader_to_image(input, shader_material)
+
+func cb(input: Image) -> Image:
+	var shader_material = getShader(base_path + "cb.gdshader")
+	return await apply_shader_to_image(input, shader_material)
+
+func cr(input: Image) -> Image:
+	var shader_material = getShader(base_path + "cr.gdshader")
+	return await apply_shader_to_image(input, shader_material)
+
+func ycbcr(input: Image) -> Dictionary:
+	var y_img = await y(input)
+	var cb_img = await cb(input)
+	var cr_img = await cr(input)
+	return {"Y": y_img, "Cb": cb_img, "Cr": cr_img}
