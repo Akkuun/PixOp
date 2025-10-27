@@ -57,6 +57,7 @@ var end_operator = Operator.new("end", Callable(self, "display_final_image"), 1,
 class PixopGraphNode extends Resource:
 	var state: GraphState
 	var id: int
+	var name: String
 	var childs: Array
 	var parents: Array
 	var operatorApplied: Operator
@@ -67,10 +68,10 @@ class PixopGraphNode extends Resource:
 	# Key: int (port index), Value: PixopGraphNode (parent node)
 	var port_connections: Dictionary = {}
 
-	func _init(state: GraphState, operatorApplied: Operator = null, parameters: Dictionary = {}, parents: Array = [], child = []) -> void:
+	func _init(state: GraphState, operatorApplied: Operator = null, parameters: Dictionary = {}, parents: Array = [], name: String = "") -> void:
 		id = PixopGraphNodeIdentifier.get_next_id()
 		self.state = state
-		self.childs = childs
+		self.name = name
 		self.operatorApplied = operatorApplied
 		self.parameters = parameters
 		self.parents = parents
@@ -110,7 +111,7 @@ class PixopGraphNode extends Resource:
 	func check_conditions() -> bool:
 		if state == GraphState.Start:
 			return true
-		return parents.size() != operatorApplied.requiredParents
+		return parents.size() == operatorApplied.requiredParents
 	
 	func search_for_end(current_path: Array = []) -> Array:
 		# Prevent infinite recursion by checking if we've already visited this node
@@ -143,6 +144,42 @@ class PixopGraphNode extends Resource:
 			return []
 		var path = search_for_end()
 		print("Path from start to end: ", path.size(), " nodes")
+		for i in range(path.size()):
+			var node = path[i]
+			print("  Path[", i, "]: ID=", node.id, " State=", node.state)
+		return path
+
+	func search_for_target(target: PixopGraphNode, current_path: Array = []) -> Array:
+		# Prevent infinite recursion by checking if we've already visited this node
+		if self in current_path:
+			return []
+		
+		# Add this node to the current path
+		var new_path = current_path + [self]
+		
+		# If this is the target node, return the path of nodes leading to it
+		if self == target:
+			return new_path
+		
+		# If this is a leaf node (no children), return empty array (target not reached)
+		if childs.size() == 0:
+			return []
+		
+		# Recursively search through all children
+		for child in childs:
+			var child_path = child.search_for_target(target, new_path)
+			# If any child found a path to target, return it immediately
+			if child_path.size() > 0:
+				return child_path
+		
+		# If no child found a path to target, return empty array
+		return []
+
+	func get_nodes_from_start_to_target(target: PixopGraphNode) -> Array:
+		if state != GraphState.Start:
+			return []
+		var path = search_for_target(target)
+		print("Path from start to target: ", path.size(), " nodes")
 		for i in range(path.size()):
 			var node = path[i]
 			print("  Path[", i, "]: ID=", node.id, " State=", node.state)

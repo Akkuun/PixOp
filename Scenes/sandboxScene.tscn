@@ -1,9 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://cor5impnk7cmh"]
+[gd_scene load_steps=37 format=3 uid="uid://cor5impnk7cmh"]
 
 [ext_resource type="Script" uid="uid://br7855e33ue31" path="res://Scripts/sandbox.gd" id="1_xn00g"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_ur4t3"]
-[ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/testlabelVoice.gd" id="4_st4m7"]
+[ext_resource type="Script" path="res://Scripts/testlabelVoice.gd" id="4_st4m7"]
 [ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_bp4c6"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_tdk5e"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_umo6e"]
@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="19_eaovq"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="20_gxxx5"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="20_tk5wn"]
-[ext_resource type="PackedScene" uid="uid://8wnvmkng21a1" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
+[ext_resource type="PackedScene" uid="uid://v8rgcxjsogfr" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="21_uhkwf"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="22_mrc8p"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="23_3javq"]
@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="27_6rv4s"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="28_yb8rn"]
 [ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="30_ur4t3"]
+[ext_resource type="Texture2D" path="res://ressources/Theme/UI/UI.png" id="32_bp4c6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
 shader = ExtResource("9_yscyj")
@@ -52,11 +53,16 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gxxx5"]
 texture = ExtResource("10_6lcnp")
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdk5e"]
+atlas = ExtResource("32_bp4c6")
+region = Rect2(338, 408, 32, 16)
+
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit", "eye")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_xn00g")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
+eye = NodePath("Eye")
 
 [node name="TutorialUI" type="Control" parent="."]
 z_index = 100
@@ -375,6 +381,9 @@ text = "Sauvegarder"
 visible = false
 offset_top = -24.093
 offset_bottom = -24.093018
+
+[node name="Eye" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_tdk5e")
 
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/SaveImageButton" to="." method="_on_save_image_button_pressed"]

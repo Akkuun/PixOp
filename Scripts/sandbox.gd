@@ -17,11 +17,16 @@ var dialog: String = ""
 
 var dialogue_system: Control  # Référence au système de dialogue
 
+var selected_node: PixopGraphNode  # Currently selected node for preview
+var cached_image: Image  # Cached computed image to prevent flashes
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
 @export var current: Sprite2D
 @export var graph_edit : GraphEdit
+
+@export var eye: Sprite2D
 
 func _on_load_new_button_pressed() -> void:
 	var file_dialog = FileDialog.new()
@@ -150,14 +155,15 @@ func show_tutorial_dialogue() -> void:
 		print("No tutorial dialogue")
 
 func load_level() -> void:
-	startNode = PixopGraphNode.new(GraphState.Start)
-	endNode = PixopGraphNode.new(GraphState.End, end_operator)
+	startNode = PixopGraphNode.new(GraphState.Start, null, {}, [], "Start_node")
+	endNode = PixopGraphNode.new(GraphState.End, end_operator, {}, [], "Final_node")
 	graph_node_map.clear()
 	graph_node_map["Start_node"] = startNode
 	graph_node_map["Final_node"] = endNode
 	var texCurrent := load(images_folder + "/placeholder.jpg")
 	editedImage = texCurrent.get_image()
 	baseImage = texCurrent.get_image()
+	cached_image = baseImage.duplicate()
 	update_current(baseImage)
 
 	var level_data = FileAccess.get_file_as_string("res://Levels/levels_data.json")
@@ -187,22 +193,24 @@ func update_current_from_graph() -> void:
 	Call this after making changes to the node graph.
 	"""
 	print("=== update_current_from_graph called ===")
-	var computed_image = await compute_updated_image()
+	var computed_image = await compute_updated_image(selected_node)
+	cached_image = computed_image
 	editedImage = computed_image
-	print("Got computed image, updating current display...")
-	update_current(computed_image)
+	update_current(cached_image)
 	print("=== update_current_from_graph finished ===")
 
-func compute_updated_image() -> Image:
-	print("=== Starting compute_updated_image ===")
+func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
+	if target_node == null:
+		target_node = endNode
+	print("=== Starting compute_updated_image to target: ", target_node.id, " ===")
 	
-	# First, check if there's a complete path from start to end
-	var path_to_end = startNode.get_nodes_from_start_to_end()
-	if path_to_end.is_empty():
-		print("No complete path from start to end found - returning base image")
+	# First, check if there's a complete path from start to target
+	var path_to_target = startNode.get_nodes_from_start_to_target(target_node)
+	if path_to_target.is_empty():
+		print("No complete path from start to target found - returning base image")
 		return baseImage
 	
-	print("Found complete path to end with ", path_to_end.size(), " nodes")
+	print("Found complete path to target with ", path_to_target.size(), " nodes")
 	
 	# Dictionary to store computed images for each node (by node ID)
 	var computed_images: Dictionary = {}
@@ -302,23 +310,27 @@ func compute_updated_image() -> Image:
 		computed_images[current_node.id] = result_image
 		print("  ✓ Computed image for node ", current_node.id, " (", current_node.operatorApplied.name, ")")
 	
-	# Find the node that connects to the end node to get the final result
-	print("End node has ", endNode.parents.size(), " parent(s)")
-	for parent in endNode.parents:
-		print("  End node parent ID=", parent.id, " computed=", computed_images.has(parent.id))
-		if computed_images.has(parent.id):
-			print("✓ Returning final image from node ", parent.id)
-			return computed_images[parent.id]
+	# Get the result based on the target node
+	var final_result: Image
+	if target_node == startNode:
+		final_result = baseImage
+	elif target_node.state == GraphState.End:
+		# For end node, find the parent image
+		for parent in target_node.parents:
+			if computed_images.has(parent.id):
+				final_result = computed_images[parent.id]
+				break
+		if not final_result:
+			final_result = baseImage
+	else:
+		# For middle nodes, return the computed image of the target node itself
+		if computed_images.has(target_node.id):
+			final_result = computed_images[target_node.id]
+		else:
+			final_result = baseImage
 	
-	# Fallback: return the last computed image
-	print("No end node parent found, using fallback")
-	if computed_images.size() > 1: # More than just the start node
-		var last_computed_id = computed_images.keys()[-1]
-		print("✓ Returning last computed image from node ", last_computed_id)
-		return computed_images[last_computed_id]
-	
-	print("✓ Returning original base image (no processing)")
-	return baseImage
+	print("✓ Returning image for target node ", target_node.id, " (", target_node.operatorApplied.name if target_node.operatorApplied else "none", ")")
+	return final_result
 
 func get_nodes_in_topological_order() -> Array:
 	"""
@@ -380,18 +392,38 @@ func _collect_all_nodes(node: PixopGraphNode, all_nodes: Array, visited: Diction
 	for child in node.childs:
 		_collect_all_nodes(child, all_nodes, visited)
 
+func _place_eye_on_graphnode_name(node_name: StringName) -> void:
+	if not eye or not graph_edit:
+		return
+	var graph_node = graph_edit.get_node_or_null(str(node_name))
+	if not graph_node:
+		eye.hide()
+		return
+	if eye.get_parent():
+		eye.get_parent().remove_child(eye)
+	graph_node.add_child(eye)
+	eye.position = Vector2(16, -1)
+	eye.show()
+
 func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
 	
 	load_level()
-	
+
+	# Set initial selection to start node and position eye from the right
+	selected_node = startNode
+	if eye:
+		_place_eye_on_graphnode_name(startNode.name)
+
 	# Connect GraphEdit signals
 	if graph_edit:
 		graph_edit.connection_request.connect(_on_graph_edit_connection_request)
 		graph_edit.disconnection_request.connect(_on_graph_edit_disconnection_request)
 		graph_edit.connection_drag_started.connect(_on_graph_edit_connection_drag_started)
 		graph_edit.connection_drag_ended.connect(_on_graph_edit_connection_drag_ended)
+		graph_edit.node_selected.connect(_on_node_selected)
+		graph_edit.node_deleted.connect(_on_node_deleted)
 		print("GraphEdit signals connected successfully")
 	else:
 		print("Warning: GraphEdit node not found")
@@ -490,6 +522,42 @@ func _on_graph_edit_connection_drag_started(_from_node: StringName, _from_port: 
 func _on_graph_edit_connection_drag_ended() -> void:
 	print("Connection drag ended")
 
+func _on_node_selected(node: Node) -> void:
+	# Remove eye from previous selected node
+	if selected_node and eye:
+		var old_graph_node = graph_edit.get_node(selected_node.name)
+		if old_graph_node and eye.get_parent() == old_graph_node:
+			old_graph_node.remove_child(eye)
+			eye.hide()
+	
+	selected_node = graph_node_map.get(node.name)
+	print("Selected node: ", str(selected_node.id) if selected_node else "none")
+	
+	# Add eye to new selected node
+	if selected_node and eye:
+		# Use helper to position the eye from the right on the selected GraphNode
+		_place_eye_on_graphnode_name(selected_node.name)
+	else:
+		# No selection, hide eye
+		if eye:
+			if eye.get_parent():
+				eye.get_parent().remove_child(eye)
+			eye.hide()
+	
+	update_current_from_graph()
+
+func _on_node_deleted(node_name: StringName) -> void:
+	var deleted_node = graph_node_map.get(node_name)
+	if deleted_node == selected_node:
+		selected_node = null
+		print("Selected node was deleted, resetting selection")
+		# Remove eye if it was on the deleted node
+		if eye and eye.get_parent() and eye.get_parent().name == node_name:
+			eye.get_parent().remove_child(eye)
+			eye.hide()
+	graph_node_map.erase(node_name)
+	print("Removed deleted node from graph_node_map: ", node_name)
+
 # Helper function to register GraphNodes (no longer needed with direct access method)
 func register_graph_node(graph_node_name: String, operator: String) -> void:
 	var new_pixop_node = null
@@ -498,22 +566,22 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		new_pixop_node = startNode
 	elif operator == "final":
 		new_pixop_node = endNode
-	elif operator == "blur":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5})
+	if operator == "blur":
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_operator, {"kernel_size": 5}, [], graph_node_name)
 	elif operator == "dilatation":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, dilatation_operator, {"kernel_size": 5}, [], graph_node_name)
 	elif operator == "erosion":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, erosion_operator, {"kernel_size": 5}, [], graph_node_name)
 	elif operator == "seuil":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, seuil_otsu_operator, {}, [], graph_node_name)
 	elif operator == "difference":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, difference_operator, {}, [], graph_node_name)
 	elif operator == "negatif":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, negatif_operator, {}, [], graph_node_name)
 	elif operator == "expdyn":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, expansion_dynamique_operator, {})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, expansion_dynamique_operator, {}, [], graph_node_name)
 	elif operator == "blur_background":
-		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_fond_operator, {"kernel_size": 5})
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_fond_operator, {"kernel_size": 5}, [], graph_node_name)
 	elif operator == "rgb_to_ycbcr":
 		# Placeholder for future operator
 		print("Warning: rgb_to_ycbcr operator not implemented yet")
@@ -527,5 +595,3 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		return
 	graph_node_map[graph_node_name] = new_pixop_node
 	print("Registered GraphNode '", graph_node_name, "' with operator '", operator, "'")
-
-

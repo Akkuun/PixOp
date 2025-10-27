@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://bdb2cay1qkpj8"]
 
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="1_ydp10"]
-[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="3_p03tl"]
+[ext_resource type="Texture2D" path="res://ressources/Theme/UI/UI.png" id="3_p03tl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_acort"]
 texture = ExtResource("3_p03tl")
