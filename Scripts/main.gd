@@ -33,6 +33,10 @@ var psnr_goal: float = 200.0
 @export var psnr_anim_duration: float = 0.5
 @export var main_theme_player : AudioStreamPlayer
 var dialogue_system: Control  # Référence au système de dialogue
+@export var level_complete_popup_scene: PackedScene
+
+var _current_popup: Node = null
+
 
 func animate_psnr_meter(value: float) -> void:
 	# normalization
@@ -105,6 +109,11 @@ func _remove_particles(particle_node: Node) -> void:
 		particle_node.queue_free()
 
 func load_level(id: int) -> void:
+	animate_psnr_meter(0.0) # Reset PSNR meter at level start
+	
+	# Clear the graph before loading new level
+	_clear_graph()
+	
 	levelId = id
 	startNode = PixopGraphNode.new(GraphState.Start)
 	endNode = PixopGraphNode.new(GraphState.End, end_operator)
@@ -138,6 +147,34 @@ func load_level(id: int) -> void:
 
 
 	show_tutorial_dialogue(id)
+
+func _clear_graph() -> void:
+	"""
+	Clears all graph nodes from the GraphEdit except Start and Final nodes.
+	"""
+	if not graph_edit:
+		return
+	
+	print("=== Clearing graph ===")
+	
+	# Get all GraphNode children
+	var nodes_to_remove = []
+	for child in graph_edit.get_children():
+		if child is GraphNode:
+			# Keep Start_node and Final_node
+			if child.name != "Start_node" and child.name != "Final_node":
+				nodes_to_remove.append(child)
+	
+	# Remove all GraphNodes except Start and Final
+	for node in nodes_to_remove:
+		print("Removing node: ", node.name)
+		graph_edit.remove_child(node)
+		node.queue_free()
+	
+	# Clear all connections
+	graph_edit.clear_connections()
+	
+	print("✓ Graph cleared: ", nodes_to_remove.size(), " nodes removed (kept Start_node and Final_node)")
 
 func update_current(image: Image) -> void:
 	var texture := ImageTexture.create_from_image(image)
@@ -300,9 +337,14 @@ func compute_updated_image() -> Image:
 			animate_psnr_meter(psnr) # Assuming 50 dB is the max for full meter
 			print("✓ PSNR calculé: ", psnr, " dB")
 			print("✓ Returning final image from node ", parent.id)
+			# Si l'objectif PSNR est atteint, afficher la popup de succès
+			if psnr >= psnr_goal:
+				print("Level completed! PSNR goal of ", psnr, " dB reached.")
+				_show_level_complete_popup(psnr)
+				return final_image
 			return final_image
-	
-	# Fallback: return the last computed image
+
+	# Fallback: return the last computed image if no parent of end node had a computed image
 	print("No end node parent found, using fallback")
 	if computed_images.size() > 1: # More than just the start node
 		var last_computed_id = computed_images.keys()[-1]
@@ -310,10 +352,126 @@ func compute_updated_image() -> Image:
 		var psnr = PSNR(computed_images[last_computed_id], targetImage)
 		animate_psnr_meter(psnr)
 		return computed_images[last_computed_id]
-	
+
 	print("✓ Returning original base image (no processing)")
 	animate_psnr_meter(psnr_start)
 	return baseImage
+
+func _show_level_complete_popup(psnr_value: float) -> void:
+	# Instantiate popup scene (use exported PackedScene if set, otherwise load default prefab)
+	var popup_scene = level_complete_popup_scene if level_complete_popup_scene else load("res://prefab/pop-up_end.tscn")
+	if not popup_scene:
+		push_warning("Level complete popup scene not found")
+		return
+
+	var popup = popup_scene.instantiate()
+	# Add to current scene so it displays above
+	var root = get_tree().current_scene
+	if root:
+		# Prefer an existing UI CanvasLayer so popup is above other UI
+		var ui_layer = root.get_node_or_null("DialogButtonsLayer")
+		if ui_layer and ui_layer is CanvasLayer:
+			ui_layer.add_child(popup)
+		else:
+			root.add_child(popup)
+	else:
+		add_child(popup)
+	
+	# place in center of screen the popup
+	# by moving the node2D of the popup
+	# The popup root is already the PopUpEnd Node2D
+	var popup_node2d = popup
+
+	print("J'ai trouvé le popup_node2d: ", popup_node2d)
+	
+	# Center the popup on screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	var panel = popup_node2d.get_node_or_null("Panel")
+	if panel:
+		var panel_size = panel.size
+		popup_node2d.position = Vector2(
+			(viewport_size.x - panel_size.x) / 2.0,
+			(viewport_size.y - panel_size.y) / 2.0
+		)
+		print("Popup centered at position: ", popup_node2d.position)
+
+	# Keep reference so handlers can remove it
+	_current_popup = popup
+
+	# Pause the dialogue system 
+	if dialogue_system and dialogue_system.has_method("pause_dialogue"):
+		dialogue_system.pause_dialogue()
+
+	# Show message
+	var message = "PSNR: " + str(psnr_value) + " dB\nGoal: " + str(psnr_goal) + " dB"
+	var lbl = popup.get_node_or_null("Panel/Label")
+	if lbl:
+		lbl.text = message
+	else:
+		print("Warning: Could not find Panel/Label in popup")
+
+	# Connect signals if present
+	if popup.has_signal("menu_pressed"):
+		popup.connect("menu_pressed", Callable(self, "_on_popup_menu"))
+		print("✓ Connected menu_pressed signal")
+	else:
+		print("✗ menu_pressed signal not found on popup")
+		
+	if popup.has_signal("retry_pressed"):
+		popup.connect("retry_pressed", Callable(self, "_on_popup_retry"))
+		print("✓ Connected retry_pressed signal")
+	else:
+		print("✗ retry_pressed signal not found on popup")
+		
+	if popup.has_signal("next_pressed"):
+		popup.connect("next_pressed", Callable(self, "_on_popup_next"))
+		print("✓ Connected next_pressed signal")
+	else:
+		print("✗ next_pressed signal not found on popup")
+
+func _on_popup_menu() -> void:
+	print("=== MAIN: _on_popup_menu called ===")
+	# Continue the dialogue before going to menu
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
+	
+	# Close and go to menu scene
+	if _current_popup:
+		_current_popup.queue_free()
+		_current_popup = null
+
+	# Change to menu scene if exists
+	var menu_scene_path = "res://Scenes/menu.tscn"
+	if FileAccess.file_exists(menu_scene_path):
+		print("=== MAIN: Changing to menu scene ===")
+		get_tree().change_scene_to_file(menu_scene_path)
+	else:
+		print("Menu scene not found: ", menu_scene_path)
+
+func _on_popup_retry() -> void:
+	print("=== MAIN: _on_popup_retry called ===")
+	# Continue the dialogue before reloading
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
+	_close_popup_and_load_level(levelId)
+
+func _on_popup_next() -> void:
+	print("=== MAIN: _on_popup_next called ===")
+	# Continue the dialogue before going to the next level
+	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
+		dialogue_system.resume_dialogue()
+	_close_popup_and_load_level(levelId + 1)
+
+func _close_popup_and_load_level(level_id: int) -> void:
+	print("=== MAIN: Loading level ", level_id, " ===")
+	# Close popup
+	if _current_popup:
+		_current_popup.queue_free()
+		_current_popup = null
+	
+	# Load the requested level
+	load_level(level_id)
+
 
 func get_nodes_in_topological_order() -> Array:
 	"""
