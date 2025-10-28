@@ -1,6 +1,10 @@
 extends Node
 
 var base_path = "res://Lib_Images/Shaders/"
+var fill_path = "res://Lib_Images/ycbcr.png"
+
+var ycbcr_fill_texture: ImageTexture = ImageTexture.create_from_image(load(fill_path).get_image())
+
 
 class HistogramRGB:
 	var red: Array
@@ -22,8 +26,8 @@ func getHistogramRGB(image: Image) -> HistogramRGB:
 	var height = image.get_height()
 	
 	for x in range(width):
-		for y in range(height):
-			var color = image.get_pixel(x, y)
+		for yy in range(height):
+			var color = image.get_pixel(x, yy)
 			histogram.red[int(color.r * 255)] += 1
 			histogram.green[int(color.g * 255)] += 1
 			histogram.blue[int(color.b * 255)] += 1
@@ -39,8 +43,8 @@ func getHistogramGrayscale(imageGreyscale: Image) -> Array:
 	var height = imageGreyscale.get_height()
 
 	for x in range(width):
-		for y in range(height):
-			var color = imageGreyscale.get_pixel(x, y)
+		for yy in range(height):
+			var color = imageGreyscale.get_pixel(x, yy)
 			var gray = int(color.r * 255)
 			histogram[gray] += 1.0
 
@@ -109,9 +113,9 @@ func PSNR(img1: Image, img2: Image) -> float:
 	var height = img1.get_height()
 	
 	for x in range(width):
-		for y in range(height):
-			var color1 = img1.get_pixel(x, y)
-			var color2 = img2.get_pixel(x, y)
+		for yy in range(height):
+			var color1 = img1.get_pixel(x, yy)
+			var color2 = img2.get_pixel(x, yy)
 			mse += pow(color1.r - color2.r, 2)
 			mse += pow(color1.g - color2.g, 2)
 			mse += pow(color1.b - color2.b, 2)
@@ -307,6 +311,7 @@ func ycbcr(input: Image) -> Dictionary:
 
 func ycbcr_visualize(input: Image) -> Image:
 	var shader_material = getShader(base_path + "ycbcr_viz.gdshader")
+	shader_material.set_shader_parameter("fill", ycbcr_fill_texture)
 	return await apply_shader_to_image(input, shader_material)
 
 func ycbcr_to_rgb(y_img: Image, cb_img: Image, cr_img: Image) -> Image:

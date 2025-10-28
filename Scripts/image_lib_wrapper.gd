@@ -27,6 +27,7 @@ class Operator extends Resource:
 		self.requiredParents = requiredParents
 		self.function = function
 		self.returnedImages = returnedImages
+
 func _rgb_to_ycbcr_wrapper(img: Image) -> Dictionary:
 	return await ycbcr(img)
 var rgb_to_ycbcr_operator = Operator.new("rgb_to_ycbcr", Callable(self, "_rgb_to_ycbcr_wrapper"), 1, 3)
@@ -74,7 +75,7 @@ class PixopGraphNode extends Resource:
 	
 	# Dictionary to map input port index to parent node
 	# Key: int (port index), Value: PixopGraphNode (parent node)
-	var port_connections: Dictionary = {}
+	var port_connections: Dictionary = {}  # Key: int (port index), Value: Dictionary {"parent": PixopGraphNode, "output_port": int}
 
 	func _init(state: GraphState, operatorApplied: Operator = null, parameters: Dictionary = {}, parents: Array = [], name: String = "") -> void:
 		id = PixopGraphNodeIdentifier.get_next_id()
@@ -86,7 +87,7 @@ class PixopGraphNode extends Resource:
 		for parent in parents:
 			parent.add_child(self)
 
-	func add_child(child: PixopGraphNode, to_port: int = 0) -> void:
+	func add_child(child: PixopGraphNode, to_port: int = 0, from_port: int = 0) -> void:
 		# Only add if not already a child
 		if child not in childs:
 			childs.append(child)
@@ -94,7 +95,7 @@ class PixopGraphNode extends Resource:
 		if self not in child.parents:
 			child.parents.append(self)
 		# Store the port connection mapping
-		child.port_connections[to_port] = self
+		child.port_connections[to_port] = {"parent": self, "output_port": from_port}
 
 	func private_remove_parent(parent: PixopGraphNode) -> void:
 		# Remove ALL instances of this parent (in case there were duplicates)
@@ -103,18 +104,22 @@ class PixopGraphNode extends Resource:
 			if index != -1:
 				parents.remove_at(index)
 
-	func remove_child(child: PixopGraphNode, from_port: int = -1) -> void:
-		# Remove ALL instances of this child (in case there were duplicates)
-		while child in childs:
-			var index = childs.find(child)
-			if index != -1:
-				childs.remove_at(index)
-		# Remove self from child's parents
-		child.private_remove_parent(self)
-		# Remove the port connection mapping
-		if from_port >= 0 and child.port_connections.has(from_port):
-			if child.port_connections[from_port] == self:
-				child.port_connections.erase(from_port)
+	func remove_child(child: PixopGraphNode, to_port: int = -1, from_port: int = -1) -> void:
+		# Remove the port connection mapping if it matches
+		if to_port >= 0 and child.port_connections.has(to_port):
+			var conn = child.port_connections[to_port]
+			if conn["parent"] == self and (from_port < 0 or conn["output_port"] == from_port):
+				child.port_connections.erase(to_port)
+				# Check if there are other connections from this parent
+				var has_other = false
+				for other_conn in child.port_connections.values():
+					if other_conn["parent"] == self:
+						has_other = true
+						break
+				if not has_other:
+					child.private_remove_parent(self)
+				# Remove from childs
+				childs.erase(child)
 
 	func check_conditions() -> bool:
 		if state == GraphState.Start:
@@ -213,5 +218,3 @@ class PixopGraphNode extends Resource:
 				full = full and child.is_graph_full(false)
 			return full
 		return true
-
-

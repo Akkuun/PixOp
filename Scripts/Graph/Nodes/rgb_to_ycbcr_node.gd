@@ -6,9 +6,9 @@ func _ready():
 	
 	# Configure slot colors
 	var rgb_color = Color.WHITE
-	var y_color = Color(0.7, 0.7, 0.7)    # Gray for Y
-	var cr_color = Color(1.0, 0.3, 0.3)   # Red for Cr
-	var cb_color = Color.DODGER_BLUE
+	var y_color = Color(0.7, 0.7, 0.7) 
+	var cb_color = Color(1.0, 0.3, 0.3) 
+	var cr_color = Color.DODGER_BLUE
 	
 	# Universal slot type
 	var universal_type = 0
@@ -46,7 +46,7 @@ func _ready():
 	hbox2.alignment = BoxContainer.ALIGNMENT_END  # Align to the right
 	
 	var label2 = Label.new()
-	label2.text = "Cr"
+	label2.text = "Cb"
 	label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
 	# Create right margin container
@@ -65,7 +65,7 @@ func _ready():
 	hbox3.alignment = BoxContainer.ALIGNMENT_END  # Align to the right
 	
 	var label3 = Label.new()
-	label3.text = "Cb"
+	label3.text = "Cr"
 	label3.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	
 	var margin3 = MarginContainer.new()

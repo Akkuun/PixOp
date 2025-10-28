@@ -4,7 +4,7 @@ render_mode blend_mix;
 void fragment() {
     vec4 col = texture(TEXTURE, UV);
 
-	float cr = 0.5 * col.r - 0.460525 * col.g - 0.081975 * col.b + 0.5;
+	float cr = 0.5 * col.r - 0.41869 * col.g - 0.08131 * col.b + 0.5;
 
     COLOR = vec4(cr, cr, cr, col.a);
 }

@@ -256,12 +256,23 @@ func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
 			# Build the input array in port order
 			for port_index in range(required_inputs):
 				if current_node.port_connections.has(port_index):
-					var parent = current_node.port_connections[port_index]
-					print("    Port ", port_index, ": Parent ID=", parent.id, " computed=", computed_images.has(parent.id))
+					var conn = current_node.port_connections[port_index]
+					var parent = conn["parent"]
+					var output_port = conn["output_port"]
+					print("    Port ", port_index, ": Parent ID=", parent.id, " output_port=", output_port, " computed=", computed_images.has(parent.id))
 					if computed_images.has(parent.id):
-						input_images.append(computed_images[parent.id])
+						var parent_result = computed_images[parent.id]
+						if parent_result is Dictionary:
+							var keys = ["Y", "Cb", "Cr"]
+							if output_port < keys.size():
+								input_images.append(parent_result[keys[output_port]])
+							else:
+								print("Error: Invalid output_port ", output_port)
+								return baseImage
+						else:
+							input_images.append(parent_result)
 					else:
-						print("Error: Parent node ", parent.id, " at port ", port_index, " has not been computed yet")
+						print("Error: Parent node ", parent.id, " has not been computed yet")
 						return baseImage
 				else:
 					print("Error: Port ", port_index, " has no connection")
@@ -285,7 +296,7 @@ func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
 		
 		print("  Applying operator: ", current_node.operatorApplied.name)
 		# Apply the operator based on the number of required inputs
-		var result_image: Image
+		var result_image
 		if current_node.operatorApplied.requiredParents == 1:
 			# Single input operator
 			if current_node.parameters.has("kernel_size"):
@@ -302,6 +313,10 @@ func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
 			else:
 				print("    Calling with two image inputs")
 				result_image = await current_node.operatorApplied.function.call(input_images[0], input_images[1])
+		elif current_node.operatorApplied.requiredParents == 3:
+			# Three input operator (ycbcr_to_rgb)
+			print("    Calling with three image inputs")
+			result_image = await current_node.operatorApplied.function.call(input_images[0], input_images[1], input_images[2])
 		else:
 			print("Error: Operators with ", current_node.operatorApplied.requiredParents, " inputs not implemented yet")
 			return baseImage
@@ -325,7 +340,17 @@ func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
 	else:
 		# For middle nodes, return the computed image of the target node itself
 		if computed_images.has(target_node.id):
-			final_result = computed_images[target_node.id]
+			var target_result = computed_images[target_node.id]
+			if target_result is Dictionary:
+				# Special case for rgb_to_ycbcr: visualize
+				if target_node.operatorApplied == rgb_to_ycbcr_operator:
+					var input_img = computed_images[target_node.parents[0].id]
+					final_result = await ycbcr_visualize(input_img)
+				else:
+					print("Error: Cannot display multi-output node result")
+					final_result = baseImage
+			else:
+				final_result = target_result
 		else:
 			final_result = baseImage
 	
@@ -460,7 +485,7 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		
 		print("Found both PixopGraphNodes - updating connections")
 		# Update the PixopGraphNode connections with port information
-		from_pixop_node.add_child(to_pixop_node, to_port)
+		from_pixop_node.add_child(to_pixop_node, to_port, from_port)
 		
 		# Allow the GraphEdit connection
 		graph_edit.connect_node(from_node, from_port, to_node, to_port)
@@ -497,7 +522,7 @@ func _on_graph_edit_disconnection_request(from_node: StringName, from_port: int,
 	if from_pixop_node and to_pixop_node:
 		print("Found both PixopGraphNodes - updating disconnections")
 		# Update the PixopGraphNode connections with port information
-		from_pixop_node.remove_child(to_pixop_node, to_port)
+		from_pixop_node.remove_child(to_pixop_node, to_port, from_port)
 		
 		# Allow the GraphEdit disconnection
 		graph_edit.disconnect_node(from_node, from_port, to_node, to_port)
@@ -583,13 +608,9 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 	elif operator == "blur_background":
 		new_pixop_node = PixopGraphNode.new(GraphState.Middle, flou_fond_operator, {"kernel_size": 5}, [], graph_node_name)
 	elif operator == "rgb_to_ycbcr":
-		# Placeholder for future operator
-		print("Warning: rgb_to_ycbcr operator not implemented yet")
-		return
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, rgb_to_ycbcr_operator, {}, [], graph_node_name)
 	elif operator == "ycbcr_to_rgb":
-		# Placeholder for future operator
-		print("Warning: ycbcr_to_rgb operator not implemented yet")
-		return
+		new_pixop_node = PixopGraphNode.new(GraphState.Middle, ycbcr_to_rgb_operator, {}, [], graph_node_name)
 	if new_pixop_node == null:
 		print("Warning: Could not create PixopGraphNode for operator '", operator, "'")
 		return

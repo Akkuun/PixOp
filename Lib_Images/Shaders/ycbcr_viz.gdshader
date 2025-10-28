@@ -1,11 +1,13 @@
 shader_type canvas_item;
 render_mode blend_mix;
 
+uniform sampler2D fill;
+
 void fragment() {
-    vec4 col = texture(TEXTURE, UV);
+    vec4 col = texture(TEXTURE, UV); // Image RGB source
 
 	if (UV.x < 0.5 && UV.y < 0.5) {
-		// Y
+		// Y 
 		vec2 uv_scaled = UV * 2.0;
 		vec4 col_scaled = texture(TEXTURE, uv_scaled);
 		float y = 0.299 * col_scaled.r + 0.587 * col_scaled.g + 0.114 * col_scaled.b;
@@ -23,6 +25,9 @@ void fragment() {
 		float cr = 0.5 * col_scaled.r - 0.460525 * col_scaled.g - 0.081475 * col_scaled.b + 0.5;
 		COLOR = vec4(cr, cr, cr, col_scaled.a);
 	} else {
-		COLOR = vec4(1.0, 1.0, 1.0, 0.0);
+		// Fill
+		vec2 uv_scaled = (UV - vec2(0.5, 0.5)) * 2.0;
+		vec4 col_scaled = texture(fill, uv_scaled);
+		COLOR = col_scaled;
 	}
 }
