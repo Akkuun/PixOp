@@ -27,7 +27,15 @@ class Operator extends Resource:
 		self.requiredParents = requiredParents
 		self.function = function
 		self.returnedImages = returnedImages
-
+func _rgb_to_ycbcr_wrapper(img: Image) -> Dictionary:
+	return await ycbcr(img)
+var rgb_to_ycbcr_operator = Operator.new("rgb_to_ycbcr", Callable(self, "_rgb_to_ycbcr_wrapper"), 1, 3)
+func _ycbcr_visualizer_wrapper(img: Image) -> Image:
+	return await ycbcr_visualize(img)
+var ycbcr_visualizer_operator = Operator.new("ycbcr_visualizer", Callable(self, "_ycbcr_visualizer_wrapper"), 1, 1)
+func _ycbcr_to_rgb_wrapper(y_img: Image, cb_img: Image, cr_img: Image) -> Image:
+	return await ycbcr_to_rgb(y_img, cb_img, cr_img)
+var ycbcr_to_rgb_operator = Operator.new("ycbcr_to_rgb", Callable(self, "_ycbcr_to_rgb_wrapper"), 3, 1)
 func _flou_fond_wrapper(img: Image, img2: Image, kernel_size: int) -> Image:
 	return await flou_fond(img, img2, kernel_size)
 var flou_fond_operator = Operator.new("flou_fond", Callable(self, "_flou_fond_wrapper"), 2, 1)

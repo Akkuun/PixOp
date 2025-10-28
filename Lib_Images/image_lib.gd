@@ -304,3 +304,13 @@ func ycbcr(input: Image) -> Dictionary:
 	var cb_img = await cb(input)
 	var cr_img = await cr(input)
 	return {"Y": y_img, "Cb": cb_img, "Cr": cr_img}
+
+func ycbcr_visualize(input: Image) -> Image:
+	var shader_material = getShader(base_path + "ycbcr_viz.gdshader")
+	return await apply_shader_to_image(input, shader_material)
+
+func ycbcr_to_rgb(y_img: Image, cb_img: Image, cr_img: Image) -> Image:
+	var shader_material = getShader(base_path + "ycbcr_to_rgb.gdshader")
+	shader_material.set_shader_parameter("cb", ImageTexture.create_from_image(cb_img))
+	shader_material.set_shader_parameter("cr", ImageTexture.create_from_image(cr_img))
+	return await apply_shader_to_image(y_img, shader_material)
