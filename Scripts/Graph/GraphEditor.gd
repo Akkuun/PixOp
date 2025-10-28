@@ -1,5 +1,6 @@
 extends GraphEdit
 
+signal node_deleted(node_name: StringName)
 
 @export var connectionSound: AudioStream 
 @export var clearSound : AudioStream
@@ -92,5 +93,6 @@ func _unhandled_input(event):
 							emit_signal("disconnection_request", conn["from_node"], conn["from_port"], conn["to_node"], conn["to_port"])
 					# Supprime le node
 					child.queue_free()
+					emit_signal("node_deleted", node_name)
 			audio_player_clear.play()
 			

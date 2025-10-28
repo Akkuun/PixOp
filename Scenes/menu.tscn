@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://sgubiuh6qnu" path="res://ressources/Image/I.png" id="4_wbdvm"]
 [ext_resource type="Texture2D" uid="uid://cxw4dpp7l58sa" path="res://ressources/Image/X.png" id="5_q3rjx"]
 [ext_resource type="Texture2D" uid="uid://6dkocr0euekw" path="res://ressources/Image/O.png" id="6_6swd7"]
-[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="7_q3rjx"]
+[ext_resource type="Texture2D" path="res://ressources/Theme/UI/UI.png" id="7_q3rjx"]
 [ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_6swd7"]
 [ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="9_7qvly"]
 

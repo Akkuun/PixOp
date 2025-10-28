@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://i382l4do0j1s"]
+[gd_scene load_steps=38 format=3 uid="uid://cor5impnk7cmh"]
 
 [ext_resource type="Script" uid="uid://br7855e33ue31" path="res://Scripts/sandbox.gd" id="1_xn00g"]
 [ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_gxxx5"]
@@ -15,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_038kl"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="14_5xwa7"]
 [ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="14_6lcnp"]
+[ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_tdk5e"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="15_qi5e1"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="16_b766o"]
 [ext_resource type="PackedScene" uid="uid://cwehgfkap3ffg" path="res://prefab/Graph/Nodes/ycbcr_to_rgb_node.tscn" id="17_xru2a"]
@@ -22,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="19_eaovq"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="20_gxxx5"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="20_tk5wn"]
-[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
+[ext_resource type="PackedScene" uid="uid://v8rgcxjsogfr" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="21_uhkwf"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="22_mrc8p"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="23_3javq"]
@@ -31,6 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="27_6rv4s"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="28_yb8rn"]
 [ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="30_ur4t3"]
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="32_bp4c6"]
 [ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="32_bp4c6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
@@ -53,20 +55,26 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gxxx5"]
 texture = ExtResource("10_6lcnp")
 
-[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit", "main_theme_player")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdk5e"]
+atlas = ExtResource("32_bp4c6")
+region = Rect2(338, 408, 32, 16)
+
+[node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit", "main_theme_player", "eye")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_xn00g")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
+eye = NodePath("Eye")
 main_theme_player = NodePath("AudioStreamPlayer")
 
 [node name="TutorialUI" type="Control" parent="."]
-z_index = 1
+z_index = 100
 layout_mode = 3
 anchors_preset = 0
 offset_top = 28.093
 offset_right = 1152.0
 offset_bottom = 670.67004
+mouse_filter = 2
 
 [node name="Lutz Animation" type="Node2D" parent="TutorialUI" node_paths=PackedStringArray("lutz", "lutz_mouth")]
 position = Vector2(43.068, -7.932)
@@ -80,6 +88,7 @@ offset_left = 400.89
 offset_top = 535.0
 offset_right = 981.89
 offset_bottom = 639.0
+mouse_filter = 2
 texture = ExtResource("3_ur4t3")
 script = ExtResource("4_st4m7")
 
@@ -90,12 +99,13 @@ process_mode = 4
 
 [node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 22.0
+offset_left = 29.041992
+offset_top = 20.932007
 offset_right = 538.0
-offset_bottom = 81.0
+offset_bottom = 85.0
 theme = ExtResource("6_tdk5e")
-theme_override_colors/font_color = Color(0.07058824, 0.5921569, 1, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.8435265, 0, 0.03601576, 1)
 autowrap_mode = 2
 clip_text = true
 
@@ -108,6 +118,26 @@ texture = ExtResource("7_umo6e")
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
 texture = ExtResource("8_lkov1")
+
+[node name="DialogButtonsLayer" type="CanvasLayer" parent="."]
+
+[node name="PrevButton" type="Button" parent="DialogButtonsLayer"]
+offset_left = 446.89
+offset_top = 569.0
+offset_right = 469.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 17
+text = "◀"
+icon_alignment = 1
+
+[node name="NextButton" type="Button" parent="DialogButtonsLayer"]
+offset_left = 985.89
+offset_top = 569.0
+offset_right = 1008.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 17
+text = "▶"
+icon_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
 z_index = -1
@@ -167,6 +197,13 @@ prefabNode = ExtResource("12_jadr4")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlur"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonSeuil" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -177,6 +214,13 @@ script = ExtResource("11_iko5f")
 prefabNode = ExtResource("14_6lcnp")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonSeuil"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
@@ -190,7 +234,15 @@ prefabNode = ExtResource("14_5xwa7")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonErosion"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+visible = false
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
@@ -200,6 +252,13 @@ script = ExtResource("11_iko5f")
 prefabNode = ExtResource("15_qi5e1")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDownscale"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonImgToYCbCr" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
@@ -212,6 +271,13 @@ prefabNode = ExtResource("16_b766o")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonImgToYCbCr"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonYCrCbToRGB" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -222,6 +288,13 @@ script = ExtResource("11_iko5f")
 prefabNode = ExtResource("17_xru2a")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonYCrCbToRGB"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
@@ -235,6 +308,13 @@ prefabNode = ExtResource("18_77mw8")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDilatation"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonNegatif" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -245,6 +325,13 @@ script = ExtResource("11_iko5f")
 prefabNode = ExtResource("20_gxxx5")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonNegatif"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonExpDyn" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
@@ -257,6 +344,13 @@ prefabNode = ExtResource("21_st4m7")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonExpDyn"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -267,6 +361,13 @@ script = ExtResource("11_iko5f")
 prefabNode = ExtResource("19_eaovq")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlurBackground"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="ButtonDifference" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
@@ -279,6 +380,13 @@ script = ExtResource("11_iko5f")
 prefabNode = ExtResource("20_tk5wn")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDifference"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
 
 [node name="GraphEdit" type="GraphEdit" parent="Control/HSplitContainer" node_paths=PackedStringArray("startNode", "endNode")]
 layout_mode = 2
@@ -340,6 +448,13 @@ offset_right = 744.0
 offset_bottom = 48.093002
 text = "Charger"
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/GraphEdit/LoadNewButton"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="SaveImageButton" type="Button" parent="Control/HSplitContainer/GraphEdit"]
 z_index = 2
 custom_minimum_size = Vector2(120, 0)
@@ -350,6 +465,13 @@ offset_right = 878.0
 offset_bottom = 48.093018
 text = "Sauvegarder"
 
+[node name="Node" type="Node" parent="Control/HSplitContainer/GraphEdit/SaveImageButton"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
 [node name="PauseCanvas" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("30_ur4t3")]
@@ -357,6 +479,8 @@ visible = false
 offset_top = -24.093
 offset_bottom = -24.093018
 
+[node name="Eye" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_tdk5e")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("32_bp4c6")
 autoplay = true
