@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://dr7u68v3bjuxy"]
+[gd_scene load_steps=9 format=3 uid="uid://f21jk3r5uqcy"]
 
 [ext_resource type="Script" uid="uid://b7b7plnk7skvg" path="res://Scripts/menu_pause.gd" id="1_n8bbg"]
 [ext_resource type="Shader" uid="uid://cgvie4tpmpwc" path="res://Shaders/pause_shader.gdshader" id="1_nhsed"]
+[ext_resource type="Script" uid="uid://v1ditdbk5i4d" path="res://Scripts/volume_slider.gd" id="3_5pmb1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u3b7n"]
 shader = ExtResource("1_nhsed")
 shader_parameter/lod = 0.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n8bbg"]
 
 [sub_resource type="Animation" id="Animation_i1muu"]
 length = 0.001
@@ -87,6 +90,30 @@ fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
+[node name="HSeparator2" type="HSeparator" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+theme_override_styles/separator = SubResource("StyleBoxEmpty_n8bbg")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 54
+text = "Volume"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
+layout_mode = 2
+value = 50.0
+script = ExtResource("3_5pmb1")
+
+[node name="HSeparator" type="HSeparator" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+theme_override_styles/separator = SubResource("StyleBoxEmpty_n8bbg")
+
 [node name="ReprendreButton" type="Button" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60)
 layout_mode = 2
@@ -94,14 +121,6 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 26
 text = "Reprendre"
-
-[node name="OptionsButton" type="Button" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
-custom_minimum_size = Vector2(250, 60)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 26
-text = "Options"
 
 [node name="MainMenuButton" type="Button" parent="Control/PanelContainer/dqsdqsdq/VBoxContainer"]
 custom_minimum_size = Vector2(250, 60)

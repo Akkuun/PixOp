@@ -14,6 +14,7 @@ dry = 0.7
 wet = 0.3
 
 [resource]
+bus/0/volume_db = -0.5260134
 bus/1/name = &"Resume"
 bus/1/solo = false
 bus/1/mute = false
