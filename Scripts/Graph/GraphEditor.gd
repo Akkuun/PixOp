@@ -27,6 +27,8 @@ func _ready():
 	audio_player_clear.bus = "Resume"
 	audio_player_connection.process_mode = Node.PROCESS_MODE_ALWAYS
 	audio_player_clear.process_mode = Node.PROCESS_MODE_ALWAYS
+	audio_player_connection.volume_db = -27.5
+	audio_player_clear.volume_db = -27.5
 	add_child(audio_player_connection)
 	add_child(audio_player_clear)
 

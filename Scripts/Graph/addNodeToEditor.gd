@@ -12,6 +12,7 @@ func _ready():
 	audio_player_addNode.stream = addNodeSound
 	audio_player_addNode.bus = "Resume"
 	audio_player_addNode.process_mode = Node.PROCESS_MODE_ALWAYS
+	audio_player_addNode.volume_db = -27.5
 	add_child(audio_player_addNode)
 
 func _on_button_pressed():
