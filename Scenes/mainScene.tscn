@@ -482,6 +482,7 @@ mouse_filter = 1
 position_offset = Vector2(48.89, 402)
 
 [node name="PSNRMeter" type="Node2D" parent="."]
+process_mode = 3
 scale = Vector2(5, 5)
 
 [node name="Frame" type="Sprite2D" parent="PSNRMeter"]
@@ -500,6 +501,7 @@ offset = Vector2(0, -24)
 position = Vector2(215.79999, 14.4186)
 
 [node name="PauseCanvas" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="PauseMenu" parent="PauseCanvas" instance=ExtResource("33_uh2eo")]
 visible = false

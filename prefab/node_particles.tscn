@@ -27,6 +27,7 @@ turbulence_noise_scale = 0.0
 turbulence_noise_speed_random = 0.0
 
 [node name="Node2D" type="Node2D"]
+process_mode = 3
 scale = Vector2(10, 10)
 script = ExtResource("1_0x8p7")
 

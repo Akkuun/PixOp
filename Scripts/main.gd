@@ -42,6 +42,8 @@ var dialogue_system: Control  # Référence au système de dialogue
 
 var _current_popup: Node = null
 
+var _is_loading_level: bool = false
+
 
 var selected_node: PixopGraphNode  # Currently selected node for preview
 var cached_image: Image  # Cached computed image to prevent flashes
@@ -60,7 +62,7 @@ func animate_psnr_meter(value: float, end: bool = false) -> void:
 	if clamped_value >= (0.99999):
 		tween.finished.connect(_spawn_success_confetti, CONNECT_ONE_SHOT)
 		# if selected node is end_node, play the popup
-		if end || selected_node.state == GraphState.End:
+		if end || (selected_node and selected_node.state == GraphState.End) and not _is_loading_level:
 			tween.finished.connect(func():
 				_show_level_complete_popup(value)
 			, CONNECT_ONE_SHOT)
@@ -126,6 +128,7 @@ func _remove_particles(particle_node: Node) -> void:
 		particle_node.queue_free()
 
 func load_level(id: int) -> void:
+	_is_loading_level = true
 	animate_psnr_meter(0.0) # Reset PSNR meter at level start
 	
 	# Clear the graph before loading new level
@@ -164,8 +167,14 @@ func load_level(id: int) -> void:
 	update_current(baseImage)
 	update_target(targetImage)
 
+	# Set initial selection to start node and position eye from the right
+	selected_node = startNode
+	if eye:
+		_place_eye_on_graphnode_name("Start_node")
 
 	show_tutorial_dialogue(id)
+	
+	_is_loading_level = false
 
 func _clear_graph() -> void:
 	"""
@@ -432,6 +441,12 @@ func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
 	return final_result
 
 func _show_level_complete_popup(psnr_value: float) -> void:
+	# Prevent multiple popups
+	if _current_popup:
+		return
+
+	print("!! spawning popup")
+	
 	# Instantiate popup scene (use exported PackedScene if set, otherwise load default prefab)
 	var popup_scene = level_complete_popup_scene if level_complete_popup_scene else load("res://prefab/pop-up_end.tscn")
 	if not popup_scene:
@@ -450,6 +465,9 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 			root.add_child(popup)
 	else:
 		add_child(popup)
+	
+	# Ensure popup always processes even when game is paused
+	popup.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	# place in center of screen the popup
 	# by moving the node2D of the popup
@@ -472,9 +490,10 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 	# Keep reference so handlers can remove it
 	_current_popup = popup
 
-	# Pause the dialogue system 
+	# Pause the dialogue system and game
 	if dialogue_system and dialogue_system.has_method("pause_dialogue"):
 		dialogue_system.pause_dialogue()
+	get_tree().paused = true
 
 	# Show message
 	var message = "PSNR: " + str(psnr_value) + " dB\nGoal: " + str(psnr_goal) + " dB"
@@ -505,7 +524,8 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 
 func _on_popup_menu() -> void:
 	print("=== MAIN: _on_popup_menu called ===")
-	# Continue the dialogue before going to menu
+	# Unpause game and continue the dialogue before going to menu
+	get_tree().paused = false
 	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
 		dialogue_system.resume_dialogue()
 	
@@ -524,14 +544,16 @@ func _on_popup_menu() -> void:
 
 func _on_popup_retry() -> void:
 	print("=== MAIN: _on_popup_retry called ===")
-	# Continue the dialogue before reloading
+	# Unpause game and continue the dialogue before reloading
+	get_tree().paused = false
 	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
 		dialogue_system.resume_dialogue()
 	_close_popup_and_load_level(levelId)
 
 func _on_popup_next() -> void:
 	print("=== MAIN: _on_popup_next called ===")
-	# Continue the dialogue before going to the next level
+	# Unpause game and continue the dialogue before going to the next level
+	get_tree().paused = false
 	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
 		dialogue_system.resume_dialogue()
 	_close_popup_and_load_level(levelId + 1)
@@ -544,7 +566,8 @@ func _close_popup_and_load_level(level_id: int) -> void:
 		_current_popup = null
 	
 	# Load the requested level
-	load_level(level_id)
+	RequestedLevel.set_level_id(level_id + 1)
+	get_tree().change_scene_to_file("res://Scenes/mainScene.tscn")
 
 
 func get_nodes_in_topological_order() -> Array:
@@ -626,10 +649,7 @@ func _ready() -> void:
 
 	load_level(RequestedLevel.get_level_id())
 
-	# Set initial selection to start node and position eye from the right
-	selected_node = startNode
-	if eye:
-		_place_eye_on_graphnode_name(startNode.name)
+
 	
 	# Hide PSNR meter initially since start node is selected
 	if PSNRBarRoot:
