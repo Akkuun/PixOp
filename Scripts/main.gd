@@ -49,6 +49,7 @@ var selected_node: PixopGraphNode  # Currently selected node for preview
 var cached_image: Image  # Cached computed image to prevent flashes
 
 func animate_psnr_meter(value: float, end: bool = false) -> void:
+	print("computing psnr meter with value: ", value, " and goal : ", psnr_goal)
 	# normalization
 	var normalized_value = (value / psnr_goal)
 	var clamped_value = clamp(normalized_value, 0.0, 1.0)
@@ -496,7 +497,7 @@ func _show_level_complete_popup(psnr_value: float) -> void:
 	get_tree().paused = true
 
 	# Show message
-	var message = "PSNR: " + str(psnr_value) + " dB\nGoal: " + str(psnr_goal) + " dB"
+	var message = "PSNR: " + str(snapped(psnr_value, 0.01)) + " dB\nGoal: " + str(snapped(psnr_goal, 0.01)) + " dB"
 	var lbl = popup.get_node_or_null("Panel/Label")
 	if lbl:
 		lbl.text = message
@@ -558,15 +559,15 @@ func _on_popup_next() -> void:
 		dialogue_system.resume_dialogue()
 	_close_popup_and_load_level(levelId + 1)
 
-func _close_popup_and_load_level(level_id: int) -> void:
-	print("=== MAIN: Loading level ", level_id, " ===")
+func _close_popup_and_load_level(next_level_id: int) -> void:
+	print("=== MAIN: Loading level ", next_level_id, " ===")
 	# Close popup
 	if _current_popup:
 		_current_popup.queue_free()
 		_current_popup = null
 	
 	# Load the requested level
-	RequestedLevel.set_level_id(level_id + 1)
+	RequestedLevel.set_level_id(next_level_id)
 	get_tree().change_scene_to_file("res://Scenes/mainScene.tscn")
 
 
