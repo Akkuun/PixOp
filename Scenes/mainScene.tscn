@@ -74,7 +74,7 @@ region = Rect2(338, 353, 3, 48)
 atlas = ExtResource("10_qshdt")
 region = Rect2(338, 408, 32, 16)
 
-[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player", "eye")]
+[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player", "eye", "PSNRBarRoot")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_boirm")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
@@ -84,6 +84,7 @@ PSNRMeterFill = NodePath("PSNRMeter/Fill")
 ConfettiPosition = NodePath("PSNRMeter/ConfettiPosition")
 main_theme_player = NodePath("AudioStreamPlayer")
 eye = NodePath("Eye")
+PSNRBarRoot = NodePath("PSNRMeter")
 level_complete_popup_scene = ExtResource("2_5paew")
 
 [node name="TutorialUI" type="Control" parent="."]

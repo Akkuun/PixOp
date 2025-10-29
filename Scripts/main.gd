@@ -35,6 +35,8 @@ var psnr_goal: float = 200.0
 
 @export var eye: Sprite2D
 
+@export var PSNRBarRoot: Node2D
+
 var dialogue_system: Control  # Référence au système de dialogue
 @export var level_complete_popup_scene: PackedScene
 
@@ -66,6 +68,10 @@ func animate_psnr_meter(value: float, end: bool = false) -> void:
 func _spawn_success_confetti() -> void:
 	if not PSNRMeterFill:
 		print("Warning: PSNRMeterFill not found for confetti spawn")
+		return
+	
+	# Only spawn confetti if PSNR bar is visible
+	if not PSNRBarRoot or not PSNRBarRoot.visible:
 		return
 	
 	# Instance the confetti scene
@@ -624,6 +630,10 @@ func _ready() -> void:
 	selected_node = startNode
 	if eye:
 		_place_eye_on_graphnode_name(startNode.name)
+	
+	# Hide PSNR meter initially since start node is selected
+	if PSNRBarRoot:
+		PSNRBarRoot.hide()
 
 	# Connect GraphEdit signals
 	if graph_edit:
@@ -684,6 +694,11 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph()...")
 		update_current_from_graph()
+		
+		# If connected to Final_node, switch selection to it
+		if to_node == "Final_node":
+			selected_node = endNode
+			_on_node_selected(graph_edit.get_node("Final_node"))
 	else:
 		print("✗ Connection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
@@ -741,6 +756,14 @@ func _on_node_selected(node: Node) -> void:
 	
 	selected_node = graph_node_map.get(node.name)
 	print("Selected node: ", str(selected_node.id) if selected_node else "none")
+	
+	# Show/hide PSNR meter based on whether Final_node is selected
+	if PSNRBarRoot:
+		var was_hidden = not PSNRBarRoot.visible
+		PSNRBarRoot.visible = (selected_node == endNode)
+		# Reset fill scale to 0 when first showing the bar
+		if was_hidden and PSNRBarRoot.visible and PSNRMeterFill:
+			PSNRMeterFill.scale.y = 0.0
 	
 	# Add eye to new selected node
 	if selected_node and eye:
