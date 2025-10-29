@@ -334,7 +334,17 @@ func compute_updated_image(target_node: PixopGraphNode = null) -> Image:
 		# For end node, find the parent image
 		for parent in target_node.parents:
 			if computed_images.has(parent.id):
-				final_result = computed_images[parent.id]
+				var parent_result = computed_images[parent.id]
+				if parent_result is Dictionary:
+					# Special case for rgb_to_ycbcr: visualize
+					if parent.operatorApplied == rgb_to_ycbcr_operator:
+						var input_img = computed_images[parent.parents[0].id]
+						final_result = await ycbcr_visualize(input_img)
+					else:
+						print("Error: Cannot display multi-output node result")
+						final_result = baseImage
+				else:
+					final_result = parent_result
 				break
 		if not final_result:
 			final_result = baseImage
@@ -501,6 +511,11 @@ func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to
 		# Recompute the graph and update display
 		print("Calling update_current_from_graph()...")
 		update_current_from_graph()
+		
+		# If connected to Final_node, switch selection to it
+		if to_node == "Final_node":
+			selected_node = endNode
+			_on_node_selected(graph_edit.get_node("Final_node"))
 	else:
 		print("✗ Connection failed - missing PixopGraphNodes:")
 		print("  From node (", from_node, "): ", "Found" if from_pixop_node else "Not found")
