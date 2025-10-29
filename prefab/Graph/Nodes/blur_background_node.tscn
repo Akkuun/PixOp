@@ -7,7 +7,7 @@
 offset_right = 195.0
 offset_bottom = 198.0
 theme = ExtResource("1_0oj8n")
-title = "Blur background"
+title = "Flou du fond"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)

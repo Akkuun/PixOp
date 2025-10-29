@@ -8,7 +8,7 @@
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_tdk5e"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_umo6e"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_lkov1"]
-[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_yscyj"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_yscyj"]
 [ext_resource type="Texture2D" uid="uid://bxr1tle05ri7l" path="res://ressources/Theme/UI/Panels/HighPanel.png" id="10_6lcnp"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_iko5f"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_jadr4"]
@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="19_eaovq"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="20_gxxx5"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="20_tk5wn"]
-[ext_resource type="PackedScene" uid="uid://v8rgcxjsogfr" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
+[ext_resource type="PackedScene" uid="uid://8wnvmkng21a1" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="21_st4m7"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="21_uhkwf"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="22_mrc8p"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="23_3javq"]
@@ -32,7 +32,6 @@
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="27_6rv4s"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="28_yb8rn"]
 [ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="30_ur4t3"]
-[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="32_bp4c6"]
 [ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="32_bp4c6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_876g8"]
@@ -56,7 +55,6 @@ bg_color = Color(1, 1, 1, 1)
 texture = ExtResource("10_6lcnp")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdk5e"]
-atlas = ExtResource("32_bp4c6")
 region = Rect2(338, 408, 32, 16)
 
 [node name="MainScene2d" type="Node2D" node_paths=PackedStringArray("current", "graph_edit", "main_theme_player", "eye")]
@@ -64,8 +62,8 @@ position = Vector2(0, -24.093)
 script = ExtResource("1_xn00g")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
-eye = NodePath("Eye")
 main_theme_player = NodePath("AudioStreamPlayer")
+eye = NodePath("Eye")
 
 [node name="TutorialUI" type="Control" parent="."]
 z_index = 100
@@ -93,9 +91,10 @@ texture = ExtResource("3_ur4t3")
 script = ExtResource("4_st4m7")
 
 [node name="ACVoicebox" type="AudioStreamPlayer" parent="TutorialUI/Lutz Animation/TextureRect"]
-script = ExtResource("5_bp4c6")
-bus = &"Resume"
 process_mode = 4
+volume_db = -30.0
+bus = &"Resume"
+script = ExtResource("5_bp4c6")
 
 [node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
 layout_mode = 0
@@ -222,6 +221,27 @@ float_speed = 0.5
 horizontal_sway = 1.0
 rotation_amount = 1.0
 
+[node name="ButtonNegatif" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Negatif"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("20_gxxx5")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonNegatif"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
+[node name="HSeparator2" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+
 [node name="ButtonErosion" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
@@ -240,6 +260,28 @@ float_amplitude = 0.5
 float_speed = 0.5
 horizontal_sway = 1.0
 rotation_amount = 1.0
+
+[node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+z_index = 3
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("6_tdk5e")
+text = "Dilatation
+"
+script = ExtResource("11_iko5f")
+prefabNode = ExtResource("18_77mw8")
+graph_edit = NodePath("../../../GraphEdit")
+addNodeSound = ExtResource("13_038kl")
+
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDilatation"]
+script = ExtResource("14_tdk5e")
+float_amplitude = 0.5
+float_speed = 0.5
+horizontal_sway = 1.0
+rotation_amount = 1.0
+
+[node name="HSeparator3" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
 
 [node name="ButtonDownscale" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 visible = false
@@ -296,37 +338,21 @@ float_speed = 0.5
 horizontal_sway = 1.0
 rotation_amount = 1.0
 
-[node name="ButtonDilatation" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
+[node name="HSeparator4" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
 z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("6_tdk5e")
-text = "Dilatation
-"
+text = "Flou du fond"
 script = ExtResource("11_iko5f")
-prefabNode = ExtResource("18_77mw8")
+prefabNode = ExtResource("19_eaovq")
 graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
-[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonDilatation"]
-script = ExtResource("14_tdk5e")
-float_amplitude = 0.5
-float_speed = 0.5
-horizontal_sway = 1.0
-rotation_amount = 1.0
-
-[node name="ButtonNegatif" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
-z_index = 3
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme = ExtResource("6_tdk5e")
-text = "Negatif"
-script = ExtResource("11_iko5f")
-prefabNode = ExtResource("20_gxxx5")
-graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("13_038kl")
-
-[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonNegatif"]
+[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlurBackground"]
 script = ExtResource("14_tdk5e")
 float_amplitude = 0.5
 float_speed = 0.5
@@ -345,24 +371,6 @@ graph_edit = NodePath("../../../GraphEdit")
 addNodeSound = ExtResource("13_038kl")
 
 [node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonExpDyn"]
-script = ExtResource("14_tdk5e")
-float_amplitude = 0.5
-float_speed = 0.5
-horizontal_sway = 1.0
-rotation_amount = 1.0
-
-[node name="ButtonBlurBackground" type="Button" parent="Control/HSplitContainer/Panel/VBoxContainer" node_paths=PackedStringArray("graph_edit")]
-z_index = 3
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme = ExtResource("6_tdk5e")
-text = "Flou du fond"
-script = ExtResource("11_iko5f")
-prefabNode = ExtResource("19_eaovq")
-graph_edit = NodePath("../../../GraphEdit")
-addNodeSound = ExtResource("13_038kl")
-
-[node name="Node" type="Node" parent="Control/HSplitContainer/Panel/VBoxContainer/ButtonBlurBackground"]
 script = ExtResource("14_tdk5e")
 float_amplitude = 0.5
 float_speed = 0.5
@@ -428,6 +436,7 @@ offset_right = 812.89
 offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(681.89, 402)
+title = "Fin"
 
 [node name="Start_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("28_yb8rn")]
 layout_mode = 0
@@ -437,6 +446,7 @@ offset_right = 179.89001
 offset_bottom = 457.0
 mouse_filter = 1
 position_offset = Vector2(48.89, 402)
+title = "Debut"
 
 [node name="LoadNewButton" type="Button" parent="Control/HSplitContainer/GraphEdit"]
 z_index = 2
@@ -481,11 +491,13 @@ offset_bottom = -24.093018
 
 [node name="Eye" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_tdk5e")
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 4
 stream = ExtResource("32_bp4c6")
+volume_db = -25.0
 autoplay = true
 bus = &"Resume"
-process_mode = 4
 
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/SaveImageButton" to="." method="_on_save_image_button_pressed"]
