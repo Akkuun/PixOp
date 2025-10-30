@@ -557,7 +557,10 @@ func _on_popup_next() -> void:
 	get_tree().paused = false
 	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
 		dialogue_system.resume_dialogue()
-	_close_popup_and_load_level(levelId + 1)
+	if levelId == 5:
+		_on_popup_menu()
+	else:
+		_close_popup_and_load_level(levelId + 1)
 
 func _close_popup_and_load_level(next_level_id: int) -> void:
 	print("=== MAIN: Loading level ", next_level_id, " ===")
@@ -648,8 +651,9 @@ func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
 
+	# RequestedLevel.set_level_id(5)
+
 	load_level(RequestedLevel.get_level_id())
-	# load_level(5)
 
 
 
