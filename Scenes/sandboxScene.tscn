@@ -99,9 +99,9 @@ script = ExtResource("5_bp4c6")
 [node name="Label" type="Label" parent="TutorialUI/Lutz Animation/TextureRect"]
 layout_mode = 0
 offset_left = 29.041992
-offset_top = 20.932007
+offset_top = 11.932007
 offset_right = 538.0
-offset_bottom = 85.0
+offset_bottom = 93.93201
 theme = ExtResource("6_tdk5e")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.8435265, 0, 0.03601576, 1)
@@ -180,7 +180,7 @@ offset_bottom = 579.093
 [node name="Label" type="Label" parent="Control/HSplitContainer/Panel/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Operateurs"
+text = "Opérateurs"
 
 [node name="HSeparator" type="HSeparator" parent="Control/HSplitContainer/Panel/VBoxContainer"]
 layout_mode = 2
@@ -226,7 +226,7 @@ z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("6_tdk5e")
-text = "Negatif"
+text = "Négatif"
 script = ExtResource("11_iko5f")
 prefabNode = ExtResource("20_gxxx5")
 graph_edit = NodePath("../../../GraphEdit")
@@ -382,7 +382,7 @@ z_index = 3
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("6_tdk5e")
-text = "Difference
+text = "Différence
 "
 script = ExtResource("11_iko5f")
 prefabNode = ExtResource("20_tk5wn")
@@ -433,7 +433,7 @@ layout_mode = 0
 offset_left = 681.89
 offset_top = 402.0
 offset_right = 812.89
-offset_bottom = 457.0
+offset_bottom = 468.0
 mouse_filter = 1
 position_offset = Vector2(681.89, 402)
 title = "Fin"
@@ -443,10 +443,11 @@ layout_mode = 0
 offset_left = 48.89
 offset_top = 402.0
 offset_right = 179.89001
-offset_bottom = 457.0
+offset_bottom = 467.0
 mouse_filter = 1
+theme = ExtResource("6_tdk5e")
 position_offset = Vector2(48.89, 402)
-title = "Debut"
+title = "Départ"
 
 [node name="LoadNewButton" type="Button" parent="Control/HSplitContainer/GraphEdit"]
 z_index = 2

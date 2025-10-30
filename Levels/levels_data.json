@@ -1,34 +1,34 @@
 {
     "sandbox": {
-        "dialog": "Bienvenue dans le mode sandbox !\n Ici, tu peux experimenter librement sur une image de ton choix et sauvegarder le resultat !"
+        "dialog": "Bienvenue dans le mode sandbox !\n Ici, tu peux expérimenter librement sur une image de ton choix et sauvegarder le résultat !"
     },
     "0": {
-        "dialog": "Bienvenue dans PixOp !\nDans ce tutoriel, vous allez apprendre comment utiliser les operations de traitement d'image.\nConnectez les noeuds du debut jusqu'au noeud final pour transformer l'image, vous pouvez utiliser la boite a outils sur la gauche pour obtenir de nouveaux noeuds.\nEssayez de correspondre a l'image cible sur la droite !",
+        "dialog": "Bienvenue dans PixOp !\nDans ce tutoriel, vous allez apprendre comment utiliser les opérations de traitement d'image.\nConnectez les noeuds du début jusqu'au noeud final pour transformer l'image, vous pouvez utiliser la boîte à outils sur la gauche pour obtenir de nouveaux noeuds.\nEssayez de correspondre à l'image cible sur la droite !",
         "psnr_start": 61.54,
         "psnr_goal": 200.0
     },
     "1": {
-        "dialog": "Excellent travail sur le premier niveau !\nCette fois, vous allez apprendre l'erosion, une operation morphologique.\nL'erosion retrecit les regions sombres et elargit les regions claires dans une image.\nC'est utile pour retirer le bruit, separer des objets connectes ou affiner des caracteristiques.\nEssayez d'utiliser une erosion pour correspondre a la cible !",
+        "dialog": "Excellent travail sur le premier niveau !\nCette fois, vous allez apprendre l'érosion, une opération morphologique.\nL'érosion rétrécit les régions sombres et élargit les régions claires dans une image.\nC'est utile pour retirer le bruit, séparer des objets connectés ou affiner des caractéristiques.\nEssayez d'utiliser une érosion pour correspondre à la cible !",
         "psnr_start": 0.0,
         "psnr_goal": 92.4970233580119
     },
     "2": {
-        "dialog": "Excellent ! Apprenons maintenant la dilatation.\nLa dilatation est l'oppose de l'erosion : elle elargit les regions sombres et retrecit les regions claires.\nCette operation utilise un noyau et prend la valeur maximale des pixels.\nC'est utile pour remplir les petits trous, connecter des objets proches ou ameliorer les caracteristiques.\nLa dilatation et l'erosion sont souvent combinees pour du traitement d'image avance.\nEssayez d'utiliser la dilatation pour correspondre a la cible !",
+        "dialog": "Excellent ! Apprenons maintenant la dilatation.\nLa dilatation est l'opposé de l'érosion : elle élargit les régions sombres et rétrécit les régions claires.\nCette opération utilise un noyau et prend la valeur maximale des pixels.\nC'est utile pour remplir les petits trous, connecter des objets proches ou améliorer les caractéristiques.\nLa dilatation et l'érosion sont souvent combinées pour du traitement d'image avancée.\nEssayez d'utiliser la dilatation pour correspondre à la cible !",
         "psnr_start": 0.0,
         "psnr_goal": 102.039448452405
     },
     "3": {
-        "dialog": "Excellent progres ! Explorons maintenant l'expansion de gamme dynamique.\nL'objectif est de reveler les details caches dans une image presque monochrome.\nL'expansion de gamme dynamique etire les valeurs de pixels pour utiliser toute la plage d'intensite (0-255).\nCette technique ameliore le contraste et rend visibles les differences subtiles.\nCommencez avec une image \"monochrome\" et elargissez sa gamme pour reveler le contenu cache.\nTransformez l'image pour correspondre a la cible !",
+        "dialog": "Excellent progrès ! Explorons maintenant l'expansion de gamme dynamique.\nL'objectif est de révéler les détails cachés dans une image presque monochrome.\nL'expansion de gamme dynamique étire les valeurs de pixels pour utiliser toute la plage d'intensité (0-255).\nCette technique améliore le contraste et rend visibles les différences subtiles.\nCommencez avec une image \"monochrome\" et élargissez sa gamme pour révéler le contenu caché.\nTransformez l'image pour correspondre à la cible !",
         "psnr_start": 0.0,
         "psnr_goal": 65.1468913031136
     },
     "4": {
-        "dialog": "C'est l'heure du challenge ! Essayez de flouter uniquement l'arriere-plan de l'image.\nPour faire ceci, vous aurez besoin d'une carte de verite (masque) qui indique quelles zones flouter et lesquelles garder nettes.\nVous devriez maintenant savoir comment binariser une image pour creer un tel masque.\nCombinez ce que vous avez appris : seuillage, operations morphologiques et flou.\nBonne chance !",
+        "dialog": "C'est l'heure du challenge ! Essayez de flouter uniquement l'arrière-plan de l'image.\nPour faire ceci, vous aurez besoin d'une carte de vérité (masque) qui indique quelles zones flouter et lesquelles garder nettes.\nVous devriez maintenant savoir comment binariser une image pour créer un tel masque.\nCombinez ce que vous avez appris : seuillage, opérations morphologiques et flou.\nBonne chance !",
         "psnr_start": 0.0,
         "psnr_goal": 200.0
     },
     "5": {
-        "dialog": "Dans ce niveau, vous allez apprendre le format YCrCb et pourquoi on l'utilise.\nY represente la luminosite / l'intensite de l'image - c'est la que se trouvent les details et le contraste.\nCr (chrominance rouge) et Cb (chrominance bleue) representent l'information de couleur : ce sont des differences de couleur par rapport a la luminance.\nEn convertissant RGB to YCrCb, vous pouvez traiter la luminance et la chrominance separement : par exemple, appliquer un flou ou une expansion dynamique sur Y sans alterer les couleurs, ou filtrer le bruit sur Cr/Cb sans toucher aux details lumineux.\nLe but ici est d'obtenir une seule image de sortie : convertissez en YCrCb, appliquez vos operations sur les canaux choisis (Y ou Cr/Cb), puis reconvertissez en RGB (YCrCb to RGB) pour produire l'image finale.\nIndice : pour obtenir l'image finale, essayez d'inverser un des canaux avant la reconversion en RGB\nEssayez de combiner ces etapes pour obtenir l'image cible !",
+        "dialog": "Dans ce niveau, vous allez apprendre le format YCrCb et pourquoi on l'utilise.\nY représente la luminosité / l'intensité de l'image - c'est là que se trouvent les détails et le contraste.\nCr (chrominance rouge) et Cb (chrominance bleue) représentent l'information de couleur : ce sont des différences de couleur par rapport à la luminance.\nEn convertissant RGB to YCrCb, vous pouvez traiter la luminance et la chrominance séparément : par exemple, appliquer un flou ou une expansion dynamique sur Y sans altérer les couleurs, ou filtrer le bruit sur Cr/Cb sans toucher aux détails lumineux.\nLe but ici est d'obtenir une seule image de sortie : convertissez en YCrCb, appliquez vos opérations sur les canaux choisis (Y ou Cr/Cb), puis reconvertissez en RGB (YCrCb to RGB) pour produire l'image finale.\nIndice : pour obtenir l'image finale, essayez d'inverser un des canaux avant la reconversion en RGB\nEssayez de combiner ces étapes pour obtenir l'image cible !",
         "psnr_start": 0.0,
         "psnr_goal": 200.0
     }

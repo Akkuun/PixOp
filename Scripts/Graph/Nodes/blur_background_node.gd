@@ -1,7 +1,7 @@
 extends GraphNode
 
 func _ready():
-	self.title = "Blur background"
+	self.title = "Flou du fond"
 	
 	var rgb_color = Color.WHITE
 	var y_color = Color(0.7, 0.7, 0.7)
@@ -33,7 +33,7 @@ func _ready():
 	hbox2.size_flags_horizontal = Control.SIZE_FILL
 	hbox2.custom_minimum_size.y = 30
 	var label2 = Label.new()
-	label2.text = "TruthMap"
+	label2.text = "Carte de vérité"
 	label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var margin2 = MarginContainer.new()
 	margin2.add_theme_constant_override("margin_left", 20)

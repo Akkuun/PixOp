@@ -32,7 +32,7 @@ func _ready():
 	label1.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	# We're adding a margin container for the left label
 	var margin1 = MarginContainer.new()
-	margin1.add_theme_constant_override("margin_left", 20)  # More space from the slot
+	margin1.add_theme_constant_override("margin_left", 5)  # More space from the slot
 	margin1.add_child(label1)
 	
 	hbox1.add_child(margin1)
@@ -48,7 +48,7 @@ func _ready():
 	label2.text = "Cb"
 	label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var margin2 = MarginContainer.new()
-	margin2.add_theme_constant_override("margin_left", 20)
+	margin2.add_theme_constant_override("margin_left", 5)
 	margin2.add_child(label2)
 	
 	hbox2.add_child(margin2)
@@ -64,7 +64,7 @@ func _ready():
 	label3.text = "Cr"
 	label3.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var margin3 = MarginContainer.new()
-	margin3.add_theme_constant_override("margin_left", 20)
+	margin3.add_theme_constant_override("margin_left", 5)
 	margin3.add_child(label3)
 	
 	hbox3.add_child(margin3)
