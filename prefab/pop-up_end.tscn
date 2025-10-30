@@ -1,12 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvqjk7xid7vcd"]
+[gd_scene load_steps=4 format=3 uid="uid://bxi4ouvmi7rbu"]
 
 [ext_resource type="Script" uid="uid://bqcgdmotbcjw2" path="res://prefab/pop-up_end.gd" id="1_x8r5o"]
+[ext_resource type="Shader" uid="uid://cgvie4tpmpwc" path="res://Shaders/pause_shader.gdshader" id="2_hrhui"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_03kws"]
+shader = ExtResource("2_hrhui")
+shader_parameter/lod = 2.50000011875
 
 [node name="PopUpEnd" type="Node2D"]
 script = ExtResource("1_x8r5o")
 label_path = NodePath("Panel/Victoire")
 
 [node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_03kws")
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 476.0
@@ -18,6 +24,8 @@ offset_left = 147.0
 offset_top = 10.0
 offset_right = 339.0
 offset_bottom = 61.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 64
 text = "Victoire"
 
@@ -27,6 +35,7 @@ offset_left = 125.0
 offset_top = 175.0
 offset_right = 379.0
 offset_bottom = 262.0
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 45
 text = "PSNR : 200.0 dB
 GOAL : 200.0 dB"
@@ -38,18 +47,24 @@ anchor_left = -0.002
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 0.94400007
-offset_top = 414.0
+offset_top = 375.0
 theme_override_constants/separation = 50
 alignment = 1
 
 [node name="MenuButton" type="Button" parent="Panel/Buttons"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+size_flags_vertical = 4
 text = " Menu "
 
 [node name="RetryButton" type="Button" parent="Panel/Buttons"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+size_flags_vertical = 4
 text = " Rejouer "
 
 [node name="NextButton" type="Button" parent="Panel/Buttons"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+size_flags_vertical = 4
 text = " Niveau suivant "
