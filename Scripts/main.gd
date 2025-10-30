@@ -648,8 +648,8 @@ func _ready() -> void:
 	# Add this node to the "game" group so other scripts can find it
 	add_to_group("game")
 
-	# load_level(RequestedLevel.get_level_id())
-	load_level(5)
+	load_level(RequestedLevel.get_level_id())
+	# load_level(5)
 
 
 

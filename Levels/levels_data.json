@@ -3,27 +3,27 @@
         "dialog": "Bienvenue dans le mode sandbox !\n Ici, tu peux experimenter librement sur une image de ton choix et sauvegarder le resultat !"
     },
     "0": {
-        "dialog": "Welcome to PixOp!\nIn this tutorial, you will learn how to use image processing operations.\nConnect nodes from the start to the final node to transform the image, you can use the toolbox on the left to get new nodes.\nTry to match the target image on the right!",
+        "dialog": "Bienvenue dans PixOp !\nDans ce tutoriel, vous allez apprendre comment utiliser les operations de traitement d'image.\nConnectez les noeuds du debut jusqu'au noeud final pour transformer l'image, vous pouvez utiliser la boite a outils sur la gauche pour obtenir de nouveaux noeuds.\nEssayez de correspondre a l'image cible sur la droite !",
         "psnr_start": 61.54,
         "psnr_goal": 200.0
     },
     "1": {
-        "dialog": "Great job on the first level!\nThis time, you will learn about erosion, a morphological operation.\nErosion shrinks dark regions and expands bright regions in an image.\nIt's useful to remove noise, separate connected objects, or thin out features.\nTry using an erosion to match the target!",
+        "dialog": "Excellent travail sur le premier niveau !\nCette fois, vous allez apprendre l'erosion, une operation morphologique.\nL'erosion retrecit les regions sombres et elargit les regions claires dans une image.\nC'est utile pour retirer le bruit, separer des objets connectes ou affiner des caracteristiques.\nEssayez d'utiliser une erosion pour correspondre a la cible !",
         "psnr_start": 0.0,
         "psnr_goal": 92.4970233580119
     },
     "2": {
-        "dialog": "Excellent! Now let's learn about dilation.\nDilation is the opposite of erosion: it expands dark regions and shrinks bright regions.\nThis operation uses a kernel and takes the maximum pixel value.\nIt's useful to fill small holes, connect nearby objects, or enhance features.\nDilation and erosion are often combined for advanced image processing.\nTry using dilation to match the target!",
+        "dialog": "Excellent ! Apprenons maintenant la dilatation.\nLa dilatation est l'oppose de l'erosion : elle elargit les regions sombres et retrecit les regions claires.\nCette operation utilise un noyau et prend la valeur maximale des pixels.\nC'est utile pour remplir les petits trous, connecter des objets proches ou ameliorer les caracteristiques.\nLa dilatation et l'erosion sont souvent combinees pour du traitement d'image avance.\nEssayez d'utiliser la dilatation pour correspondre a la cible !",
         "psnr_start": 0.0,
         "psnr_goal": 102.039448452405
     },
     "3": {
-        "dialog": "Great progress! Now let's explore dynamic range expansion.\nThe goal is to reveal details hidden in a nearly monochrome image.\nDynamic range expansion stretches pixel values to use the full intensity range (0-255).\nThis technique enhances contrast and makes subtle differences visible.\nStart with a dark image and expand its range to reveal the hidden content.\nTransform the image to match the target!",
+        "dialog": "Excellent progres ! Explorons maintenant l'expansion de gamme dynamique.\nL'objectif est de reveler les details caches dans une image presque monochrome.\nL'expansion de gamme dynamique etire les valeurs de pixels pour utiliser toute la plage d'intensite (0-255).\nCette technique ameliore le contraste et rend visibles les differences subtiles.\nCommencez avec une image \"monochrome\" et elargissez sa gamme pour reveler le contenu cache.\nTransformez l'image pour correspondre a la cible !",
         "psnr_start": 0.0,
         "psnr_goal": 65.1468913031136
     },
     "4": {
-        "dialog": "Time for a challenge! Try to blur only the background of the image.\nTo do this, you'll need a truth map (mask) that tells which areas to blur and which to keep sharp.\nYou should know by now how to binarize an image to create such a mask.\nCombine what you've learned: thresholding, morphological operations, and blur.\nGood luck!",
+        "dialog": "C'est l'heure du challenge ! Essayez de flouter uniquement l'arriere-plan de l'image.\nPour faire ceci, vous aurez besoin d'une carte de verite (masque) qui indique quelles zones flouter et lesquelles garder nettes.\nVous devriez maintenant savoir comment binariser une image pour creer un tel masque.\nCombinez ce que vous avez appris : seuillage, operations morphologiques et flou.\nBonne chance !",
         "psnr_start": 0.0,
         "psnr_goal": 200.0
     },
