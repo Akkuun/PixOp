@@ -168,19 +168,36 @@ func _split_text_into_pages(text: String) -> Array:
 			if remaining.length() <= max_chars_per_line:
 				wrapped_lines.append(remaining)
 				break
-			# Chercher le dernier espace avant ou à la limite
+			
+			# Chercher le dernier espace ou séparateur avant ou à la limite
 			var split_pos = -1
-			for i in range(max_chars_per_line, 0, -1):
-				if remaining[i - 1] == ' ':
+			var best_split = -1
+			
+			# Chercher le meilleur point de coupure (espace, tiret, slash, etc.)
+			for i in range(min(max_chars_per_line, remaining.length()), 0, -1):
+				var current_char = remaining[i - 1]
+				if current_char == ' ':
 					split_pos = i - 1
 					break
+				# Accepter aussi les tirets et slashes comme points de coupure
+				elif current_char in ['-', '/', '—', '–'] and best_split == -1:
+					best_split = i
+			
+			# Si on n'a pas trouvé d'espace mais qu'on a un tiret/slash, l'utiliser
+			if split_pos == -1 and best_split != -1:
+				split_pos = best_split
+			
 			if split_pos == -1:
-				# pas d'espace trouvé: forcer la coupure à max_chars_per_line
-				wrapped_lines.append(remaining.substr(0, max_chars_per_line))
-				remaining = remaining.substr(max_chars_per_line, remaining.length() - max_chars_per_line).strip_edges()
+				# Pas de point de coupure trouvé: forcer la coupure à max_chars_per_line
+				var cut_length = min(max_chars_per_line, remaining.length())
+				wrapped_lines.append(remaining.substr(0, cut_length))
+				remaining = remaining.substr(cut_length).strip_edges()
 			else:
-				wrapped_lines.append(remaining.substr(0, split_pos).strip_edges())
-				remaining = remaining.substr(split_pos + 1, remaining.length() - split_pos - 1).strip_edges()
+				# Couper au point trouvé
+				var line_to_add = remaining.substr(0, split_pos).strip_edges()
+				if line_to_add.length() > 0:
+					wrapped_lines.append(line_to_add)
+				remaining = remaining.substr(split_pos + 1).strip_edges()
 
 	# 2) Grouper les lignes wrapées en pages
 	var page_lines: Array = []
