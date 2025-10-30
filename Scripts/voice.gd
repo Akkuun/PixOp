@@ -19,6 +19,7 @@ var current_page: int = 0
 var pages: Array = []  # Chaque page contient les lignes de texte
 var lines_per_page: int = 3  # Nombre de lignes par page
 var current_full_text: String = ""  # Le texte complet en cours
+var page_transition_delay: float = 0.3  # Délai en secondes avant de changer de bulle
 
 # Variables pour la pause
 var is_paused: bool = false
@@ -276,6 +277,13 @@ func _on_voicebox_finished_phrase():
 	
 	# Vérifier si on a encore des pages à afficher pour ce dialogue
 	if current_page < pages.size() - 1:
+		# Attendre un peu avant de passer à la page suivante
+		await get_tree().create_timer(page_transition_delay).timeout
+		
+		# Vérifier à nouveau si on n'est pas en pause après le délai
+		if is_paused:
+			return
+		
 		# Passer à la page suivante automatiquement
 		current_page += 1
 		label.text = ""
