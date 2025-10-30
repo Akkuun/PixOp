@@ -649,7 +649,7 @@ func _ready() -> void:
 	add_to_group("game")
 
 	# load_level(RequestedLevel.get_level_id())
-	load_level(4)
+	load_level(5)
 
 
 
