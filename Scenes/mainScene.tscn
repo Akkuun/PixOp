@@ -1,22 +1,22 @@
 [gd_scene load_steps=43 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
-[ext_resource type="PackedScene" path="res://prefab/pop-up_end.tscn" id="2_5paew"]
-[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
+[ext_resource type="PackedScene" uid="uid://bxi4ouvmi7rbu" path="res://prefab/pop-up_end.tscn" id="2_5paew"]
+[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_wrx63"]
 [ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/voice.gd" id="4_uh2eo"]
-[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
+[ext_resource type="Script" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_3p0dd"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_5paew"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_swlrs"]
-[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
+[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
 [ext_resource type="Texture2D" uid="uid://bxr1tle05ri7l" path="res://ressources/Theme/UI/Panels/HighPanel.png" id="10_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_qshdt"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_afia4"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_22sd7"]
 [ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_a32h5"]
 [ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_a520j"]
-[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="16_ptsrf"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="17_ifsvn"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="18_78jh6"]
@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="21_2de5a"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="21_wrx63"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="22_j5cla"]
-[ext_resource type="PackedScene" uid="uid://8wnvmkng21a1" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="22_mqfxr"]
+[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="22_mqfxr"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="23_dxshx"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="24_k16gn"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="25_w6dai"]
@@ -528,6 +528,7 @@ process_mode = 4
 stream = ExtResource("35_3p0dd")
 volume_db = -25.0
 autoplay = true
+bus = &"Resume"
 parameters/looping = false
 
 [node name="Eye" type="Sprite2D" parent="."]
