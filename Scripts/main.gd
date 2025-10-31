@@ -557,10 +557,8 @@ func _on_popup_next() -> void:
 	get_tree().paused = false
 	if dialogue_system and dialogue_system.has_method("resume_dialogue"):
 		dialogue_system.resume_dialogue()
-	if levelId == 5:
-		_on_popup_menu()
-	else:
-		_close_popup_and_load_level(levelId + 1)
+
+	_close_popup_and_load_level(levelId + 1)
 
 func _close_popup_and_load_level(next_level_id: int) -> void:
 	print("=== MAIN: Loading level ", next_level_id, " ===")
@@ -571,6 +569,8 @@ func _close_popup_and_load_level(next_level_id: int) -> void:
 	
 	# Load the requested level
 	RequestedLevel.set_level_id(next_level_id)
+	if(next_level_id >= RequestedLevel.first_main_level_id):
+		RequestedLevel.set_tuto_done(true)
 	get_tree().change_scene_to_file("res://Scenes/mainScene.tscn")
 
 

@@ -9,7 +9,7 @@ extends Node
 # If not, you can get it via: var RequestedLevelData = get_node("/root/RequestedLevelData")
 
 @export var firstTutorialLevelId: int = 0
-@export var firstMainLevelId: int = 1
+@export var firstMainLevelId: int = RequestedLevel.first_main_level_id
 
 var confirmation_popup: AcceptDialog
 
@@ -38,7 +38,10 @@ func _create_confirmation_popup():
 
 func _on_play_pressed():
 	# Afficher la popup de confirmation
-	confirmation_popup.popup_centered()
+	if (RequestedLevel.is_tuto_done()):
+		_on_popup_confirmed()
+	else:
+		confirmation_popup.popup_centered()
 
 func _on_popup_confirmed():
 	# L'utilisateur a cliqué "Oui", aller au niveau de jeu
