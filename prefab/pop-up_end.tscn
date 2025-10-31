@@ -1,29 +1,44 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxi4ouvmi7rbu"]
+[gd_scene load_steps=7 format=3 uid="uid://bxi4ouvmi7rbu"]
 
 [ext_resource type="Script" uid="uid://bqcgdmotbcjw2" path="res://prefab/pop-up_end.gd" id="1_x8r5o"]
 [ext_resource type="Shader" uid="uid://cgvie4tpmpwc" path="res://Shaders/pause_shader.gdshader" id="2_hrhui"]
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="3_03kws"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_03kws"]
 shader = ExtResource("2_hrhui")
 shader_parameter/lod = 2.50000011875
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_03kws"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8shv6"]
+atlas = ExtResource("3_03kws")
+region = Rect2(419, 179, 87, 77)
+
 [node name="PopUpEnd" type="Node2D"]
 script = ExtResource("1_x8r5o")
 label_path = NodePath("Panel/Victoire")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel3" type="Panel" parent="."]
 material = SubResource("ShaderMaterial_03kws")
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 476.0
+offset_left = 27.0
+offset_top = 53.0
+offset_right = 483.0
+offset_bottom = 468.0
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 508.0
+offset_bottom = 506.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_03kws")
 
 [node name="Victoire" type="Label" parent="Panel"]
+z_index = 5
 layout_mode = 0
-offset_left = 147.0
-offset_top = 10.0
-offset_right = 339.0
-offset_bottom = 61.0
+offset_left = 160.0
+offset_top = 8.0
+offset_right = 358.0
+offset_bottom = 74.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 64
@@ -46,25 +61,34 @@ anchors_preset = -1
 anchor_left = -0.002
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.94400007
-offset_top = 375.0
+offset_left = 29.01
+offset_top = 331.0
+offset_right = -29.0
+offset_bottom = -43.0
 theme_override_constants/separation = 50
 alignment = 1
 
 [node name="MenuButton" type="Button" parent="Panel/Buttons"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(64, 54)
 layout_mode = 2
 size_flags_vertical = 4
 text = " Menu "
 
 [node name="RetryButton" type="Button" parent="Panel/Buttons"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(64, 54)
 layout_mode = 2
 size_flags_vertical = 4
 text = " Rejouer "
 
 [node name="NextButton" type="Button" parent="Panel/Buttons"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(64, 54)
 layout_mode = 2
 size_flags_vertical = 4
 text = " Niveau suivant "
+
+[node name="Panel2" type="TextureRect" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 506.0
+offset_bottom = 506.0
+texture = SubResource("AtlasTexture_8shv6")
