@@ -30,6 +30,11 @@
   "5": {
 	"dialog": "Dans ce niveau, vous allez apprendre le format YCrCb et pourquoi on l'utilise.\nY représente la luminosité / l'intensité de l'image - c'est là que se trouvent les détails et le contraste.\nCr (chrominance rouge) et Cb (chrominance bleue) représentent l'information de couleur : ce sont des différences de couleur par rapport à la luminance.\nEn convertissant RGB to YCrCb, vous pouvez traiter la luminance et la chrominance séparément : par exemple, appliquer un flou ou une expansion dynamique sur Y sans altérer les couleurs, ou filtrer le bruit sur Cr/Cb sans toucher aux détails lumineux.\nLe but ici est d'obtenir une seule image de sortie : convertissez en YCrCb, appliquez vos opérations sur les canaux choisis (Y ou Cr/Cb), puis reconvertissez en RGB (YCrCb to RGB) pour produire l'image finale.\nIndice : pour obtenir l'image finale, essayez d'inverser un des canaux avant la reconversion en RGB\nEssayez de combiner ces étapes pour obtenir l'image cible !",
 	"psnr_start": 0.0,
-	"psnr_goal": 200.0
+	"psnr_goal": 98.8078156771293
+  },
+  "6": {
+	"dialog": "N'oubliez pas, vous avez 14 demi-journées par semaine pour travailler !",
+	"psnr_start": 0.0,
+	"psnr_goal": 108.221779421318
   }
 }
