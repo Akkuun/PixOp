@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=58 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="PackedScene" uid="uid://bxi4ouvmi7rbu" path="res://prefab/pop-up_end.tscn" id="2_5paew"]
@@ -15,6 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_qshdt"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_afia4"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_22sd7"]
+[ext_resource type="Texture2D" uid="uid://brhpmexqhn54l" path="res://ressources/Theme/UI/left_tri.png" id="12_afia4"]
+[ext_resource type="Texture2D" uid="uid://b6g4k5isnjf73" path="res://ressources/Theme/UI/right_tri.png" id="13_22sd7"]
 [ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_a32h5"]
 [ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_a520j"]
 [ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
@@ -253,7 +255,7 @@ offset_top = 569.0
 offset_right = 469.0
 offset_bottom = 600.0
 theme_override_font_sizes/font_size = 17
-text = "◀"
+icon = ExtResource("12_afia4")
 icon_alignment = 1
 
 [node name="NextButton" type="Button" parent="DialogButtonsLayer"]
@@ -262,7 +264,7 @@ offset_top = 569.0
 offset_right = 1008.0
 offset_bottom = 600.0
 theme_override_font_sizes/font_size = 17
-text = "▶"
+icon = ExtResource("13_22sd7")
 icon_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
