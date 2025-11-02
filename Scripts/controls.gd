@@ -1,8 +1,8 @@
 extends Control
 var audio_server = AudioServer
 @export var chose_level_scene : PackedScene
-@export var controls_level_scene : PackedScene
 @export var choice_level_canvas : CanvasLayer
+@export var controls_scene : PackedScene
 
 func _ready() -> void:
 	hide()
@@ -120,7 +120,7 @@ func _on_charger_button_pressed() -> void:
 	choice_level_canvas.add_child(level_choice_instance)
 
 
-func _on_controls_button_pressed() -> void:
-	var control_instance = controls_level_scene.instantiate()
-	control_instance.z_index = 100
-	choice_level_canvas.add_child(control_instance)
+func _on_back_pressed() -> void:
+	var controls_instance = controls_scene.instantiate()
+	controls_instance.z_index = 100
+	choice_level_canvas.add_child(controls_instance)
