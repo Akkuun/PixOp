@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccm80yhrx6dql"]
+[gd_scene load_steps=6 format=3 uid="uid://ccm80yhrx6dql"]
 
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="1_1rp5s"]
+[ext_resource type="Script" uid="uid://p68n5fd2jqm7" path="res://Scripts/level_choice.gd" id="1_3xcl1"]
+[ext_resource type="PackedScene" uid="uid://cvknevawqm8bx" path="res://Scenes/level_choice_item.tscn" id="2_3xcl1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1rp5s"]
 atlas = ExtResource("1_1rp5s")
@@ -10,13 +12,19 @@ region = Rect2(416, 321, 88, 77)
 atlas = ExtResource("1_1rp5s")
 region = Rect2(419, 179, 87, 77)
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" node_paths=PackedStringArray("level_list", "cancel_button", "load_level_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_3xcl1")
+level_list = NodePath("ScrollContainer/VBoxContainer")
+level_item_scene = ExtResource("2_3xcl1")
+cancel_button = NodePath("CancelButton")
+load_level_button = NodePath("LoadButton")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
@@ -28,10 +36,15 @@ texture = SubResource("AtlasTexture_1rp5s")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 0
-offset_left = 239.0
-offset_top = 86.0
-offset_right = 929.0
-offset_bottom = 572.0
+offset_left = 254.0
+offset_top = 119.0
+offset_right = 908.0
+offset_bottom = 534.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
 
 [node name="BorderOverlay" type="TextureRect" parent="."]
 layout_mode = 0
@@ -39,6 +52,7 @@ offset_left = 193.0
 offset_top = 24.0
 offset_right = 974.0
 offset_bottom = 626.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_3xcl1")
 
 [node name="Label" type="Label" parent="BorderOverlay"]
@@ -52,7 +66,7 @@ text = "Choix du niveau"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="."]
+[node name="CancelButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 336.0
 offset_top = 544.0
@@ -60,7 +74,7 @@ offset_right = 472.0
 offset_bottom = 592.0
 text = "Annuler"
 
-[node name="Button2" type="Button" parent="."]
+[node name="LoadButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 696.0
 offset_top = 544.0

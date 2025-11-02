@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="1_gckht"]
 [ext_resource type="Texture2D" uid="uid://dssyil8cumlc6" path="res://Images/donut.jpg" id="2_1xgfn"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q6p45"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_g60jv"]
 atlas = ExtResource("1_gckht")
 region = Rect2(384, 355, 30, 32)
 
@@ -11,7 +11,9 @@ region = Rect2(384, 355, 30, 32)
 atlas = ExtResource("1_gckht")
 region = Rect2(466, 398, 30, 32)
 
-[node name="Control" type="TextureRect"]
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(112, 110)
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,7 +21,13 @@ offset_right = -1040.0
 offset_bottom = -538.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("AtlasTexture_q6p45")
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 112.0
+offset_bottom = 110.0
+texture = SubResource("AtlasTexture_g60jv")
 
 [node name="LevelImage" type="TextureRect" parent="."]
 layout_mode = 0
@@ -35,9 +43,10 @@ stretch_mode = 6
 layout_mode = 0
 offset_right = 112.0
 offset_bottom = 110.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_1xgfn")
 
-[node name="Label" type="Label" parent="."]
+[node name="LevelLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 80.0
