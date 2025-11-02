@@ -29,6 +29,14 @@ var psnr_goal: float = 200.0
 @export var lutz_button : Button
 @export var canvas_lutz_choice : CanvasLayer
 
+@export var excl_mark: TextureRect
+@export var excl_mark_delay_before_show: float = 150
+
+var hint_or_answer_played: bool = false
+
+# Timer to reveal the exclamation mark after a delay
+var _hint_excl_timer: Timer = null
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
@@ -201,6 +209,11 @@ func load_level(id: int) -> void:
 		_place_eye_on_graphnode_name("Start_node")
 
 	show_tutorial_dialogue(id)
+	
+	hint_or_answer_played = false
+	if excl_mark:
+		excl_mark.visible = false
+	_start_hint_excl_timer(excl_mark_delay_before_show)
 	
 	_is_loading_level = false
 
@@ -964,16 +977,42 @@ func _on_voice_finished() -> void:
 		lutz_anim.call("stop_animation")
 
 func _on_dialog_button_pressed() -> void:
+	canvas_lutz_choice.visible = false
 	_start_voice_with_text(dialog)
 
 func _on_hint_button_pressed() -> void:
+	canvas_lutz_choice.visible = false
 	if answer_button:
 		answer_button.disabled = false
+	hint_or_answer_played = true
 	_start_voice_with_text(hint)
 
 func _on_answer_button_pressed() -> void:
+	canvas_lutz_choice.visible = false
+	hint_or_answer_played = true
 	_start_voice_with_text(answer)
 
 
 func _on_lutz_button_pressed() -> void:
+	if excl_mark:
+		excl_mark.visible = false
 	canvas_lutz_choice.visible = not canvas_lutz_choice.visible
+
+# Starts or restarts the timer that shows the exclamation mark after a delay
+func _start_hint_excl_timer(delay_sec: float) -> void:
+	# Clean up previous timer if any
+	if _hint_excl_timer and is_instance_valid(_hint_excl_timer):
+		_hint_excl_timer.queue_free()
+		_hint_excl_timer = null
+	# Create timer; it will pause with the game by default (inherits pause mode)
+	var t := Timer.new()
+	t.wait_time = max(0.0, delay_sec)
+	t.one_shot = true
+	t.autostart = true
+	add_child(t)
+	_hint_excl_timer = t
+	# When timer fires, show excl_mark only if no hint/answer was played
+	t.timeout.connect(func():
+		if not hint_or_answer_played and excl_mark:
+			excl_mark.visible = true
+	, CONNECT_ONE_SHOT)

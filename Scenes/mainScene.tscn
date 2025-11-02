@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=56 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="PackedScene" uid="uid://bxi4ouvmi7rbu" path="res://prefab/pop-up_end.tscn" id="2_5paew"]
@@ -38,6 +38,10 @@
 [ext_resource type="Texture2D" uid="uid://bo2xp6kys5ipp" path="res://Levels/12/target.png" id="32_llqta"]
 [ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="33_uh2eo"]
 [ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="35_3p0dd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afia4"]
+atlas = ExtResource("10_qshdt")
+region = Rect2(183, 327, 4, 10)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_swlrs"]
 
@@ -104,14 +108,15 @@ region = Rect2(338, 408, 32, 16)
 atlas = ExtResource("10_qshdt")
 region = Rect2(394, 409, 68, 11)
 
-[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("dialog_button", "hint_button", "answer_button", "lutz_button", "canvas_lutz_choice", "current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player", "eye", "level_name_label", "PSNRBarRoot")]
-position = Vector2(0, -24.093)
+[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("dialog_button", "hint_button", "answer_button", "lutz_button", "canvas_lutz_choice", "excl_mark", "current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player", "eye", "level_name_label", "PSNRBarRoot")]
+position = Vector2(0, -24)
 script = ExtResource("1_boirm")
 dialog_button = NodePath("TutorialUI/Lutz Animation/CanvasLayer/TextureRect2/VBoxContainer/DialogButton")
 hint_button = NodePath("TutorialUI/Lutz Animation/CanvasLayer/TextureRect2/VBoxContainer/HintButton")
 answer_button = NodePath("TutorialUI/Lutz Animation/CanvasLayer/TextureRect2/VBoxContainer/AnswerButton")
 lutz_button = NodePath("TutorialUI/Lutz Animation/CanvasLayer2/LutzButton")
 canvas_lutz_choice = NodePath("TutorialUI/Lutz Animation/CanvasLayer")
+excl_mark = NodePath("TutorialUI/Lutz Animation/ExclMark")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
 target = NodePath("Control/HSplitContainer/GraphEdit/TargetSprite2D")
 graph_edit = NodePath("Control/HSplitContainer/GraphEdit")
@@ -165,6 +170,14 @@ theme_override_colors/font_outline_color = Color(0.8435265, 0, 0.03601576, 1)
 autowrap_mode = 2
 clip_text = true
 
+[node name="ExclMark" type="TextureRect" parent="TutorialUI/Lutz Animation"]
+visible = false
+offset_left = 982.932
+offset_top = 392.932
+offset_right = 1010.932
+offset_bottom = 461.932
+texture = SubResource("AtlasTexture_afia4")
+
 [node name="Lutz" type="Sprite2D" parent="TutorialUI/Lutz Animation"]
 position = Vector2(1017.89, 561.00006)
 scale = Vector2(0.49456516, 0.49456516)
@@ -190,6 +203,7 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_22sd7")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_a32h5")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="TutorialUI/Lutz Animation" node_paths=PackedStringArray("close_button")]
+visible = false
 script = ExtResource("10_llqta")
 close_button = NodePath("TextureRect2/CloseButton")
 
