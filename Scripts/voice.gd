@@ -85,6 +85,35 @@ func resume_dialogue() -> void:
 	print("Dialogue resumed")
 
 
+func cancel_dialogue() -> void:
+	"""
+	Stops any ongoing dialogue immediately and resets UI/state.
+	"""
+	is_paused = false
+	was_playing_before_pause = false
+
+	# Stop audio
+	if voicebox:
+		voicebox.stop()
+
+	# Stop animation
+	if lutz_animation != null and lutz_animation.has_method("stop_animation"):
+		lutz_animation.stop_animation()
+
+	# Clear UI and state
+	label.text = ""
+	pages = []
+	current_page = 0
+	conversation = []
+	conversation_index = 0
+	_update_navigation_buttons()
+
+
+func stop_dialogue() -> void:
+	# Alias for external callers
+	cancel_dialogue()
+
+
 func _create_navigation_buttons():
 	"""
 	Crée les boutons de navigation pour parcourir les pages

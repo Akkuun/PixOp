@@ -23,6 +23,12 @@ var answer: String = ""
 var psnr_start: float = 0.0
 var psnr_goal: float = 200.0
 
+@export var dialog_button : Button
+@export var hint_button : Button
+@export var answer_button : Button
+@export var lutz_button : Button
+@export var canvas_lutz_choice : CanvasLayer
+
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
 
@@ -242,34 +248,40 @@ func update_target(image: Image) -> void:
 
 func show_tutorial_dialogue(id: int) -> void:
 	"""
-	Affiche le dialogue de tutoriel correspondant au niveau.
+	Show the tutorial dialogue using the built-in dialogue system (voice.gd),
+	which manages text, pagination, mouth animation, and ACVoice playback.
 	"""
-	# Si dialogue_system n'est pas défini, essayer de le trouver automatiquement
+	# Locate the dialogue system once
 	if dialogue_system == null:
-		# Chercher dans le chemin spécifique de la scène
 		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
-		
 		if dialogue_system == null:
 			dialogue_system = get_node_or_null("../DialogueSystem")
 			if dialogue_system == null:
 				dialogue_system = get_node_or_null("../VoiceDialogue")
 				if dialogue_system == null:
-					# Chercher dans toute la scène
 					var root = get_tree().current_scene
 					for child in root.get_children():
 						if child.has_method("start_dialogue"):
 							dialogue_system = child
 							print("Found dialogue_system automatically: ", dialogue_system.name)
 							break
-	
+
 	if dialogue_system == null:
-		print("Warning: dialogue_system not found. Please assign it in the inspector or ensure a node with start_dialogue() method exists.")
+		print("Warning: dialogue_system not found. Falling back to direct ACVoice.")
+		if dialog != "":
+			_start_voice_with_text(dialog)
 		return
-	
+
 	if dialog != "":
-		# Obtenir le noeud d'animation - il est au même niveau que le dialogue
 		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
-		
+		# Interrupt any current dialogue and start fresh
+		if dialogue_system.has_method("cancel_dialogue"):
+			dialogue_system.cancel_dialogue()
+		elif dialogue_system.has_method("stop_dialogue"):
+			dialogue_system.stop_dialogue()
+		elif dialogue_system.has_method("pause_dialogue"):
+			dialogue_system.pause_dialogue()
+
 		dialogue_system.start_dialogue(
 			dialog,
 			animation_node,
@@ -698,6 +710,20 @@ func _ready() -> void:
 	else:
 		print("Warning: GraphEdit node not found")
 
+	# Connect UI buttons to voicebox handlers (safe-guard against duplicate connections)
+	if dialog_button:
+		var cb_dialog := Callable(self, "_on_dialog_button_pressed")
+		if not dialog_button.pressed.is_connected(cb_dialog):
+			dialog_button.pressed.connect(cb_dialog)
+	if hint_button:
+		var cb_hint := Callable(self, "_on_hint_button_pressed")
+		if not hint_button.pressed.is_connected(cb_hint):
+			hint_button.pressed.connect(cb_hint)
+	if answer_button:
+		var cb_answer := Callable(self, "_on_answer_button_pressed")
+		if not answer_button.pressed.is_connected(cb_answer):
+			answer_button.pressed.connect(cb_answer)
+
 func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	print("=== Connection request ===")
 	print("From: ", from_node, ":", from_port, " -> To: ", to_node, ":", to_port)
@@ -875,3 +901,76 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		return
 	graph_node_map[graph_node_name] = new_pixop_node
 	print("Registered GraphNode '", graph_node_name, "' with operator '", operator, "'")
+
+
+# Button handlers implemented below with ACVoice integration
+
+# --- ACVoice integration helpers and button handlers ---
+
+func _start_voice_with_text(text: String) -> void:
+	if text == null or text.strip_edges() == "":
+		print("ACVoice: no text provided")
+		return
+
+	# Prefer the dialogue system if available (handles text label, pagination, mouth, and ACVoice)
+	if dialogue_system == null:
+		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
+
+	if dialogue_system and dialogue_system.has_method("start_dialogue"):
+		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
+		if dialogue_system.has_method("cancel_dialogue"):
+			dialogue_system.cancel_dialogue()
+		elif dialogue_system.has_method("stop_dialogue"):
+			dialogue_system.stop_dialogue()
+		elif dialogue_system.has_method("pause_dialogue"):
+			dialogue_system.pause_dialogue()
+		dialogue_system.start_dialogue(text, animation_node)
+		return
+
+	var lutz_anim: Node = get_node_or_null("TutorialUI/Lutz Animation")
+	var voice: ACVoiceBox = get_node_or_null("TutorialUI/Lutz Animation/TextureRect/ACVoicebox") as ACVoiceBox
+
+	if not voice:
+		print("ACVoice: ACVoicebox node not found at expected path")
+		return
+
+	# Start mouth animation if available
+	if lutz_anim and lutz_anim.has_method("start_animation"):
+		# Reset previous mouth state first
+		if lutz_anim.has_method("stop_animation"):
+			lutz_anim.call("stop_animation")
+		lutz_anim.call("start_animation")
+
+	# Ensure we restart cleanly
+	if voice.playing:
+		voice.stop()
+	if voice.remaining_sounds:
+		voice.remaining_sounds.clear()
+
+	# Stop animation when voice finishes
+	if lutz_anim and lutz_anim.has_method("stop_animation"):
+		var cb_voice_finished := Callable(self, "_on_voice_finished")
+		if voice.finished_phrase.is_connected(cb_voice_finished):
+			voice.finished_phrase.disconnect(cb_voice_finished)
+		voice.finished_phrase.connect(cb_voice_finished, CONNECT_ONE_SHOT)
+
+	# Play the requested text
+	voice.play_string(text)
+
+func _on_voice_finished() -> void:
+	var lutz_anim: Node = get_node_or_null("TutorialUI/Lutz Animation")
+	if lutz_anim and lutz_anim.has_method("stop_animation"):
+		lutz_anim.call("stop_animation")
+
+func _on_dialog_button_pressed() -> void:
+	_start_voice_with_text(dialog)
+
+func _on_hint_button_pressed() -> void:
+	_start_voice_with_text(hint)
+
+func _on_answer_button_pressed() -> void:
+	_start_voice_with_text(answer)
+
+
+func _on_lutz_button_pressed() -> void:
+	canvas_lutz_choice.visible = not canvas_lutz_choice.visible
