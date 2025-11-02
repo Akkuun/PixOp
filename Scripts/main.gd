@@ -48,6 +48,14 @@ var _is_loading_level: bool = false
 var selected_node: PixopGraphNode  # Currently selected node for preview
 var cached_image: Image  # Cached computed image to prevent flashes
 
+# Color from red (0.0) to green (1.0) for the PSNR meter
+func _psnr_color(progress: float) -> Color:
+	progress = clamp(progress, 0.0, 1.0)
+	var hue: float = lerp(0.0, 0.39, pow(progress, 2))
+	var sat: float = lerp(0.9, 1.0, pow(progress, 2))
+	var val: float = 0.9
+	return Color.from_hsv(hue, sat, val, 1.0)
+
 func animate_psnr_meter(value: float, end: bool = false) -> void:
 	print("computing psnr meter with value: ", value, " and goal : ", psnr_goal)
 	# normalization
@@ -58,6 +66,9 @@ func animate_psnr_meter(value: float, end: bool = false) -> void:
 
 	var tween = create_tween()
 	tween.tween_property(PSNRMeterFill, "scale:y", clamped_value, psnr_anim_duration)
+	# Animate color alongside the fill using a red -> green gradient
+	var target_color: Color = _psnr_color(clamped_value)
+	tween.parallel().tween_property(PSNRMeterFill, "modulate", target_color, psnr_anim_duration)
 
 	# If level is won, display confetti
 	if clamped_value >= (0.99999):
@@ -162,7 +173,7 @@ func load_level(id: int) -> void:
 	dialog = level_data_dict.get(str(id)).get("dialog")
 	psnr_start = level_data_dict.get(str(id)).get("psnr_start")
 	psnr_goal = level_data_dict.get(str(id)).get("psnr_goal")
-	var level_prefix = "";
+	# Removed unused level_prefix variable
 	if id < RequestedLevel.first_main_level_id:
 		level_name_label.text = "Tutoriel " + str(id+1) + " - " + level_data_dict.get(str(id)).get("name")
 	else:
@@ -800,6 +811,7 @@ func _on_node_selected(node: Node) -> void:
 		# Reset fill scale to 0 when first showing the bar
 		if was_hidden and PSNRBarRoot.visible and PSNRMeterFill:
 			PSNRMeterFill.scale.y = 0.0
+			PSNRMeterFill.modulate = _psnr_color(0.0)
 	
 	# Add eye to new selected node
 	if selected_node and eye:
