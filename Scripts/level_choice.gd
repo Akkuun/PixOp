@@ -4,6 +4,7 @@ signal level_selected(level_id: int)
 
 @export var level_list : VBoxContainer
 @export var level_item_scene : PackedScene
+@export var select_blend_duration: float = 0.3
 
 @export var cancel_button : Button
 @export var load_level_button : Button
@@ -36,7 +37,7 @@ func _ready() -> void:
 		
 		var level_path = images_folder + "/" + str(i)
 		var texCurrent := load(level_path + "/current.png")
-		var _texTarget := load(level_path + "/target.png")
+		var texTarget := load(level_path + "/target.png")
 		
 		# Instantiate the level item scene
 		var level_item = level_item_scene.instantiate()
@@ -48,9 +49,16 @@ func _ready() -> void:
 		if label is Control:
 			(label as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 		
-		# Set the image texture
+		# Set the image texture and blend shader material
 		var image: TextureRect = level_item.get_node("LevelImage")
 		image.texture = texCurrent
+		var swipe_shader := load("res://ressources/shader/highlight.gdshader")
+		if swipe_shader:
+			var mat := ShaderMaterial.new()
+			mat.shader = swipe_shader
+			mat.set_shader_parameter("target_tex", texTarget)
+			mat.set_shader_parameter("progress", 0.0)
+			image.material = mat
 		# Let scroll wheel events reach the ScrollContainer
 		image.mouse_filter = Control.MOUSE_FILTER_PASS
 		
@@ -76,6 +84,10 @@ func _ready() -> void:
 		# Connect signals using lambdas so args are bound correctly
 		click_button.gui_input.connect(func(event): _on_click_button_gui_input(event, click_button))
 		click_button.pressed.connect(func(): _on_level_item_clicked(click_button))
+		# Hover state for blend preview
+		click_button.set_meta("hovered", false)
+		click_button.mouse_entered.connect(func(): click_button.set_meta("hovered", true))
+		click_button.mouse_exited.connect(func(): click_button.set_meta("hovered", false))
 
 		# Also allow clicking the image itself as a fallback path (optional)
 		image.gui_input.connect(func(event): _on_level_image_gui_input(event, i))
@@ -88,7 +100,6 @@ func _ready() -> void:
 		
 
 func _on_level_item_clicked(click_button: Button) -> void:
-	
 	# Deselect all other levels
 	for hbox in level_list.get_children():
 		for child in hbox.get_children():
@@ -123,6 +134,34 @@ func _on_click_button_gui_input(event: InputEvent, click_button: Button) -> void
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
 		_on_level_item_clicked(click_button)
+
+func _process(delta: float) -> void:
+	# Smoothly blend selected item to target (1.0) and others to current (0.0)
+	for hbox in level_list.get_children():
+		for child in hbox.get_children():
+			var btn: Button = child.find_child("ClickButton", true, false)
+			if not btn:
+				continue
+			var img: TextureRect = btn.get_parent()
+			if img and img.material is ShaderMaterial:
+				var mat := img.material as ShaderMaterial
+				var p: float = 0.0
+				if mat.get_shader_parameter("progress") != null:
+					p = float(mat.get_shader_parameter("progress"))
+				var target: float = 0.0
+				var hovered: bool = bool(btn.get_meta("hovered", false))
+				if hovered:
+					target = 1.0
+				if selected_level_id != -1 and int(btn.get_meta("level_id", -1)) == selected_level_id:
+					# Selection wins; keep fully blended
+					target = 1.0
+				var dur: float = max(select_blend_duration, 0.0001)
+				var step := delta / dur
+				if p < target:
+					p = min(target, p + step)
+				elif p > target:
+					p = max(target, p - step)
+				mat.set_shader_parameter("progress", p)
 
 func _select_level_by_id(level_id: int) -> void:
 	# Deselect all buttons

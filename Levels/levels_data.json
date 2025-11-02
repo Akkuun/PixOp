@@ -48,7 +48,7 @@
 	"dialog": "Celui-ci est plus compliqué ! Petit indice, on peut le faire en 4 opérateurs.",
 	"psnr_start": 0.0,
 	"psnr_goal": 200.0,
-	"name": "Seuil de chrominances spécifiques"
+	"name": "Seuil de chrominances"
   },
   "8": {
 	"dialog": "Mais qu'est-ce qui a pu arriver à M. Puech ???",
