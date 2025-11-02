@@ -21,7 +21,7 @@
   "2": {
 	"dialog": "Excellent ! Nous pouvons maintenant combiner l'érosion avec son opération \"inverse\" : la dilatation !\n Combiner les deux permet, selon l'ordre, d'éliminer le bruit ou de remplir les petits trous dans une image binaire.\nCes deux opérations s'appellent la fermeture (dilatation puis érosion) et l'ouverture (érosion puis dilatation).\nEssayer de combiner ces deux opérations pour correspondre à la cible !",
 	"psnr_start": 0.0,
-	"psnr_goal": 200.0,
+	"psnr_goal": 99.0291484957654,
 	"name": "Ouverture et Fermeture",
 	"hint": "L'ouverture est également l'opération \"inverse\" de la fermeture.",
 	"answer": "Départ -> Seuil -> Négatif -> Dilatation -> Erosion -> Fin"
@@ -56,12 +56,12 @@
 	"psnr_goal": 119.146498075631,
 	"name": "Détection de contours",
 	"hint": "Que se passe-t-il si on aggrandit une zone puis qu'on la soustrait à la zone d'origine ?",
-	"answer": "Départ -> Dilatation -> Différence (avec l'image d'origine) -> Fin"
+	"answer": "Départ -> Erosion -> Différence (avec l'image d'origine) -> Fin"
   },
   "7": {
 	"dialog": "Mais qu'est-ce qui a pu arriver à M. Puech ???",
 	"psnr_start": 0.0,
-	"psnr_goal": 200.0,
+	"psnr_goal": 92.7704866102979,
 	"name": "Sauvetage de M. Puech",
 	"hint": "Trois opérateurs différents en série devraient suffire.",
 	"answer": "Départ -> Seuil -> Dilatation -> Flou -> Fin"
@@ -93,7 +93,7 @@
   "11": {
 	"dialog": "La Nuit étoilée (en néerlandais De sterrennacht) est une peinture de l'artiste peintre postimpressionniste néerlandais Vincent van Gogh.\n Oh et petit indice, pour flouter plus, il suffit de flouter deux fois !",
 	"psnr_start": 0.0,
-	"psnr_goal": 200.0,
+	"psnr_goal": 80.1422666288573,
 	"name": "La Nuit étoilée",
 	"hint": "Il n'est pas forcément nécessaire d'utiliser les 3 sortes de canaux YCrCb pour ce niveau, une suffit.",
 	"answer": "Départ -> RGB to YCrCb -> Seuil (sur le canal Cb) -> Flou du fond (avec Départ) -> Flou du fond (avec sortie précédente et seuil) -> Fin"
