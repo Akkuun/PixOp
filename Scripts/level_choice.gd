@@ -127,12 +127,25 @@ func _on_level_item_clicked(click_button: Button) -> void:
 # Fallback: handle clicks on the image if the button overlay didn't capture input
 func _on_level_image_gui_input(event: InputEvent, level_id: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		# Support double-click to immediately load the level
+		if (event as InputEventMouseButton).double_click:
+			_select_level_by_id(level_id)
+			_on_load_pressed()
+			return
+		# Single click selects the level
 		_select_level_by_id(level_id)
 
 # Capture only left-clicks on the overlay and allow scrolling to pass through
 func _on_click_button_gui_input(event: InputEvent, click_button: Button) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
+		var mb := event as InputEventMouseButton
+		# Double-click: select and load immediately
+		if mb.double_click:
+			_on_level_item_clicked(click_button)
+			_on_load_pressed()
+			return
+		# Single-click: just select
 		_on_level_item_clicked(click_button)
 
 func _process(delta: float) -> void:
