@@ -73,5 +73,11 @@
 	"psnr_start": 0.0,
 	"psnr_goal": 200.0,
 	"name": "La Nuit étoilée"
+  },
+  "12": {
+	"dialog": "Encore une histoire d'espace de couleurs ! Petit indice, chaque canal modifié l'est de la même façon.",
+	"psnr_start": 0.0,
+	"psnr_goal": 64.8933401840216,
+	"name": "Circuit"
   }
 }
