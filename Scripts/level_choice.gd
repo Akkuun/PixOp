@@ -9,6 +9,7 @@ signal level_selected(level_id: int)
 @export var load_level_button : Button
 
 var selected_level_id: int = -1
+ 
 
 var images_folder = "res://Levels"
 
@@ -58,7 +59,6 @@ func _ready() -> void:
 		click_button.name = "ClickButton"
 		click_button.focus_mode = Control.FOCUS_NONE
 		click_button.flat = true
-		# STOP so the button reliably receives click events
 		click_button.mouse_filter = Control.MOUSE_FILTER_STOP
 		# Cover the whole image dynamically
 		click_button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -69,18 +69,13 @@ func _ready() -> void:
 		click_button.modulate = Color(1,1,1,0)
 		click_button.text = ""
 		click_button.tooltip_text = ""
-		
-		# No extra ColorRect; we color the button via theme overrides
-		
+
 		# Store the level id and selection state
 		click_button.set_meta("level_id", i)
-		click_button.set_meta("is_selected", false)
 		
 		# Connect signals using lambdas so args are bound correctly
 		click_button.gui_input.connect(func(event): _on_click_button_gui_input(event, click_button))
 		click_button.pressed.connect(func(): _on_level_item_clicked(click_button))
-		click_button.mouse_entered.connect(func(): _on_level_item_hovered(click_button))
-		click_button.mouse_exited.connect(func(): _on_level_item_unhovered(click_button))
 
 		# Also allow clicking the image itself as a fallback path (optional)
 		image.gui_input.connect(func(event): _on_level_image_gui_input(event, i))
@@ -100,33 +95,23 @@ func _on_level_item_clicked(click_button: Button) -> void:
 			# Click button is a child of LevelImage; search recursively
 			var btn: Button = child.find_child("ClickButton", true, false)
 			if btn:
-				btn.set_meta("is_selected", false)
-				_update_button_color(btn)
+				pass
+			# Hide highlight on this item if present
+			var hl: Control = child.get_node_or_null("Highlight")
+			if hl:
+				hl.visible = false
 	
 	# Select this level
-	click_button.set_meta("is_selected", true)
 	selected_level_id = click_button.get_meta("level_id")
-	_update_button_color(click_button)
+	# Show the built-in Highlight node on this level item root
+	var level_item_root := click_button.get_parent().get_parent()
+	var selected_hl: Control = level_item_root.get_node_or_null("Highlight")
+	if selected_hl:
+		selected_hl.visible = true
 	print("[selected] selected_level_id=", selected_level_id)
 	emit_signal("level_selected", selected_level_id)
 
-func _on_level_item_hovered(click_button: Button) -> void:
-	click_button.set_meta("is_hovered", true)
-	_update_button_color(click_button)
 
-func _on_level_item_unhovered(click_button: Button) -> void:
-	click_button.set_meta("is_hovered", false)
-	_update_button_color(click_button)
-
-func _update_button_color(click_button: Button) -> void:
-	var is_selected = click_button.get_meta("is_selected", false)
-	var is_hovered = click_button.get_meta("is_hovered", false)
-	var a := 0.10
-	if is_selected:
-		a = 0.35
-	elif is_hovered:
-		a = 0.20
-	_apply_button_debug_style(click_button, a)
 
 # Fallback: handle clicks on the image if the button overlay didn't capture input
 func _on_level_image_gui_input(event: InputEvent, level_id: int) -> void:
@@ -145,14 +130,20 @@ func _select_level_by_id(level_id: int) -> void:
 		for child in hbox.get_children():
 			var btn: Button = child.find_child("ClickButton", true, false)
 			if btn:
-				btn.set_meta("is_selected", false)
-				_update_button_color(btn)
+				pass
+			# Hide highlight on this item if present
+			var hl2: Control = child.get_node_or_null("Highlight")
+			if hl2:
+				hl2.visible = false
 	# Select target
 	var target_btn := _get_button_for_level(level_id)
 	if target_btn:
-		target_btn.set_meta("is_selected", true)
 		selected_level_id = level_id
-		_update_button_color(target_btn)
+		# Show highlight for programmatic selection
+		var root := target_btn.get_parent().get_parent()
+		var hls: Control = root.get_node_or_null("Highlight")
+		if hls:
+			hls.visible = true
 
 func _get_button_for_level(level_id: int) -> Button:
 	for hbox in level_list.get_children():
@@ -162,21 +153,6 @@ func _get_button_for_level(level_id: int) -> Button:
 				return btn
 	return null
 
-# Helper: apply a visible colored style to the button for debugging/feedback
-func _apply_button_debug_style(btn: Button, alpha: float) -> void:
-	var color := Color(0.2, 0.7, 1.0, alpha)
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = color
-	normal.border_width_top = 1
-	normal.border_width_bottom = 1
-	normal.border_width_left = 1
-	normal.border_width_right = 1
-	normal.border_color = Color(0.1, 0.4, 0.7, min(1.0, alpha + 0.2))
-	var hover := normal.duplicate()
-	var pressed := normal.duplicate()
-	btn.add_theme_stylebox_override("normal", normal)
-	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", pressed)
 
 # UI buttons
 func _on_cancel_pressed() -> void:
