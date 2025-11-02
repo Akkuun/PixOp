@@ -34,7 +34,7 @@ var psnr_goal: float = 200.0
 @export var main_theme_player : AudioStreamPlayer
 
 @export var eye: Sprite2D
-
+@export var level_name_label: Label
 @export var PSNRBarRoot: Node2D
 
 var dialogue_system: Control  # Référence au système de dialogue
@@ -162,6 +162,12 @@ func load_level(id: int) -> void:
 	dialog = level_data_dict.get(str(id)).get("dialog")
 	psnr_start = level_data_dict.get(str(id)).get("psnr_start")
 	psnr_goal = level_data_dict.get(str(id)).get("psnr_goal")
+	var level_prefix = "";
+	if id < RequestedLevel.first_main_level_id:
+		level_name_label.text = "Tutoriel " + str(id+1) + " - " + level_data_dict.get(str(id)).get("name")
+	else:
+		level_name_label.text = "Niveau " + str(id - RequestedLevel.first_main_level_id + 1) + " - " + level_data_dict.get(str(id)).get("name")
+
 	animate_psnr_meter(psnr_start) # Reset PSNR meter at level start
 	print("Loaded level ", id, ": dialog=", dialog, " psnr_start=", psnr_start, " psnr_goal=", psnr_goal)
 

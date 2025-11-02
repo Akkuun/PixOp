@@ -3,6 +3,7 @@ extends Node
 var tuto_done: bool = false
 var level_id: int
 var first_main_level_id: int = 6
+var number_of_levels: int = 10
 
 func set_level_id(id: int) -> void:
     level_id = id

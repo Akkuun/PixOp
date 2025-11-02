@@ -8,12 +8,13 @@ extends Node
 # Make sure RequestedLevelData is available as an autoload singleton
 # If not, you can get it via: var RequestedLevelData = get_node("/root/RequestedLevelData")
 
-@export var firstTutorialLevelId: int = 0
-@export var firstMainLevelId: int = RequestedLevel.first_main_level_id
+var firstTutorialLevelId: int = 0
+var firstMainLevelId: int = RequestedLevel.first_main_level_id
 
 var confirmation_popup: AcceptDialog
 
-
+@export var chose_level_scene : PackedScene
+@export var choice_level_canvas : CanvasLayer
 
 func _ready():
 	buttonPlay.pressed.connect(_on_play_pressed)
@@ -61,3 +62,9 @@ func _on_button_sandbox_pressed() -> void:
 func _on_button_tutorial_pressed() -> void:
 	RequestedLevel.set_level_id(firstTutorialLevelId)
 	get_tree().change_scene_to_file("res://Scenes/mainScene.tscn")
+
+
+func _on_button_load_pressed() -> void:
+	var level_choice_instance = chose_level_scene.instantiate()
+	level_choice_instance.z_index = 100
+	choice_level_canvas.add_child(level_choice_instance)

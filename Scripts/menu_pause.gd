@@ -1,8 +1,11 @@
 extends Control
 var audio_server = AudioServer
+@export var chose_level_scene : PackedScene
+@export var choice_level_canvas : CanvasLayer
 
 func _ready() -> void:
 	hide()
+	resume()
 	$AnimationPlayer.play("RESET")
 	
 	# Set all AudioStreamPlayer nodes to continue during pause
@@ -108,3 +111,9 @@ func _on_esc_button_pressed() -> void:
 		pause()
 	elif get_tree().paused:
 		resume()
+
+
+func _on_charger_button_pressed() -> void:
+	var level_choice_instance = chose_level_scene.instantiate()
+	level_choice_instance.z_index = 100
+	choice_level_canvas.add_child(level_choice_instance)

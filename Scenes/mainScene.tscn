@@ -1,22 +1,22 @@
-[gd_scene load_steps=43 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=46 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="PackedScene" uid="uid://bxi4ouvmi7rbu" path="res://prefab/pop-up_end.tscn" id="2_5paew"]
-[ext_resource type="Script" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
+[ext_resource type="Script" uid="uid://cafytki8vybvm" path="res://Scripts/lutz_animation.gd" id="2_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://c01qo0dengq0s" path="res://ressources/Image/bubble.png" id="3_wrx63"]
 [ext_resource type="Script" uid="uid://dx21jcjc4pile" path="res://Scripts/voice.gd" id="4_uh2eo"]
-[ext_resource type="Script" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
+[ext_resource type="Script" uid="uid://dk5us6vi1nl8m" path="res://Scripts/ACVoicebox.gd" id="5_mqfxr"]
 [ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="6_3p0dd"]
 [ext_resource type="Texture2D" uid="uid://1pdsrwh37p3b" path="res://ressources/Image/lutz_dithered_open_mouth.png" id="7_5paew"]
 [ext_resource type="Texture2D" uid="uid://dngyl4idfch2h" path="res://ressources/Image/lutz_dithered_mouth.png" id="8_swlrs"]
-[ext_resource type="Shader" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
+[ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="9_llqta"]
 [ext_resource type="Texture2D" uid="uid://bxr1tle05ri7l" path="res://ressources/Theme/UI/Panels/HighPanel.png" id="10_7ew7i"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="10_qshdt"]
 [ext_resource type="Script" uid="uid://bbkwpbbhuxnr" path="res://Scripts/Graph/addNodeToEditor.gd" id="11_afia4"]
 [ext_resource type="PackedScene" uid="uid://busm27n7ir8iq" path="res://prefab/Graph/Nodes/blur.tscn" id="12_22sd7"]
 [ext_resource type="AudioStream" uid="uid://bu12t6a13dsqy" path="res://ressources/sound/addNodeSound.mp3" id="13_a32h5"]
 [ext_resource type="Script" uid="uid://bjhn8dli3j31f" path="res://Scripts/FloatingAnimationButton.gd" id="14_a520j"]
-[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
+[ext_resource type="PackedScene" uid="uid://bq0kbrvndto7h" path="res://prefab/Graph/Nodes/seuil.tscn" id="15_kdpd1"]
 [ext_resource type="PackedScene" uid="uid://bnktkyvu3dtu4" path="res://prefab/Graph/Nodes/erosion_node.tscn" id="16_ptsrf"]
 [ext_resource type="PackedScene" uid="uid://bwoja7wqpu5x0" path="res://prefab/Graph/Nodes/downscale_node.tscn" id="17_ifsvn"]
 [ext_resource type="PackedScene" uid="uid://r3aje0bib0kn" path="res://prefab/Graph/Nodes/rgb_to_ycbcr_node.tscn" id="18_78jh6"]
@@ -25,14 +25,14 @@
 [ext_resource type="PackedScene" uid="uid://kbmqltg2ekqs" path="res://prefab/Graph/Nodes/blur_background_node.tscn" id="21_2de5a"]
 [ext_resource type="PackedScene" uid="uid://b710yn02wet56" path="res://prefab/Graph/Nodes/negatif_node.tscn" id="21_wrx63"]
 [ext_resource type="PackedScene" uid="uid://dvd5lsolck4a5" path="res://prefab/Graph/Nodes/difference_node.tscn" id="22_j5cla"]
-[ext_resource type="PackedScene" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="22_mqfxr"]
+[ext_resource type="PackedScene" uid="uid://8wnvmkng21a1" path="res://prefab/Graph/Nodes/expdyn_node.tscn" id="22_mqfxr"]
 [ext_resource type="Script" uid="uid://cibj0b1b1ykmq" path="res://Scripts/Graph/GraphEditor.gd" id="23_dxshx"]
 [ext_resource type="AudioStream" uid="uid://bfu05hcof173y" path="res://ressources/sound/connectionSound.mp3" id="24_k16gn"]
 [ext_resource type="AudioStream" uid="uid://bktn4mdtgohgw" path="res://ressources/sound/clearSound.mp3" id="25_w6dai"]
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="26_7rks3"]
-[ext_resource type="Texture2D" uid="uid://d015lxkr0d3m2" path="res://ressources/Image/file.svg" id="27_kjuub"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="28_ekww4"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="29_ci2jp"]
+[ext_resource type="Texture2D" uid="uid://crwmc660dhe6v" path="res://Levels/7/current.png" id="30_5paew"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="30_l56qm"]
 [ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="33_uh2eo"]
 [ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="35_3p0dd"]
@@ -62,6 +62,14 @@ content_margin_bottom = 104.0
 texture = ExtResource("10_7ew7i")
 region_rect = Rect2(0, 0, 85, 210)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_swlrs"]
+atlas = ExtResource("10_qshdt")
+region = Rect2(6, 80, 85, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llqta"]
+atlas = ExtResource("10_qshdt")
+region = Rect2(384, 377, 30, 10)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_on0m7"]
 atlas = ExtResource("10_qshdt")
 region = Rect2(374, 351, 7, 52)
@@ -74,7 +82,11 @@ region = Rect2(338, 353, 3, 48)
 atlas = ExtResource("10_qshdt")
 region = Rect2(338, 408, 32, 16)
 
-[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player", "eye", "PSNRBarRoot")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5paew"]
+atlas = ExtResource("10_qshdt")
+region = Rect2(394, 409, 68, 11)
+
+[node name="MainScene2d2" type="Node2D" node_paths=PackedStringArray("current", "target", "graph_edit", "PSNRMeterFill", "ConfettiPosition", "main_theme_player", "eye", "level_name_label", "PSNRBarRoot")]
 position = Vector2(0, -24.093)
 script = ExtResource("1_boirm")
 current = NodePath("Control/HSplitContainer/GraphEdit/CurrentSprite2D")
@@ -84,6 +96,7 @@ PSNRMeterFill = NodePath("PSNRMeter/Fill")
 ConfettiPosition = NodePath("PSNRMeter/ConfettiPosition")
 main_theme_player = NodePath("AudioStreamPlayer")
 eye = NodePath("Eye")
+level_name_label = NodePath("TextureRect/LevelName")
 PSNRBarRoot = NodePath("PSNRMeter")
 level_complete_popup_scene = ExtResource("2_5paew")
 
@@ -438,42 +451,78 @@ offset_top = -20.742004
 offset_right = 75.00021
 offset_bottom = -9.307053
 
+[node name="CurrentBorder" type="TextureRect" parent="Control/HSplitContainer/GraphEdit"]
+layout_mode = 0
+offset_left = 386.99997
+offset_top = 22.093002
+offset_right = 601.0
+offset_bottom = 297.09302
+texture = SubResource("AtlasTexture_swlrs")
+flip_v = true
+
+[node name="LabelBackground" type="TextureRect" parent="Control/HSplitContainer/GraphEdit/CurrentBorder"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 264.0
+offset_right = 192.0
+offset_bottom = 301.0
+texture = SubResource("AtlasTexture_llqta")
+
+[node name="TargetBorder" type="TextureRect" parent="Control/HSplitContainer/GraphEdit"]
+layout_mode = 0
+offset_left = 618.0
+offset_top = 21.093002
+offset_right = 832.0
+offset_bottom = 296.09302
+texture = SubResource("AtlasTexture_swlrs")
+flip_v = true
+
+[node name="LabelBackground" type="TextureRect" parent="Control/HSplitContainer/GraphEdit/TargetBorder"]
+layout_mode = 0
+offset_left = 30.07
+offset_top = 264.0
+offset_right = 195.0705
+offset_bottom = 301.0
+texture = SubResource("AtlasTexture_llqta")
+
 [node name="CurrentSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
-position = Vector2(495.88998, 137.00002)
-scale = Vector2(0.16031693, 0.16031693)
-texture = ExtResource("27_kjuub")
+position = Vector2(494.03995, 159.095)
+scale = Vector2(0.28, 0.374)
+texture = ExtResource("30_5paew")
 
 [node name="TargetSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
-position = Vector2(727, 136.09302)
-scale = Vector2(0.16031693, 0.16031693)
-texture = ExtResource("27_kjuub")
+position = Vector2(725.14996, 158.188)
+scale = Vector2(0.28, 0.374)
+texture = ExtResource("30_5paew")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
 layout_mode = 0
-offset_left = 655.0
-offset_top = 247.09299
-offset_right = 799.0
-offset_bottom = 284.093
+offset_left = 659.0
+offset_top = 286.093
+offset_right = 803.0
+offset_bottom = 323.093
 theme_override_fonts/normal_font = ExtResource("28_ekww4")
-theme_override_font_sizes/normal_font_size = 46
+theme_override_font_sizes/normal_font_size = 36
 text = "Cible"
 horizontal_alignment = 1
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
 layout_mode = 0
-offset_left = 425.0
-offset_top = 248.0
-offset_right = 569.0
-offset_bottom = 285.0
+offset_left = 429.0
+offset_top = 287.0
+offset_right = 573.0
+offset_bottom = 324.0
 theme_override_fonts/normal_font = ExtResource("28_ekww4")
-theme_override_font_sizes/normal_font_size = 46
+theme_override_font_sizes/normal_font_size = 36
 text = "Actuelle"
 horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="Control/HSplitContainer/GraphEdit"]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 408.0
+offset_top = 264.093
+offset_right = 448.0
+offset_bottom = 304.093
 
 [node name="Final_node" parent="Control/HSplitContainer/GraphEdit" instance=ExtResource("29_ci2jp")]
 layout_mode = 0
@@ -498,6 +547,7 @@ title = "Départ"
 
 [node name="PSNRMeter" type="Node2D" parent="."]
 process_mode = 3
+position = Vector2(6, 7.0930014)
 scale = Vector2(5, 5)
 
 [node name="Frame" type="Sprite2D" parent="PSNRMeter"]
@@ -533,3 +583,19 @@ parameters/looping = false
 
 [node name="Eye" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_mqfxr")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 654.0
+offset_top = 21.093
+offset_right = 1030.0
+offset_bottom = 71.00303
+texture = SubResource("AtlasTexture_5paew")
+
+[node name="LevelName" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_right = 374.0
+offset_bottom = 50.0
+text = "Niveau x - Nom du niveau"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

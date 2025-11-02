@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://cvknevawqm8bx"]
+
+[ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="1_gckht"]
+[ext_resource type="Texture2D" uid="uid://dssyil8cumlc6" path="res://Images/donut.jpg" id="2_1xgfn"]
+[ext_resource type="PackedScene" uid="uid://ccq6ts26iwmmx" path="res://Scenes/selected_level_highlight.tscn" id="3_g60jv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g60jv"]
+atlas = ExtResource("1_gckht")
+region = Rect2(384, 355, 30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xgfn"]
+atlas = ExtResource("1_gckht")
+region = Rect2(466, 398, 30, 32)
+
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(112, 110)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1008.0
+offset_bottom = -503.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 18.0
+offset_right = 128.0
+offset_bottom = 128.0
+texture = SubResource("AtlasTexture_g60jv")
+
+[node name="LevelImage" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 23.0
+offset_right = 117.0
+offset_bottom = 96.0
+texture = ExtResource("2_1xgfn")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="BorderOverlay" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 18.0
+offset_right = 128.0
+offset_bottom = 128.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_1xgfn")
+
+[node name="LevelLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 98.0
+offset_right = 120.0
+offset_bottom = 122.0
+text = "Niveau x"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Highlight" parent="." instance=ExtResource("3_g60jv")]
+visible = false
+layout_mode = 0
+offset_left = 3.0
+offset_top = 0.0
+offset_right = 129.0
+offset_bottom = 127.0
