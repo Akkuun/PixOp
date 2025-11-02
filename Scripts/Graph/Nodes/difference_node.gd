@@ -19,7 +19,7 @@ func _ready():
 	hbox1.size_flags_horizontal = Control.SIZE_FILL
 	hbox1.custom_minimum_size.y = 30
 	var label1 = Label.new()
-	label1.text = "Img                   Img"
+	label1.text = "Img1                  Img"
 	label1.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var margin1 = MarginContainer.new()
 	margin1.add_theme_constant_override("margin_left", 5)
@@ -33,7 +33,7 @@ func _ready():
 	hbox2.size_flags_horizontal = Control.SIZE_FILL
 	hbox2.custom_minimum_size.y = 30
 	var label2 = Label.new()
-	label2.text = "Carte de vérité"
+	label2.text = "Img2"
 	label2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var margin2 = MarginContainer.new()
 	margin2.add_theme_constant_override("margin_left", 5)

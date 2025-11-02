@@ -61,5 +61,11 @@
 	"psnr_start": 0.0,
 	"psnr_goal": 200.0,
 	"name": "Donut saucisse"
+  },
+  "10": {
+	"dialog": "Jolie couleur rouge ! Je me demande quel canal de couleur a pu être modifié pour arriver à ça...",
+	"psnr_start": 0.0,
+	"psnr_goal": 200.0,
+	"name": "Phare"
   }
 }
