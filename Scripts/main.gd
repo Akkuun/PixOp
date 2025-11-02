@@ -720,6 +720,7 @@ func _ready() -> void:
 		if not hint_button.pressed.is_connected(cb_hint):
 			hint_button.pressed.connect(cb_hint)
 	if answer_button:
+		answer_button.disabled = true
 		var cb_answer := Callable(self, "_on_answer_button_pressed")
 		if not answer_button.pressed.is_connected(cb_answer):
 			answer_button.pressed.connect(cb_answer)
@@ -966,6 +967,8 @@ func _on_dialog_button_pressed() -> void:
 	_start_voice_with_text(dialog)
 
 func _on_hint_button_pressed() -> void:
+	if answer_button:
+		answer_button.disabled = false
 	_start_voice_with_text(hint)
 
 func _on_answer_button_pressed() -> void:
