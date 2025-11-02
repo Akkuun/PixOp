@@ -85,10 +85,18 @@ func _find_dialogue_system() -> Node:
 	
 	return null
 func testEsc():
-	if Input.is_action_just_pressed("Escape") and !get_tree().paused:
-		pause()
-	elif Input.is_action_just_pressed("Escape") and get_tree().paused:
-		resume()
+	# If a level choice UI is open, Escape should close it instead of toggling pause
+	if Input.is_action_just_pressed("Escape"):
+		if choice_level_canvas and choice_level_canvas.get_child_count() > 0:
+			var top := choice_level_canvas.get_child(choice_level_canvas.get_child_count() - 1)
+			if top and top.has_method("queue_free"):
+				top.queue_free()
+			return
+		# No overlay: toggle pause state as usual
+		if !get_tree().paused:
+			pause()
+		elif get_tree().paused:
+			resume()
 
 func _on_resume_pressed() -> void:
 	resume()

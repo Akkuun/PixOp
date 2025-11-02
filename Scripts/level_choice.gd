@@ -15,6 +15,8 @@ var selected_level_id: int = -1
 var images_folder = "res://Levels"
 
 func _ready() -> void:
+	# Ensure this UI continues to receive input while the game is paused
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	var current_hbox: HBoxContainer = null
 	
 	if cancel_button:
@@ -101,6 +103,15 @@ func _ready() -> void:
 		# Add level item to the current HBoxContainer
 		current_hbox.add_child(level_item)
 		
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Intercept Escape to close the level chooser itself and prevent it from
+	# bubbling or being polled by the pause menu logic.
+	if event.is_action_pressed("Escape"):
+		accept_event()
+		queue_free()
+		return
+
 
 func _on_level_item_clicked(click_button: Button) -> void:
 	# Deselect all other levels

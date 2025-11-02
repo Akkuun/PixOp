@@ -18,8 +18,24 @@ var baseImage: Image
 var targetImage: Image
 
 var dialog: String = ""
+var hint: String = ""
+var answer: String = ""
 var psnr_start: float = 0.0
 var psnr_goal: float = 200.0
+
+@export var dialog_button : Button
+@export var hint_button : Button
+@export var answer_button : Button
+@export var lutz_button : Button
+@export var canvas_lutz_choice : CanvasLayer
+
+@export var excl_mark: TextureRect
+@export var excl_mark_delay_before_show: float = 150
+
+var hint_or_answer_played: bool = false
+
+# Timer to reveal the exclamation mark after a delay
+var _hint_excl_timer: Timer = null
 
 # Dictionary to map GraphNode names to their PixopGraphNode instances
 @export var graph_node_map: Dictionary = {}
@@ -48,6 +64,14 @@ var _is_loading_level: bool = false
 var selected_node: PixopGraphNode  # Currently selected node for preview
 var cached_image: Image  # Cached computed image to prevent flashes
 
+# Color from red (0.0) to green (1.0) for the PSNR meter
+func _psnr_color(progress: float) -> Color:
+	progress = clamp(progress, 0.0, 1.0)
+	var hue: float = lerp(0.0, 0.39, pow(progress, 2))
+	var sat: float = lerp(0.9, 1.0, pow(progress, 2))
+	var val: float = 0.9
+	return Color.from_hsv(hue, sat, val, 1.0)
+
 func animate_psnr_meter(value: float, end: bool = false) -> void:
 	print("computing psnr meter with value: ", value, " and goal : ", psnr_goal)
 	# normalization
@@ -58,6 +82,9 @@ func animate_psnr_meter(value: float, end: bool = false) -> void:
 
 	var tween = create_tween()
 	tween.tween_property(PSNRMeterFill, "scale:y", clamped_value, psnr_anim_duration)
+	# Animate color alongside the fill using a red -> green gradient
+	var target_color: Color = _psnr_color(clamped_value)
+	tween.parallel().tween_property(PSNRMeterFill, "modulate", target_color, psnr_anim_duration)
 
 	# If level is won, display confetti
 	if clamped_value >= (0.99999):
@@ -160,9 +187,11 @@ func load_level(id: int) -> void:
 	print("Level data dict: ", level_data_dict)
 
 	dialog = level_data_dict.get(str(id)).get("dialog")
+	hint = level_data_dict.get(str(id)).get("hint")
+	answer = level_data_dict.get(str(id)).get("answer")
 	psnr_start = level_data_dict.get(str(id)).get("psnr_start")
 	psnr_goal = level_data_dict.get(str(id)).get("psnr_goal")
-	var level_prefix = "";
+	# Removed unused level_prefix variable
 	if id < RequestedLevel.first_main_level_id:
 		level_name_label.text = "Tutoriel " + str(id+1) + " - " + level_data_dict.get(str(id)).get("name")
 	else:
@@ -180,6 +209,11 @@ func load_level(id: int) -> void:
 		_place_eye_on_graphnode_name("Start_node")
 
 	show_tutorial_dialogue(id)
+	
+	hint_or_answer_played = false
+	if excl_mark:
+		excl_mark.visible = false
+	_start_hint_excl_timer(excl_mark_delay_before_show)
 	
 	_is_loading_level = false
 
@@ -227,34 +261,40 @@ func update_target(image: Image) -> void:
 
 func show_tutorial_dialogue(id: int) -> void:
 	"""
-	Affiche le dialogue de tutoriel correspondant au niveau.
+	Show the tutorial dialogue using the built-in dialogue system (voice.gd),
+	which manages text, pagination, mouth animation, and ACVoice playback.
 	"""
-	# Si dialogue_system n'est pas défini, essayer de le trouver automatiquement
+	# Locate the dialogue system once
 	if dialogue_system == null:
-		# Chercher dans le chemin spécifique de la scène
 		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
-		
 		if dialogue_system == null:
 			dialogue_system = get_node_or_null("../DialogueSystem")
 			if dialogue_system == null:
 				dialogue_system = get_node_or_null("../VoiceDialogue")
 				if dialogue_system == null:
-					# Chercher dans toute la scène
 					var root = get_tree().current_scene
 					for child in root.get_children():
 						if child.has_method("start_dialogue"):
 							dialogue_system = child
 							print("Found dialogue_system automatically: ", dialogue_system.name)
 							break
-	
+
 	if dialogue_system == null:
-		print("Warning: dialogue_system not found. Please assign it in the inspector or ensure a node with start_dialogue() method exists.")
+		print("Warning: dialogue_system not found. Falling back to direct ACVoice.")
+		if dialog != "":
+			_start_voice_with_text(dialog)
 		return
-	
+
 	if dialog != "":
-		# Obtenir le noeud d'animation - il est au même niveau que le dialogue
 		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
-		
+		# Interrupt any current dialogue and start fresh
+		if dialogue_system.has_method("cancel_dialogue"):
+			dialogue_system.cancel_dialogue()
+		elif dialogue_system.has_method("stop_dialogue"):
+			dialogue_system.stop_dialogue()
+		elif dialogue_system.has_method("pause_dialogue"):
+			dialogue_system.pause_dialogue()
+
 		dialogue_system.start_dialogue(
 			dialog,
 			animation_node,
@@ -683,6 +723,21 @@ func _ready() -> void:
 	else:
 		print("Warning: GraphEdit node not found")
 
+	# Connect UI buttons to voicebox handlers (safe-guard against duplicate connections)
+	if dialog_button:
+		var cb_dialog := Callable(self, "_on_dialog_button_pressed")
+		if not dialog_button.pressed.is_connected(cb_dialog):
+			dialog_button.pressed.connect(cb_dialog)
+	if hint_button:
+		var cb_hint := Callable(self, "_on_hint_button_pressed")
+		if not hint_button.pressed.is_connected(cb_hint):
+			hint_button.pressed.connect(cb_hint)
+	if answer_button:
+		answer_button.disabled = true
+		var cb_answer := Callable(self, "_on_answer_button_pressed")
+		if not answer_button.pressed.is_connected(cb_answer):
+			answer_button.pressed.connect(cb_answer)
+
 func _on_graph_edit_connection_request(from_node: StringName, from_port: int, to_node: StringName, to_port: int) -> void:
 	print("=== Connection request ===")
 	print("From: ", from_node, ":", from_port, " -> To: ", to_node, ":", to_port)
@@ -800,6 +855,7 @@ func _on_node_selected(node: Node) -> void:
 		# Reset fill scale to 0 when first showing the bar
 		if was_hidden and PSNRBarRoot.visible and PSNRMeterFill:
 			PSNRMeterFill.scale.y = 0.0
+			PSNRMeterFill.modulate = _psnr_color(0.0)
 	
 	# Add eye to new selected node
 	if selected_node and eye:
@@ -859,3 +915,104 @@ func register_graph_node(graph_node_name: String, operator: String) -> void:
 		return
 	graph_node_map[graph_node_name] = new_pixop_node
 	print("Registered GraphNode '", graph_node_name, "' with operator '", operator, "'")
+
+
+# Button handlers implemented below with ACVoice integration
+
+# --- ACVoice integration helpers and button handlers ---
+
+func _start_voice_with_text(text: String) -> void:
+	if text == null or text.strip_edges() == "":
+		print("ACVoice: no text provided")
+		return
+
+	# Prefer the dialogue system if available (handles text label, pagination, mouth, and ACVoice)
+	if dialogue_system == null:
+		dialogue_system = get_node_or_null("TutorialUI/Lutz Animation/TextureRect")
+
+	if dialogue_system and dialogue_system.has_method("start_dialogue"):
+		var animation_node = get_node_or_null("TutorialUI/Lutz Animation")
+		if dialogue_system.has_method("cancel_dialogue"):
+			dialogue_system.cancel_dialogue()
+		elif dialogue_system.has_method("stop_dialogue"):
+			dialogue_system.stop_dialogue()
+		elif dialogue_system.has_method("pause_dialogue"):
+			dialogue_system.pause_dialogue()
+		dialogue_system.start_dialogue(text, animation_node)
+		return
+
+	var lutz_anim: Node = get_node_or_null("TutorialUI/Lutz Animation")
+	var voice: ACVoiceBox = get_node_or_null("TutorialUI/Lutz Animation/TextureRect/ACVoicebox") as ACVoiceBox
+
+	if not voice:
+		print("ACVoice: ACVoicebox node not found at expected path")
+		return
+
+	# Start mouth animation if available
+	if lutz_anim and lutz_anim.has_method("start_animation"):
+		# Reset previous mouth state first
+		if lutz_anim.has_method("stop_animation"):
+			lutz_anim.call("stop_animation")
+		lutz_anim.call("start_animation")
+
+	# Ensure we restart cleanly
+	if voice.playing:
+		voice.stop()
+	if voice.remaining_sounds:
+		voice.remaining_sounds.clear()
+
+	# Stop animation when voice finishes
+	if lutz_anim and lutz_anim.has_method("stop_animation"):
+		var cb_voice_finished := Callable(self, "_on_voice_finished")
+		if voice.finished_phrase.is_connected(cb_voice_finished):
+			voice.finished_phrase.disconnect(cb_voice_finished)
+		voice.finished_phrase.connect(cb_voice_finished, CONNECT_ONE_SHOT)
+
+	# Play the requested text
+	voice.play_string(text)
+
+func _on_voice_finished() -> void:
+	var lutz_anim: Node = get_node_or_null("TutorialUI/Lutz Animation")
+	if lutz_anim and lutz_anim.has_method("stop_animation"):
+		lutz_anim.call("stop_animation")
+
+func _on_dialog_button_pressed() -> void:
+	canvas_lutz_choice.visible = false
+	_start_voice_with_text(dialog)
+
+func _on_hint_button_pressed() -> void:
+	canvas_lutz_choice.visible = false
+	if answer_button:
+		answer_button.disabled = false
+	hint_or_answer_played = true
+	_start_voice_with_text(hint)
+
+func _on_answer_button_pressed() -> void:
+	canvas_lutz_choice.visible = false
+	hint_or_answer_played = true
+	_start_voice_with_text(answer)
+
+
+func _on_lutz_button_pressed() -> void:
+	if excl_mark:
+		excl_mark.visible = false
+	canvas_lutz_choice.visible = not canvas_lutz_choice.visible
+
+# Starts or restarts the timer that shows the exclamation mark after a delay
+func _start_hint_excl_timer(delay_sec: float) -> void:
+	# Clean up previous timer if any
+	if _hint_excl_timer and is_instance_valid(_hint_excl_timer):
+		_hint_excl_timer.queue_free()
+		_hint_excl_timer = null
+	# Create timer; it will pause with the game by default (inherits pause mode)
+	var t := Timer.new()
+	t.wait_time = max(0.0, delay_sec)
+	t.one_shot = true
+	t.autostart = true
+	add_child(t)
+	_hint_excl_timer = t
+	# When timer fires, show excl_mark only if no hint/answer was played
+	t.timeout.connect(func():
+		if not hint_or_answer_played and excl_mark:
+			excl_mark.visible = true
+	, CONNECT_ONE_SHOT)
