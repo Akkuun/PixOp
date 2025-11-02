@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://s0a5s3xyg3sf"]
+[gd_scene load_steps=11 format=3 uid="uid://s0a5s3xyg3sf"]
 
 [ext_resource type="Script" uid="uid://dembah05a4uao" path="res://Scripts/end_screen.gd" id="1_bhpww"]
 [ext_resource type="Shader" uid="uid://bwvocafa5ivu4" path="res://ressources/shader/baltrou.gdshader" id="1_f2mtv"]
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="2_1gwaw"]
+[ext_resource type="Texture2D" uid="uid://t4s441uqdn4i" path="res://ressources/Image/lutz_dithered.png" id="3_gdxnu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f2mtv"]
 shader = ExtResource("1_f2mtv")
@@ -81,6 +82,17 @@ offset_top = -10.0
 offset_right = 1158.0
 offset_bottom = 642.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_1gwaw")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 839.99994
+offset_top = 200.0
+offset_right = 1033.8855
+offset_bottom = 376.9446
+rotation = 1.1117747
+texture = ExtResource("3_gdxnu")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
