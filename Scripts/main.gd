@@ -18,6 +18,8 @@ var baseImage: Image
 var targetImage: Image
 
 var dialog: String = ""
+var hint: String = ""
+var answer: String = ""
 var psnr_start: float = 0.0
 var psnr_goal: float = 200.0
 
@@ -171,6 +173,8 @@ func load_level(id: int) -> void:
 	print("Level data dict: ", level_data_dict)
 
 	dialog = level_data_dict.get(str(id)).get("dialog")
+	hint = level_data_dict.get(str(id)).get("hint")
+	answer = level_data_dict.get(str(id)).get("answer")
 	psnr_start = level_data_dict.get(str(id)).get("psnr_start")
 	psnr_goal = level_data_dict.get(str(id)).get("psnr_goal")
 	# Removed unused level_prefix variable
