@@ -579,7 +579,7 @@ stream = ExtResource("35_3p0dd")
 volume_db = -25.0
 autoplay = true
 bus = &"Resume"
-parameters/looping = false
+parameters/looping = true
 
 [node name="Eye" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_mqfxr")

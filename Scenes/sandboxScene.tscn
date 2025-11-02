@@ -499,7 +499,7 @@ stream = ExtResource("32_bp4c6")
 volume_db = -25.0
 autoplay = true
 bus = &"Resume"
-parameters/looping = false
+parameters/looping = true
 
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/LoadNewButton" to="." method="_on_load_new_button_pressed"]
 [connection signal="pressed" from="Control/HSplitContainer/GraphEdit/SaveImageButton" to="." method="_on_save_image_button_pressed"]
