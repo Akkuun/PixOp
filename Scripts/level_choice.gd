@@ -38,6 +38,8 @@ func _ready() -> void:
 		var level_path = images_folder + "/" + str(i)
 		var texCurrent := load(level_path + "/current.png")
 		var texTarget := load(level_path + "/target.png")
+
+		print("Loading level ", i, ": ", level_path)
 		
 		# Instantiate the level item scene
 		var level_item = level_item_scene.instantiate()

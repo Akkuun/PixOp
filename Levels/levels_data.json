@@ -17,7 +17,7 @@
   "2": {
 	"dialog": "Excellent ! Nous pouvons maintenant combiner l'érosion avec son opération \"inverse\" : la dilatation !\n Combiner les deux permet, selon l'ordre, d'éliminer le bruit ou de remplir les petits trous dans une image binaire.\nCes deux opérations s'appellent la fermeture (dilatation puis érosion) et l'ouverture (érosion puis dilatation).\nEssayer de combiner ces deux opérations pour correspondre à la cible !",
 	"psnr_start": 0.0,
-	"psnr_goal": 102.039448452405,
+	"psnr_goal": 200.0,
 	"name": "Ouverture et Fermeture"
   },
   "3": {
@@ -29,7 +29,7 @@
   "4": {
 	"dialog": "C'est l'heure du challenge ! Essayez de flouter uniquement l'arrière-plan de l'image.\nPour faire ceci, vous aurez besoin d'une carte de vérité (masque) qui indique quelles zones flouter et lesquelles garder nettes.\nVous devriez maintenant savoir comment binariser une image pour créer un tel masque.\nCombinez ce que vous avez appris : seuillage, opérations morphologiques et flou.\nBonne chance !",
 	"psnr_start": 0.0,
-	"psnr_goal": 200.0,
+	"psnr_goal": 99.9346387973348,
 	"name": "Flou du fond"
   },
   "5": {
@@ -41,7 +41,7 @@
   "6": {
 	"dialog": "L'opérateur différence fait... la différence entre deux images ! Combiné avec certains opérateurs, il permet de trouver les contours !",
 	"psnr_start": 0.0,
-	"psnr_goal": 120.146498075631,
+	"psnr_goal": 119.146498075631,
 	"name": "Détection de contours"
   },
   "7": {
@@ -59,7 +59,7 @@
   "9": {
 	"dialog": "La sculpture préférée de Mme Croitoru. Et si on arrivait à seuiller juste la sculpture rouge ?",
 	"psnr_start": 0.0,
-	"psnr_goal": 200.0,
+	"psnr_goal": 88.8919760199737,
 	"name": "Donut saucisse"
   },
   "10": {
@@ -67,5 +67,11 @@
 	"psnr_start": 0.0,
 	"psnr_goal": 200.0,
 	"name": "Phare"
+  },
+  "11": {
+	"dialog": "La Nuit étoilée (en néerlandais De sterrennacht) est une peinture de l'artiste peintre postimpressionniste néerlandais Vincent van Gogh.\nLe tableau représente ce que Van Gogh pouvait voir et extrapoler de la chambre qu'il occupait dans l'asile du monastère Saint-Paul-de-Mausole à Saint-Rémy-de-Provence en mai 1889.\n Pour flouter plus, il suffit de flouter deux fois !",
+	"psnr_start": 0.0,
+	"psnr_goal": 200.0,
+	"name": "La Nuit étoilée"
   }
 }
