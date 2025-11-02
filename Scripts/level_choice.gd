@@ -21,6 +21,7 @@ func _ready() -> void:
 		cancel_button.pressed.connect(_on_cancel_pressed)
 	if load_level_button:
 		load_level_button.pressed.connect(_on_load_pressed)
+		_update_load_button_state()
 
 	for i in range(RequestedLevel.number_of_levels):
 		# Create a new HBoxContainer every 5 levels
@@ -123,6 +124,7 @@ func _on_level_item_clicked(click_button: Button) -> void:
 		selected_hl.visible = true
 	print("[selected] selected_level_id=", selected_level_id)
 	emit_signal("level_selected", selected_level_id)
+	_update_load_button_state()
 
 
 
@@ -198,6 +200,7 @@ func _select_level_by_id(level_id: int) -> void:
 		var hls: Control = root.get_node_or_null("Highlight")
 		if hls:
 			hls.visible = true
+		_update_load_button_state()
 
 func _get_button_for_level(level_id: int) -> Button:
 	for hbox in level_list.get_children():
@@ -218,4 +221,11 @@ func _on_load_pressed() -> void:
 		return
 	RequestedLevel.set_level_id(selected_level_id)
 	get_tree().change_scene_to_file("res://Scenes/mainScene.tscn")
+
+# Enable/disable the load button depending on selection
+func _update_load_button_state() -> void:
+	if load_level_button:
+		var is_disabled := selected_level_id == -1
+		load_level_button.disabled = is_disabled
+		load_level_button.tooltip_text = "Sélectionnez un niveau pour charger" if is_disabled else ""
 		

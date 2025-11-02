@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ccm80yhrx6dql"]
+[gd_scene load_steps=7 format=3 uid="uid://ccm80yhrx6dql"]
 
 [ext_resource type="Texture2D" uid="uid://de5wrgtjpc2pv" path="res://ressources/Theme/UI/UI.png" id="1_1rp5s"]
 [ext_resource type="Script" uid="uid://p68n5fd2jqm7" path="res://Scripts/level_choice.gd" id="1_3xcl1"]
 [ext_resource type="PackedScene" uid="uid://cvknevawqm8bx" path="res://Scenes/level_choice_item.tscn" id="2_3xcl1"]
+[ext_resource type="Theme" uid="uid://bdb2cay1qkpj8" path="res://ressources/Theme/NodeTheme.tres" id="4_vgmpp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1rp5s"]
 atlas = ExtResource("1_1rp5s")
@@ -80,4 +81,5 @@ offset_left = 696.0
 offset_top = 544.0
 offset_right = 831.0
 offset_bottom = 592.0
+theme = ExtResource("4_vgmpp")
 text = "Charger"
