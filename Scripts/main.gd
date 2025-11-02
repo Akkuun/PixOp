@@ -575,6 +575,9 @@ func _close_popup_and_load_level(next_level_id: int) -> void:
 	
 	# Load the requested level
 	RequestedLevel.set_level_id(next_level_id)
+	if (next_level_id >= RequestedLevel.number_of_levels):
+		get_tree().change_scene_to_file("res://Scenes/end_screen.tscn")
+		return
 	if(next_level_id >= RequestedLevel.first_main_level_id):
 		RequestedLevel.set_tuto_done(true)
 	get_tree().change_scene_to_file("res://Scenes/mainScene.tscn")
