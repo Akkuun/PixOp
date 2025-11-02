@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ce4ecxpm8jf8b"]
+[gd_scene load_steps=47 format=3 uid="uid://ce4ecxpm8jf8b"]
 
 [ext_resource type="Script" uid="uid://c7sxrpebsnky" path="res://Scripts/main.gd" id="1_boirm"]
 [ext_resource type="PackedScene" uid="uid://bxi4ouvmi7rbu" path="res://prefab/pop-up_end.tscn" id="2_5paew"]
@@ -32,8 +32,9 @@
 [ext_resource type="PackedScene" uid="uid://cmptk85b45h76" path="res://prefab/imageStack.tscn" id="26_7rks3"]
 [ext_resource type="FontFile" uid="uid://dc8rsxt6lcet6" path="res://ressources/font/monogram.ttf" id="28_ekww4"]
 [ext_resource type="PackedScene" uid="uid://bvsmwwdpsiqvu" path="res://prefab/Graph/Nodes/final_node.tscn" id="29_ci2jp"]
-[ext_resource type="Texture2D" uid="uid://crwmc660dhe6v" path="res://Levels/7/current.png" id="30_5paew"]
 [ext_resource type="PackedScene" uid="uid://v4ky7krbpjjw" path="res://prefab/Graph/Nodes/start_node.tscn" id="30_l56qm"]
+[ext_resource type="Texture2D" uid="uid://crwmc660dhe6v" path="res://Levels/12/current.png" id="31_swlrs"]
+[ext_resource type="Texture2D" uid="uid://bo2xp6kys5ipp" path="res://Levels/12/target.png" id="32_llqta"]
 [ext_resource type="PackedScene" uid="uid://f21jk3r5uqcy" path="res://Scenes/menu_pause.tscn" id="33_uh2eo"]
 [ext_resource type="AudioStream" uid="uid://bkct31j1w8sae" path="res://ressources/sound/mainTheme.mp3" id="35_3p0dd"]
 
@@ -488,12 +489,12 @@ texture = SubResource("AtlasTexture_llqta")
 [node name="CurrentSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
 position = Vector2(494.03995, 159.095)
 scale = Vector2(0.28, 0.374)
-texture = ExtResource("30_5paew")
+texture = ExtResource("31_swlrs")
 
 [node name="TargetSprite2D" type="Sprite2D" parent="Control/HSplitContainer/GraphEdit"]
 position = Vector2(725.14996, 158.188)
 scale = Vector2(0.28, 0.374)
-texture = ExtResource("30_5paew")
+texture = ExtResource("32_llqta")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Control/HSplitContainer/GraphEdit"]
 layout_mode = 0

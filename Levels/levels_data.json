@@ -12,7 +12,7 @@
 	"dialog": "Excellent travail sur le premier niveau !\nCette fois, vous allez apprendre l'érosion, une opération morphologique.\nL'érosion rétrécit les régions sombres et élargit les régions claires dans une image.\nEssayez d'utiliser une érosion pour correspondre à la cible ! N'oubliez pas que 0 est l'inverse de 1 si vous avez un problème de couleur.",
 	"psnr_start": 0.0,
 	"psnr_goal": 92.4970233580119,
-	"name": "Érosion"
+	"name": "Erosion"
   },
   "2": {
 	"dialog": "Excellent ! Nous pouvons maintenant combiner l'érosion avec son opération \"inverse\" : la dilatation !\n Combiner les deux permet, selon l'ordre, d'éliminer le bruit ou de remplir les petits trous dans une image binaire.\nCes deux opérations s'appellent la fermeture (dilatation puis érosion) et l'ouverture (érosion puis dilatation).\nEssayer de combiner ces deux opérations pour correspondre à la cible !",
@@ -45,28 +45,28 @@
 	"name": "Détection de contours"
   },
   "7": {
-	"dialog": "Celui-ci est plus compliqué ! Petit indice, on peut le faire en 4 opérateurs.",
-	"psnr_start": 0.0,
-	"psnr_goal": 200.0,
-	"name": "Seuil de chrominances"
-  },
-  "8": {
 	"dialog": "Mais qu'est-ce qui a pu arriver à M. Puech ???",
 	"psnr_start": 0.0,
 	"psnr_goal": 200.0,
 	"name": "Sauvetage de M. Puech"
   },
-  "9": {
+  "8": {
 	"dialog": "La sculpture préférée de Mme Croitoru. Et si on arrivait à seuiller juste la sculpture rouge ?",
 	"psnr_start": 0.0,
 	"psnr_goal": 88.8919760199737,
 	"name": "Donut saucisse"
   },
-  "10": {
+  "9": {
 	"dialog": "Jolies couleurs ! Je me demande ce qui a pu arriver aux canaux de couleurs...",
 	"psnr_start": 0.0,
 	"psnr_goal": 200.0,
 	"name": "Phare"
+  },
+  "10": {
+	"dialog": "Encore une histoire d'espace de couleurs ! Petit indice, chaque canal modifié l'est de la même façon.",
+	"psnr_start": 0.0,
+	"psnr_goal": 64.8933401840216,
+	"name": "Circuit"
   },
   "11": {
 	"dialog": "La Nuit étoilée (en néerlandais De sterrennacht) est une peinture de l'artiste peintre postimpressionniste néerlandais Vincent van Gogh.\nLe tableau représente ce que Van Gogh pouvait voir et extrapoler de la chambre qu'il occupait dans l'asile du monastère Saint-Paul-de-Mausole à Saint-Rémy-de-Provence en mai 1889.\n Pour flouter plus, il suffit de flouter deux fois !",
@@ -75,9 +75,9 @@
 	"name": "La Nuit étoilée"
   },
   "12": {
-	"dialog": "Encore une histoire d'espace de couleurs ! Petit indice, chaque canal modifié l'est de la même façon.",
+	"dialog": "Celui-ci est plus compliqué ! Petit indice, on peut le faire en 4 opérateurs.",
 	"psnr_start": 0.0,
-	"psnr_goal": 64.8933401840216,
-	"name": "Circuit"
+	"psnr_goal": 200.0,
+	"name": "Seuil de chrominances"
   }
 }
