@@ -50,7 +50,7 @@ func popup_with(message: String) -> void:
 func _on_menu_pressed() -> void:
 	print("=== POPUP: Menu button pressed ===")
 	visible = false
-	emit_signal("menu_pressed")
+	get_tree().change_scene_to_file("res://Scenes/menu.tscn")
 	print("=== POPUP: menu_pressed signal emitted ===")
 
 func _on_retry_pressed() -> void:
