@@ -1,0 +1,16 @@
+res://default_bus_layout.tres
+res://Scenes/menu.tscn
+res://ressources/Theme/NodeTheme.tres
+res://prefab/pop-up_end.gd
+res://prefab/pop-up_end.tscn
+res://Scripts/control.gd
+res://Scripts/controls.gd
+res://Scripts/image_lib_wrapper.gd
+res://Scripts/level_choice.gd
+res://Scripts/main.gd
+res://Scripts/menu_pause.gd
+res://Scripts/requested_level.gd
+res://Scripts/sandbox.gd
+res://Scripts/voice.gd
+res://Scripts/Graph/addNodeToEditor.gd
+res://Scripts/Graph/GraphEditor.gd
