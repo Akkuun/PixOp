@@ -4,6 +4,8 @@ signal menu_pressed
 signal retry_pressed
 signal next_pressed
 
+@export var mainmenu : PackedScene
+
 @export var label_path: NodePath = "Panel/Label"
 @export var menu_button_path: NodePath = "Panel/Buttons/MenuButton"
 @export var retry_button_path: NodePath = "Panel/Buttons/RetryButton"
@@ -50,8 +52,10 @@ func popup_with(message: String) -> void:
 func _on_menu_pressed() -> void:
 	print("=== POPUP: Menu button pressed ===")
 	visible = false
-	get_tree().change_scene_to_file("res://Scenes/menu.tscn")
-	print("=== POPUP: menu_pressed signal emitted ===")
+	# load mainmenu
+	# unpause
+	get_tree().paused = false
+	get_tree().change_scene_to_file(mainmenu.resource_path)
 
 func _on_retry_pressed() -> void:
 	print("=== POPUP: Retry button pressed ===")
